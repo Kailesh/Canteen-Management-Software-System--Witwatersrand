@@ -1,3 +1,5 @@
+// Author: Kailesh Ramjee
+// University of Witwatersrand
 package com.witwatersrand.androidapplication;
 
 import android.os.Bundle;
