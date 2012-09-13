@@ -6,6 +6,6 @@ $this->breadcrumbs=array(
 ?>
 <h1>About</h1>
 
-<p>This is the "about" page for my blog site. lol...</p>
+<p>This is the "about" page for my blog site. </p>
 
 <!-- a test to try and commit to repo -->
