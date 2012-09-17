@@ -13,6 +13,7 @@ import org.apache.http.util.EntityUtils;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,7 +21,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 public class Main extends Activity implements OnClickListener {
-	
+	private static final String TAG = "MainActivity";
 	Button myButton;
 
     @Override
@@ -42,6 +43,7 @@ public class Main extends Activity implements OnClickListener {
 		// TODO Auto-generated method stub
 		myButton = (Button) findViewById(R.id.clickMeButton);
 		myButton.setOnClickListener(this);
+		Log.i(TAG, "Activity elements initialised");
 	}
 	
 	public void onClick(View v) {
