@@ -154,4 +154,14 @@ class SiteController extends Controller
 	{
 		$this->render('mobileTest');
 	}
+	
+	public function actionJsonTest()
+	{
+		$this->render('jsonTest');
+	}
+	
+	public function actionCreateJson()
+	{
+		$this->render('createJson');
+	}
 }
