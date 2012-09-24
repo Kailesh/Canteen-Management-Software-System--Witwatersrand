@@ -31,6 +31,33 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Menu"
+            android:label="@string/title_activity_main" >
+            <intent-filter>
+                <action android:name="com.witwatersrand.androidapplication.MENU" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".StartingPoint"
+            android:label="@string/title_activity_main" >
+            <intent-filter>
+                <action android:name="com.witwatersrand.androidapplication.STARTINGPOINT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Canteen"
+            android:label="@string/title_activity_canteen" >
+            <intent-filter>
+                <action android:name="android.intent.action.CANTEEN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
