@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 /**
  * @author Kailesh
@@ -17,7 +18,8 @@ import android.widget.ListView;
  */
 public class Menu extends ListActivity {
 
-	String myItems[] = { "Canteen", "Main", "Bleh" };
+	String myItems[] = { "Canteen", "Video Feed", "User Information",
+			"Current Order", "Progress", "Logout", "About", "Main", "Bleh" };
 
 	/*
 	 * (non-Javadoc)
@@ -30,7 +32,6 @@ public class Menu extends ListActivity {
 		super.onCreate(savedInstanceState);
 		setListAdapter(new ArrayAdapter<String>(Menu.this,
 				android.R.layout.simple_list_item_1, myItems));
-		ListAdapter myList = getListAdapter();
 	}
 
 	/*
@@ -44,11 +45,12 @@ public class Menu extends ListActivity {
 		// TODO Auto-generated method stub
 		super.onListItemClick(l, v, position, id);
 		String selectedClass = myItems[position];
+
 		try {
 			Class myClass;
 
 			myClass = Class.forName("com.witwatersrand.androidapplication."
-					+ selectedClass);
+					+ selectedClass.replaceAll("\\s", ""));
 
 			Intent myIntent = new Intent(Menu.this, myClass);
 			startActivity(myIntent);

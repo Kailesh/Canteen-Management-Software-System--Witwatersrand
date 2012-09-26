@@ -64,7 +64,7 @@ public class Main extends Activity implements OnClickListener {
 				HttpConnectionParams.setSoTimeout(httpParams, TIMEOUT_MILLISEC);
 				HttpClient client = new DefaultHttpClient(httpParams);			
 				
-				HttpPost myPostRequest = new HttpPost("http://146.141.125.64/yii/index.php/mobile/getmenu");
+				HttpPost myPostRequest = new HttpPost("http://146.141.125.78/yii/index.php/mobile/getmenu");
 				
 				String requestJSONString = "{\"function\": \"menu\",\"deviceID\": \"android2192393\"}";
 				myPostRequest.setEntity(new ByteArrayEntity(requestJSONString.toString().getBytes("UTF8")));

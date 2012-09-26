@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".Splash"
-            android:label="@string/title_activity_main" >
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,7 +33,7 @@
         </activity>
         <activity
             android:name=".Menu"
-            android:label="@string/title_activity_main" >
+            android:label="@string/title_menu_list" >
             <intent-filter>
                 <action android:name="com.witwatersrand.androidapplication.MENU" />
 
@@ -42,7 +42,7 @@
         </activity>
         <activity
             android:name=".StartingPoint"
-            android:label="@string/title_activity_main" >
+            android:label="starting point" >
             <intent-filter>
                 <action android:name="com.witwatersrand.androidapplication.STARTINGPOINT" />
 
@@ -53,7 +53,52 @@
             android:name=".Canteen"
             android:label="@string/title_activity_canteen" >
             <intent-filter>
-                <action android:name="android.intent.action.CANTEEN" />
+                <action android:name="com.witwatersrand.androidapplication.CANTEEN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".VideoFeed"
+            android:label="@string/title_activity_video_feed" >
+            <intent-filter>
+                <action android:name="com.witwatersrand.androidapplication.VIDEOFEED" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".UserInformation"
+            android:label="@string/title_activity_user_information" >
+            <intent-filter>
+                <action android:name="com.witwatersrand.androidapplication.USERINFORMATION" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".CurrentOrder"
+            android:label="@string/title_activity_current_order" >
+            <intent-filter>
+                <action android:name="com.witwatersrand.androidapplication.CURRENTORDER" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Progress"
+            android:label="@string/title_activity_progress" >
+            <intent-filter>
+                <action android:name="com.witwatersrand.androidapplication.PROGRESS" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Items"
+            android:label="@string/title_activity_items" >
+            <intent-filter>
+                <action android:name="com.witwatersrand.androidapplication.ITEMS" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
