@@ -50,10 +50,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Canteen"
-            android:label="@string/title_activity_canteen" >
+            android:name=".TodaysItems"
+            android:label="@string/title_activity_todays_items" >
             <intent-filter>
-                <action android:name="com.witwatersrand.androidapplication.CANTEEN" />
+                <action android:name="com.witwatersrand.androidapplication.TODAYSITEMS" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
