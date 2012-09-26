@@ -26,17 +26,34 @@
 	</div><!-- header -->
 
 	<div id="mainmenu">
-		<?php $this->widget('zii.widgets.CMenu',array(
-			'items'=>array(
-				//array('label'=>'Home', 'url'=>array('post/index')),
-				array('label'=>'Home', 'url'=>array('site/index')),
-				array('label'=>'About', 'url'=>array('site/page', 'view'=>'about')),
-				array('label'=>'Contact', 'url'=>array('site/contact')),
-				array('label'=>'Test Page', 'url'=>array('site/Test')),
-				array('label'=>'Login', 'url'=>array('site/login'), 'visible'=>Yii::app()->user->isGuest),
-				array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('site/logout'), 'visible'=>!Yii::app()->user->isGuest)
-			),
-		)); ?>
+		<?php 
+		if (Yii::app()->user->getName()==='canteen')
+		{
+			$this->widget('zii.widgets.CMenu',array(
+					'items'=>array(
+							//array('label'=>'Home', 'url'=>array('post/index')),
+							array('label'=>'How-to', 'url'=>array('site/howto')),
+							array('label'=>'Incoming Orders', 'url'=>array('site/displayOrder')),
+							array('label'=>'Completed Orders', 'url'=>array('site/completeOrder')),
+							array('label'=>'Login', 'url'=>array('site/login'), 'visible'=>Yii::app()->user->isGuest),
+							array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('site/logout'), 'visible'=>!Yii::app()->user->isGuest)
+					),
+			));
+		}
+		else 
+		{
+			$this->widget('zii.widgets.CMenu',array(
+				'items'=>array(
+					//array('label'=>'Home', 'url'=>array('post/index')),
+					array('label'=>'Home', 'url'=>array('site/index')),
+					array('label'=>'About', 'url'=>array('site/page', 'view'=>'about')),
+					array('label'=>'Contact', 'url'=>array('site/contact')),
+					array('label'=>'Login', 'url'=>array('site/login'), 'visible'=>Yii::app()->user->isGuest),
+					array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('site/logout'), 'visible'=>!Yii::app()->user->isGuest)
+				),
+			));
+		} 
+		?>
 	</div><!-- mainmenu -->
 
 	<?php $this->widget('zii.widgets.CBreadcrumbs', array(

@@ -91,7 +91,8 @@ class SiteController extends Controller
 			$model->attributes=$_POST['LoginForm'];
 			// validate user input and redirect to the previous page if valid
 			if($model->validate() && $model->login())
-				$this->redirect(Yii::app()->user->returnUrl);
+				//$this->redirect(Yii::app()->user->returnUrl);
+				$this->redirect((array('site/displayOrder')));
 		}
 		// display the login form
 		$this->render('login',array('model'=>$model));
@@ -106,48 +107,51 @@ class SiteController extends Controller
 		$this->redirect(Yii::app()->homeUrl);
 	}
 	
-	public function actionTest() {
-	
-		$model=new Test;
-	
-		/* Code for validation and redirect upon save. */
-		if(isset($_POST['Test']))
+	public function actionDisplayOrder()
+	{
+		$model = new DisplayOrder();
+		
+		var_dump($_POST);
+		
+		//collect user input data
+		if(isset($_POST['DisplayOrder']))
 		{
-			// $dummy = $_POST['TestForm'];
-			// $model->attributes = $dummy;
-			//$model->validate();
-			$model->data = $_POST['Test']['data'];
-			//var_dump($model->data); die();
-			
-			if($model->validate())
-			{
-				//echo 'That is good';
-				//var_dump($response); die();
-				$request = new HTTP_Request2("http://146.141.125.89/yii/index.php?r=site/test/data={$model->data}", HTTP_Request2::METHOD_GET);
-				$response = $request->send();//new HTTP_Request2_Response($request);
-				echo "Response status: " . $response->getStatus() . "\n";
-				
-				try {
-					if (200 == $response->getStatus()) {
-						$model->result = 'you got end to end to work!!';
-					} else {
-						echo 'Unexpected HTTP status: ' . $response->getStatus() . ' ' .
-								$response->getReasonPhrase();
-					}
-				} catch (HTTP_Request2_Exception $e) {
-					echo 'Error: ' . $e->getMessage();
-				}
-			}
-	
-	
-			//var_dump($model->data); die();
+			//$model->attributes=$_POST['OrdersForm'];
+			$model->order_status = $_POST['DisplayOrder']['order_status'];
+			$model->delivery_status = $_POST['DisplayOrder']['delivery_status'];
+			//var_dump($_POST['DisplayOrder']['order_status']);
+			//var_dump($_POST['DisplayOrder']['delivery_status']);			
+			//die;
 		}
+		
+		if(Yii::app()->request->isAjaxRequest){
+			//echo 'ajax went through';
+			$model->order_status = $_POST['DisplayOrder']['order_status'];
+			$model->delivery_status = $_POST['DisplayOrder']['delivery_status'];
+		
+		}
+		
+		
+		$model->result = $model->extractOrderFromDb();
+		
+		//var_dump($_POST);
+		
+		//display the orders form page
+		$this->render('displayOrder',array('model'=>$model));
+	}
 	
+	public function actionCompleteOrder()
+	{
+		$model = new CompletedOrder();
+		
+		$model->result = $model->extractOrderFromDb();
+		
+		$this->render('completeOrder',array('result'=>$model->result));
+	}
 	
-		// If not saved, render the create View:
-		$this->render('testView',array(
-				'model'=>$model, // Model is passed to create.php View!
-		));
+	public function actionHowTo()
+	{
+		$this->render('howto');
 	}
 	
 	public function actionMobileTest()
