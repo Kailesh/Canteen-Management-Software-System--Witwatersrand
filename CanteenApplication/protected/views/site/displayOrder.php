@@ -6,8 +6,8 @@ $this->breadcrumbs=array(
 ?>
 
 <?php
-// The current page will refresh automatically every 30 seconds.
-//header("Refresh: 5;");
+// The current page will refresh automatically every 15 seconds.
+header("Refresh: 15;");
 ?>
 
 <h1>Incoming Orders:</h1>
@@ -31,11 +31,10 @@ $this->breadcrumbs=array(
 <th> Status </th>
 </tr>
 
-<?php $counter=0;?>
 <?php foreach($model->result as $order) :?>
 
-<?php if($order['status']!='Done' ||  $order['status']=='Deliverying') : ?>	
-<?php $counter_string= 'item' . (string)$counter;?>
+<?php if($order['status']==='' ||  $order['status']==='Processing') : ?>	
+<?php //$counter_string= 'item' . (string)$counter;?>
 <tr>
 	<td> <?php echo($order['deviceid'])?> 	 		</td>
     <td> <?php echo($order['item'])?>		 		</td> 
@@ -45,24 +44,24 @@ $this->breadcrumbs=array(
 	<?php  $status = $order['status'] ?>
 	<td> <?php
 	if ($order["delivery_location"]!="") {
-		echo $form->radioButtonList($model,'delivery_status',array('Processing'=>'Processing','Deliverying'=>'Delivering'),array('onchange'=>CHtml::ajax(array('type'=>'POST', 'url'=>'','success'=>'function(data){$("body").html(data);}')),'separator'=>' | ','labelOptions'=>array('style'=>'display:inline')));
-		//'onchange'=>CHtml::ajax(array('type'=>'GET', 'url'=>array("layout/add")
+		echo $form->radioButtonList($model,'order_status['. $order['U_id'].']',array('Processing'=>'Processing','Deliverying'=>'Delivering'),
+		array('onchange'=>CHtml::ajax(array('type'=>'POST', 'url'=>'','success'=>'function(data){$("body").html(data);}')),'separator'=>' | ','labelOptions'=>array('style'=>'display:inline')));
 	}
 	else {
-		echo $form->radioButtonList($model,'order_status',array('Processing'=>'Processing','Done'=>'Done'),array('onchange'=>CHtml::ajax(array('type'=>'POST', 'url'=>'','success'=>'function(data){$("body").html(data);}')),'separator'=>' | ','labelOptions'=>array('style'=>'display:inline')));
+		echo $form->radioButtonList($model,'order_status['.$order['U_id'].']',array('Processing'=>'Processing','Done'=>'Done'),
+		array('onchange'=>CHtml::ajax(array('type'=>'POST', 'url'=>'','success'=>'function(data){$("body").html(data);}')),'separator'=>' | ','labelOptions'=>array('style'=>'display:inline')));
 	}
 	 ?>
     </td>
 </tr>
+
 <?php endif; ?>
 
-<?php $counter=$counter+1;?>
 <?php endforeach; ?>
 </table>
 
 <hr />
 
-<?php echo $form->label($model,'The delivery status is :' . $model->displayDeliveryStatus() . '<br />');?>
 <?php echo $form->label($model,'The order status is :' . $model->displayOrderStatus());?>
 
 </div>

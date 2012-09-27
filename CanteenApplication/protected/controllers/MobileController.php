@@ -46,17 +46,27 @@ class MobileController extends Controller{
 		//To be implemented at a later stage
 		//$authDetails = http_get_request_body();
 		
-		//retrieval of menu from database
-		$menuEntries = $model->getMenu();
+		//retrieval of menu from database and generate json string
+		$model->getMenu();
 		
-		//creating a JSON string
-		$json_string = json_encode(array("updated" => "false", 'menu:'=>$menuEntries));
+		//retrieval of JSON string
+		//$json_string = json_encode(array("updated" => "false", 'menu:'=>$menuEntries));
+		$json_string = $model->getJsonString();
 		
 		//sending an http response with the menu in JSON formate
 		HttpResponse::status(200);
 		HttpResponse::setContentType('application/json');
 		HttpResponse::setData($json_string);
 		HttpResponse::send();
+	}
+	
+	public function actionPlaceOrders()
+	{
+		//need a model to hanle this function
+		
+		//retriveal of orders, decode the json and create a sql entry into the 'orders' table in the database
+		$placedOrders_json = http_get_request_body();
+		
 	}
 	
 }

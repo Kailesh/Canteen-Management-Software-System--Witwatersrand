@@ -111,30 +111,21 @@ class SiteController extends Controller
 	{
 		$model = new DisplayOrder();
 		
-		var_dump($_POST);
+		//var_dump($_POST);
+		
+		//Read from the database
+		$model->result = $model->extractOrderFromDb();
+		//set the status of the radio buttons list of each item
+		$model->setOrderStatus();
 		
 		//collect user input data
 		if(isset($_POST['DisplayOrder']))
 		{
-			//$model->attributes=$_POST['OrdersForm'];
+			//assigning post data with model data
 			$model->order_status = $_POST['DisplayOrder']['order_status'];
-			$model->delivery_status = $_POST['DisplayOrder']['delivery_status'];
-			//var_dump($_POST['DisplayOrder']['order_status']);
-			//var_dump($_POST['DisplayOrder']['delivery_status']);			
-			//die;
+			//updates the status of the order
+			$model->updateOrderStatus();
 		}
-		
-		if(Yii::app()->request->isAjaxRequest){
-			//echo 'ajax went through';
-			$model->order_status = $_POST['DisplayOrder']['order_status'];
-			$model->delivery_status = $_POST['DisplayOrder']['delivery_status'];
-		
-		}
-		
-		
-		$model->result = $model->extractOrderFromDb();
-		
-		//var_dump($_POST);
 		
 		//display the orders form page
 		$this->render('displayOrder',array('model'=>$model));
