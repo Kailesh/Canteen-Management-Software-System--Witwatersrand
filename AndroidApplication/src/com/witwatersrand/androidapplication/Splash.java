@@ -31,7 +31,7 @@ public class Splash extends Activity {
 			@Override
 			public void run() {
 				try {
-					sleep(500); // 2000 ms = 2 s
+					sleep(1500); // 2000 ms = 2 s
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				} finally {
