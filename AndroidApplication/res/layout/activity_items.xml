@@ -1,28 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/tlMenu"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:stretchColumns="true"
-    android:shrinkColumns="true" >
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="5dp" >
 
-    <TableRow
-        android:id="@+id/trColumnTitles"
+    <TextView
+        android:id="@+id/tvItemName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="5dip" >
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="Default Name"
+        android:textSize="17dp" />
 
-        <TextView
-            android:id="@+id/tvItem"
-            android:paddingRight="100dp"
-            android:text="Item"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+    <TextView
+        android:id="@+id/tvStationName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvItemName"
+        android:text="Default Station"
+        android:textSize="12dp" />
 
-        <TextView
-            android:id="@+id/tvBuy"
-            android:layout_column="1"
-            android:text="Buy"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-    </TableRow> 
-    
-    </TableLayout>
+    <Button
+        android:id="@+id/selectedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:text="Add To Cart"
+       	android:textSize="17dp" />
+
+    <TextView
+        android:id="@+id/tvPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvStationName"
+        android:layout_below="@+id/tvStationName"
+        android:text="Default Price"
+        android:textSize="12dp" />
+
+    <net.technologichron.android.control.NumberPicker
+        android:id="@+id/selectedPicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvPrice"
+        android:layout_below="@+id/tvPrice"
+        android:orientation="horizontal" >
+    </net.technologichron.android.control.NumberPicker>
+
+</RelativeLayout>

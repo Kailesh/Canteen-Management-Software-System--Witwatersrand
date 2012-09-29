@@ -185,7 +185,8 @@ public class Items extends Activity {
 
 					JSONObject currentObject =  iterator.next();
 					String itemName = (String) currentObject.get("item");
-					Float price = new Float((String) currentObject.get("price"));
+					
+					float price = (Float.valueOf((String) currentObject.get("price"))).floatValue();
 					String stationName = (String) currentObject.get("station");
 					boolean availabilityStatus = Boolean
 							.parseBoolean((String) currentObject
