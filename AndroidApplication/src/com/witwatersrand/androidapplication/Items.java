@@ -53,7 +53,6 @@ public class Items extends ListActivity {
 			for (String url : urls) {
 				Log.d(loggerTag, "Inside for inside doInBackground()");
 				try {
-					Log.d(loggerTag, "Inside try inside doInBackground()");
 					int TIMEOUT_MILLISEC = 10000; // = 10 seconds
 					HttpParams httpParams = new BasicHttpParams();
 					HttpConnectionParams.setConnectionTimeout(httpParams,

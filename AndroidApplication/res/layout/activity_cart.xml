@@ -4,6 +4,7 @@
     android:layout_height="match_parent" >
 
     <TextView
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -11,5 +12,31 @@
         android:text="Cart"
         android:textSize="30dp"
         tools:context=".Cart" />
+
+    <TextView
+        android:id="@+id/tvTotal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView2"
+        android:layout_centerHorizontal="true"
+        android:text="Total: R146.54"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <Button
+        android:id="@+id/bPurchase"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvTotal"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="Place Order" />
+
+    <ListView
+        android:id="@+id/lvOrderItems"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bPurchase"
+        android:layout_centerHorizontal="true" >
+    </ListView>
 
 </RelativeLayout>

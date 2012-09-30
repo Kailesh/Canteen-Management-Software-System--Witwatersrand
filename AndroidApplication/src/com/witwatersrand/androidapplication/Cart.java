@@ -1,5 +1,19 @@
 package com.witwatersrand.androidapplication;
 
+import java.io.IOException;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
+import org.apache.http.util.EntityUtils;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
@@ -57,10 +71,53 @@ public class Cart extends Activity {
 	private class UploadOrder extends AsyncTask<String, Void, String> {
 
 		@Override
-		protected String doInBackground(String... params) {
-			
-			
-			return null;
+		protected String doInBackground(String... urls) {
+			Log.i(loggerTag, "Carts -- UploadOrder -- doInBackground()");
+
+			String responseMessage = sendHTTPRequest(urls);
+			Log.i(loggerTag, "Carts -- responseMessage = " + responseMessage);
+
+			return responseMessage;
+		}
+
+		private String sendHTTPRequest(String[] urls) {
+			for (String url : urls) {
+				Log.d(loggerTag, "Cart -- UploadOrder -- sendHTTPRequest()");
+				int TIMEOUT_MILLISEC = 10000; // = 10 seconds
+				HttpParams httpParams = new BasicHttpParams();
+				HttpConnectionParams.setConnectionTimeout(httpParams,
+						TIMEOUT_MILLISEC);
+				HttpConnectionParams.setSoTimeout(httpParams,
+						TIMEOUT_MILLISEC);
+				HttpClient client = new DefaultHttpClient(httpParams);
+				try {
+					HttpPost myPostRequest = new HttpPost(url);
+					StringEntity message = new StringEntity(httpPostMessage);
+					myPostRequest.addHeader("content-type", "applcation/json");
+					myPostRequest.setEntity(message);
+					HttpResponse myResponse = client.execute(myPostRequest);
+					
+					Log.i(loggerTag, "Cart -- UploadOrder -- HTTP request complete");
+
+					if (myResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+						Log.i(loggerTag, "Items -- DownloadMenuData -- HTTP OK");
+						String myJsonString = EntityUtils.toString(myResponse
+								.getEntity());
+						Log.d(loggerTag, myJsonString);
+						return myJsonString;
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+					Log.d(loggerTag, e.getMessage());
+				} catch (Exception b) {
+					b.printStackTrace();
+					Log.d(loggerTag, b.getMessage());
+				} finally {
+					client.getConnectionManager().shutdown();
+				}
+			}
+			// TODO Throw Exception
+			return null; 
 		}
 
 		/*
