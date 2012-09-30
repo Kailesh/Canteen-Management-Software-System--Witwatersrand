@@ -105,64 +105,10 @@ public class Items extends ListActivity {
 
 		protected void onPostExecute(String myJsonMessage) {
 			Log.d(loggerTag, "myJsonMessage = " + myJsonMessage);
-			Log.d(loggerTag, "responseString = " + responseString);
 			Log.d(loggerTag, "005");
 
-			try {
-				Log.d(loggerTag, "005.1");
-
-				// TODO Place this parsing functionality in its own class or
-				// function
-
-				JSONParser parser = new JSONParser();
-				Object myObject;
-				Log.d(loggerTag, "005.2");
-				myObject = parser.parse(myJsonMessage);
-				Log.d(loggerTag, "005.3");
-				JSONObject jsonObject = (JSONObject) myObject;
-				Log.d(loggerTag, "005.4");
-				boolean updateStatus = Boolean.parseBoolean((String) jsonObject
-						.get("updated"));
-				Log.d(loggerTag, "" + updateStatus);
-				JSONArray menu = (JSONArray) jsonObject.get("menu");
-
-				Iterator<?> menuIterator = menu.iterator(); // Infer a generic
-															// type and cast the
-															// returns of the
-															// iterator methods
-															// in the loop.
-															// Cannot cast
-															// menuIterator to
-															// Iterator<JSONObject>
-															// here
-				while (menuIterator.hasNext()) {
-
-					JSONObject currentObject = (JSONObject) menuIterator.next();
-					String itemName = (String) currentObject.get("item");
-
-					float price = (Float.valueOf((String) currentObject
-							.get("price"))).floatValue();
-					String stationName = (String) currentObject.get("station");
-					boolean availabilityStatus = Boolean
-							.parseBoolean((String) currentObject
-									.get("availability"));
-					Log.d(loggerTag, itemName + " -- " + stationName + " -- "
-							+ availabilityStatus + " -- " + price);
-					Log.d(loggerTag, "---");
-
-					// TODO Place items in a MenuItem[]
-
-					// setListAdapter(new MenuItemsAdapter(this, myMenu));
-				}
-
-			} catch (ParseException e) {
-				e.printStackTrace();
-				Log.d(loggerTag, e.getMessage());
-			} catch (Exception b) {
-				Toast.makeText(Items.this, b.toString(), Toast.LENGTH_SHORT)
-						.show();
-				Log.d(loggerTag, b.getMessage());
-			}
+			MenuParser myMenuParser = new MenuParser(myJsonMessage);
+			setListAdapter(new MenuItemsAdapter(Items.this, R.layout.activity_items, myMenuParser.getMenu()));
 		}
 	}
 }
