@@ -4,8 +4,8 @@
 package com.witwatersrand.androidapplication;
 
 import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
+
+
 
 /**
  * @author Kailesh
@@ -18,6 +18,8 @@ public class MenuItem {
 	String _stationName;
 	boolean _availability;
 	int _quantity;
+
+
 	
 	final String tag = "WITWATERSRAND";
 
@@ -39,15 +41,7 @@ public class MenuItem {
 		this._quantity = 0;
 	}
 	
-	OnClickListener addToCartListener = new OnClickListener() {
-		public void onClick(View v) {
-			Log.d(tag, "Button pressed for item: " + _itemName);
-			Log.d(tag, "Price: " + _price);
-			Log.d(tag, "Station: " + _stationName);
-			Log.d(tag, "Availability: " + _availability);
-			Log.d(tag, "Quantity: " + _quantity);
-		}
-	};
+	
 
 	/**
 	 * @return the _itemame

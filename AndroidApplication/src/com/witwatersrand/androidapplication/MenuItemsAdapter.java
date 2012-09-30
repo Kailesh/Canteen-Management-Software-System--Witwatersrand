@@ -11,6 +11,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
@@ -70,13 +71,23 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 		priceTV.setText(Float.toString(_myMenu[position].getPrice()));
 
 		// TODO Quantity Picker - find out out how the picker works
-		NumberPicker myPicker = (NumberPicker) rowRootView
-				.findViewById(R.id.selectedPicker);
+		
+		final NumberPicker quantityPicker = (NumberPicker) rowRootView.findViewById(R.id.selectedPicker);
+
+		Log.i(loggerTag, "MenuItemsAdapter -- getView() -- quantityPicker.getValue() = " + quantityPicker.getValue());
+		
+		final int myPosition = position;
 
 		Button mySelectedButton = (Button) rowRootView
 				.findViewById(R.id.selectedButton);
 		mySelectedButton
-				.setOnClickListener(_myMenu[position].addToCartListener);
+				.setOnClickListener(new OnClickListener() {
+					public void onClick(View v) {
+						Log.d(loggerTag, "Button pressed for item name: " + _myMenu[myPosition].getItemname());
+						_myMenu[myPosition].setQuantity(quantityPicker.getValue());
+						Log.d(loggerTag, "_myMenu[myPosition].getQuantity() = " + _myMenu[myPosition].getQuantity());
+					}
+				});
 		Log.i(loggerTag, "MenuItemsAdapter getView() complete");
 		return rowRootView;
 	}
