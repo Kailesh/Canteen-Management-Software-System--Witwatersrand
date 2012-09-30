@@ -19,19 +19,19 @@ public class MenuItem {
 	int _quantity;
 	
 	final String tag = "WITWATERSRAND";
-	
-	MenuItem(String itemName, float price, String station, boolean availability) {
-		this._itemName = itemName;
-		this._price = price;
-		this._stationName = station;
-		this._availability = availability;
-		this._quantity = 0;
-	}
 
 	MenuItem(String itemName, float price, String station) {
 		this._itemName = itemName;
 		this._price = price;
 		this._stationName = station;
+		this._availability = true;
+		this._quantity = 0;
+	}
+	
+	MenuItem() {
+		this._itemName = "Default Name";
+		this._price = 0;
+		this._stationName = "Default Station";
 		this._availability = true;
 		this._quantity = 0;
 	}
