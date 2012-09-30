@@ -86,6 +86,7 @@ public class Items extends ListActivity {
 		}
 
 		protected void onPostExecute(String myJsonMessage) {
+			super.onPostExecute(myJsonMessage);
 			Log.i(loggerTag, "Items -- DownloadMenuData -- onPostExecute()");
 			Log.i(loggerTag, "Items -- DownloadMenuData -- myJsonMessage = "
 					+ myJsonMessage);

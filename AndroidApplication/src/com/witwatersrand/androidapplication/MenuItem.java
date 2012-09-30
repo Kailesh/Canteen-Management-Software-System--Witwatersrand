@@ -19,8 +19,6 @@ public class MenuItem {
 	boolean _availability;
 	int _quantity;
 
-
-	
 	final String tag = "WITWATERSRAND";
 
 	MenuItem(String itemName, float price, String station) {
