@@ -20,6 +20,8 @@ import android.widget.TextView;
  * 
  */
 public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
+	
+	String loggerTag = "WITWATERSRAND";
 
 	private final String _tag = "WITWATERSRAND";
 	private final Context _context;
@@ -29,6 +31,7 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 	public MenuItemsAdapter(Context context, int textViewResourceId,
 			MenuItem[] menuItems) {
 		super(context, textViewResourceId, menuItems);
+		Log.i(loggerTag, "MenuItemsAdapter -- Constructor");
 		this._context = context;
 		this._myMenu = menuItems;
 		this._LAYOUT_RESOURCE_ID = textViewResourceId;
@@ -42,13 +45,13 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 	 */
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-
+		Log.i(loggerTag, "MenuItemsAdapter getView()");
 		LayoutInflater myInflater = (LayoutInflater) _context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 		View rowRootView = myInflater.inflate(_LAYOUT_RESOURCE_ID, parent,
 				false);
-
+		Log.i(loggerTag, "MenuItemsAdapter -- Inflator called");
 		TextView itemNameTV = (TextView) rowRootView
 				.findViewById(R.id.tvItemName);
 		int TEXT_WIDTH = (int) TypedValue.applyDimension(
@@ -63,7 +66,7 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 		stationNameTV.setText(_myMenu[position].getStationName());
 
 		TextView priceTV = (TextView) rowRootView
-				.findViewById(R.id.tvStationName);
+				.findViewById(R.id.tvPrice);
 		priceTV.setText(Float.toString(_myMenu[position].getPrice()));
 
 		// TODO Quantity Picker - find out out how the picker works
@@ -74,7 +77,7 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 				.findViewById(R.id.selectedButton);
 		mySelectedButton
 				.setOnClickListener(_myMenu[position].addToCartListener);
-
+		Log.i(loggerTag, "MenuItemsAdapter getView() complete");
 		return rowRootView;
 	}
 
@@ -85,7 +88,7 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 	 */
 	@Override
 	public boolean isEnabled(int position) {
-		// TODO Auto-generated method stub
+		Log.i(loggerTag, "MenuItemsAdapter isEnabled()");
 		if (_myMenu[position].isAvailable()) {
 			return true;
 		}

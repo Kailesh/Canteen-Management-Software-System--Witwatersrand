@@ -12,6 +12,7 @@ import android.view.View.OnClickListener;
  * 
  */
 public class MenuItem {
+	String loggerTag = "WITWATERSRAND";
 	String _itemName;
 	float _price;
 	String _stationName;
@@ -21,6 +22,7 @@ public class MenuItem {
 	final String tag = "WITWATERSRAND";
 
 	MenuItem(String itemName, float price, String station) {
+		Log.i(loggerTag, "MenuItem -- Constructor with parameters");
 		this._itemName = itemName;
 		this._price = price;
 		this._stationName = station;
@@ -29,9 +31,10 @@ public class MenuItem {
 	}
 	
 	MenuItem() {
-		this._itemName = "Default Name";
+		Log.i(loggerTag, "MenuItem -- Constructor");
+		this._itemName = "Default-Name";
 		this._price = 0;
-		this._stationName = "Default Station";
+		this._stationName = "Default-Station";
 		this._availability = true;
 		this._quantity = 0;
 	}
@@ -50,6 +53,7 @@ public class MenuItem {
 	 * @return the _itemame
 	 */
 	public String getItemname() {
+		Log.i(loggerTag, "MenuItem -- getItemname()");
 		return _itemName;
 	}
 
@@ -88,8 +92,8 @@ public class MenuItem {
 	 * @param _stationName
 	 *            the _stationName to set
 	 */
-	public void setStationName(String _stationName) {
-		this._stationName = _stationName;
+	public void setStationName(String stationName) {
+		this._stationName = stationName;
 	}
 
 	/**
