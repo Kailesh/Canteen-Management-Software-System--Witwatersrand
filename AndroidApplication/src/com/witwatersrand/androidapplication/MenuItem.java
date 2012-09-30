@@ -12,12 +12,12 @@ import android.util.Log;
  * 
  */
 public class MenuItem {
-	String loggerTag = "WITWATERSRAND";
-	String _itemName;
-	float _price;
-	String _stationName;
-	boolean _availability;
-	int _quantity;
+	final private String loggerTag = "WITWATERSRAND";
+	private String _itemName;
+	private float _price;
+	private String _stationName;
+	private boolean _availability;
+	private int _quantity;
 
 	final String tag = "WITWATERSRAND";
 

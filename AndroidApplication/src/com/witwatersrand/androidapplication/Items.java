@@ -28,8 +28,8 @@ public class Items extends ListActivity {
 		Log.i(loggerTag, "Items -- onCreate()");
 
 		DownloadMenuData task = new DownloadMenuData();
-		Log.i(loggerTag, "Items -- Calling another thread for the HTTP request");
-		task.execute(new String[] { "http://146.141.125.80/yii/index.php/mobile/getmenu" });
+		Log.i(loggerTag, "Items -- Calling another thread for the HTTP GET request");
+		task.execute(new String[] {"http://146.141.125.80/yii/index.php/mobile/getmenu"});
 	}
 
 	@Override
