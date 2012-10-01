@@ -19,8 +19,6 @@ public class MenuItem {
 	private boolean _availability;
 	private int _quantity;
 
-	final String tag = "WITWATERSRAND";
-
 	MenuItem(String itemName, float price, String station) {
 		Log.i(loggerTag, "MenuItem -- Constructor with parameters");
 		this._itemName = itemName;
@@ -117,4 +115,5 @@ public class MenuItem {
 	public void setQuantity(int _quantity) {
 		this._quantity = _quantity;
 	}
+
 }

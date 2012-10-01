@@ -29,7 +29,7 @@ public class Items extends ListActivity {
 
 		DownloadMenuData task = new DownloadMenuData();
 		Log.i(loggerTag, "Items -- Calling another thread for the HTTP GET request");
-		task.execute(new String[] {"http://146.141.125.80/yii/index.php/mobile/getmenu"});
+		task.execute(new String[] {"http://146.141.125.123/yii/index.php/mobile/getmenu"});
 	}
 
 	@Override
@@ -43,8 +43,8 @@ public class Items extends ListActivity {
 		protected String doInBackground(String... urls) {
 			Log.i(loggerTag, "Items -- DownloadMenuData -- doInBackground()");
 
-			// String jsonMenuString = sendHTTPRequest(urls);
-			String jsonMenuString = "{ \"updated\": \"false\",\"menu\": [{ \"item\": \"Hake\",\"station\": \"A la Minute Grill\",\"price\": \"16.53\", \"availability\": \"true\"},{\"item\": \"Beef Olives\",\"station\": \"Main Meal\",\"price\": \"28.50\",\"availability\": \"false\"},{\"item\": \"Chicken Lasagne & Veg\",\"station\": \"Frozen Meals\",\"price\": \"28.50\",\"availability\": \"true\"}]}";
+			 String jsonMenuString = sendHTTPRequest(urls);
+			//String jsonMenuString = "{ \"updated\": \"false\",\"menu\": [{ \"item\": \"Hake\",\"station\": \"A la Minute Grill\",\"price\": \"16.53\", \"availability\": \"true\"},{\"item\": \"Beef Olives\",\"station\": \"Main Meal\",\"price\": \"28.50\",\"availability\": \"false\"},{\"item\": \"Chicken Lasagne & Veg\",\"station\": \"Frozen Meals\",\"price\": \"28.50\",\"availability\": \"true\"}]}";
 
 			return jsonMenuString;
 		}

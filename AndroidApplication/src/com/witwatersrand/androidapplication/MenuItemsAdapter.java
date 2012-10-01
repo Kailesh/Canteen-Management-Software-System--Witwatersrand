@@ -3,6 +3,8 @@
  */
 package com.witwatersrand.androidapplication;
 
+import java.text.DecimalFormat;
+
 import net.technologichron.android.control.NumberPicker;
 
 import android.content.Context;
@@ -68,7 +70,8 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 
 		TextView priceTV = (TextView) rowRootView
 				.findViewById(R.id.tvPrice);
-		priceTV.setText(Float.toString(_myMenu[position].getPrice()));
+				
+		priceTV.setText("R " + String.format("%.2f", _myMenu[position].getPrice()));
 
 		// TODO Quantity Picker - find out out how the picker works
 		

@@ -22,12 +22,17 @@ public class OrderEncoder {
 	private String _orderJsonMessage;
 	float _total;
 	boolean _delivery;
+	String _deliveryLocation;
+	String _deviceID;
+
+
 	String TOTAL_TAG = "total";
-	String DELIVERY_TAG = "delivery";
+	String DELIVERY_TAG = "deliveryLocation";
 	String BASKET_TAG = "basket";
 	String ITEM_NAME_TAG = "item";
 	String STATION_TAG = "station";
 	String PURCHASE_QUANTITY_TAG = "quantity";
+	String DEVICE_ID_TAG = "deviceID";
 	
 	
 	
@@ -35,10 +40,17 @@ public class OrderEncoder {
 		this._orderList = order;
 		_total = 0;
 		_delivery = false;
+		_deliveryLocation = "Random";
+		_deviceID = "56:78:3D:E5:8F:N1";
 		
 		encodeOrderIntoJson();
 	}
 	
+	/**
+	 * @return the _deviceID
+	 */
+	
+
 	private void encodeOrderIntoJson() {
 		JSONObject myJsonObject = new JSONObject();
 		JSONArray purchaseOrderList = new JSONArray();
@@ -51,14 +63,15 @@ public class OrderEncoder {
 			purchaseOrderList.add(myMenuItem);
 		}
 		myJsonObject.put(BASKET_TAG, purchaseOrderList);
-		myJsonObject.put(DELIVERY_TAG, _delivery);
+		myJsonObject.put(DELIVERY_TAG, _deliveryLocation);
 		myJsonObject.put(TOTAL_TAG, _total);
+		myJsonObject.put(DEVICE_ID_TAG, _deviceID);
 
 		StringWriter myStringWriter = new StringWriter();
 		try {
 			myJsonObject.writeJSONString(myStringWriter);
-			String jsonText = myStringWriter.toString();
-			Log.i(loggerTag, jsonText);
+			_orderJsonMessage = myStringWriter.toString();
+			Log.i(loggerTag, _orderJsonMessage);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			Log.i(loggerTag, e.getMessage());
@@ -106,5 +119,30 @@ public class OrderEncoder {
 	 */
 	public void setDelivery(boolean delivery) {
 		this._delivery = delivery;
+	}
+	
+	/**
+	 * @return the _deliveryLocation
+	 */
+	public String get_deliveryLocation() {
+		return _deliveryLocation;
+	}
+
+	/**
+	 * @param _deliveryLocation the _deliveryLocation to set
+	 */
+	public void set_deliveryLocation(String _deliveryLocation) {
+		this._deliveryLocation = _deliveryLocation;
+	}
+	
+	public String get_deviceID() {
+		return _deviceID;
+	}
+
+	/**
+	 * @param _deviceID the _deviceID to set
+	 */
+	public void set_deviceID(String _deviceID) {
+		this._deviceID = _deviceID;
 	}
 }
