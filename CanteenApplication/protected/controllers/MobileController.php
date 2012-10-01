@@ -62,10 +62,22 @@ class MobileController extends Controller{
 	
 	public function actionPlaceOrders()
 	{
-		//need a model to hanle this function
+		//need a model to handle this function
+		$model = new PlaceOrder();
 		
 		//retriveal of orders, decode the json and create a sql entry into the 'orders' table in the database
 		$placedOrders_json = http_get_request_body();
+		//$placedOrders_json = json_encode(array("wtf"=>"wtf","shit"=>"shit")); 
+		//pass the order in json format to the model
+		$model->decodePlacedOrder($placedOrders_json);
+		var_dump($model->placedOrder);
+		//now call the function that will write the order into the database
+		$model->storeOrderIntoDB();		
+		
+		HttpResponse::status(200);
+		HttpResponse::setContentType('text/HTML');
+		HttpResponse::setData("Orders Recieved");
+		HttpResponse::send();
 		
 	}
 	

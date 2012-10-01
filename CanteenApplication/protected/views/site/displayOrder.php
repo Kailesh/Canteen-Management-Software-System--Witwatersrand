@@ -33,7 +33,7 @@ header("Refresh: 15;");
 
 <?php foreach($model->result as $order) :?>
 
-<?php if($order['status']==='' ||  $order['status']==='Processing') : ?>	
+<?php if($order['status']==='placed' ||  $order['status']==='Processing') : ?>	
 <?php //$counter_string= 'item' . (string)$counter;?>
 <tr>
 	<td> <?php echo($order['deviceid'])?> 	 		</td>
@@ -59,10 +59,6 @@ header("Refresh: 15;");
 
 <?php endforeach; ?>
 </table>
-
-<hr />
-
-<?php echo $form->label($model,'The order status is :' . $model->displayOrderStatus());?>
 
 </div>
 <?php $this->endWidget(); ?>

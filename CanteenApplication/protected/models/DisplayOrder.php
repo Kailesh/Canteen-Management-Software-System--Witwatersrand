@@ -56,7 +56,7 @@ class DisplayOrder extends CFormModel{
 				//find the primary key of each order
 				$temp = $eachItem['U_id'];
 				//Perform check to ignore completed orders else indexing error occurs
-				if ($eachItem['status']==='Processing' or $eachItem['status']==='')
+				if ($eachItem['status']==='Processing' or $eachItem['status']==='placed')
 				{			
 					if ($this->order_status[$temp] === "Processing")
 					{

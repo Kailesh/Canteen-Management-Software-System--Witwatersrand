@@ -7,24 +7,33 @@ class PlaceOrder
 	public $placedOrder;
 	
 	//functions
-	public function decodePlacedOrder()
+	public function decodePlacedOrder($placedOrder_Json)
 	{
-		$placedOrder = json_decode($placedOrder_Json);
+		$this->placedOrder = json_decode($placedOrder_Json);
+		var_dump($this->placedOrder);
 	}
 	
 	public function storeOrderIntoDB()
 	{
-		$order = new Orders;
-		
-		foreach ($placedOrder as $item)
+		foreach ($this->placedOrder->basket as $item)
 		{
-			$order->deviceid = $item->deviceID;
+		
+			$order = new Orders;
+		
+			$order->deviceid = $this->placedOrder->deviceID;
+			$order->delivery_location = $this->placedOrder->deliveryLocation;
+			$order->timeplaced = new CDbExpression('NOW()');
+			$order->status = "placed";
+		
 			$order->item = $item->item;
 			$order->quantity = $item->quantity;
-			$order->timeplaced = new CDbExpression('NOW()');
-			$order->deliverylocation = $item->delivery;
+			//$order->station = $item->station;
 			$order->save();
 		}
+		
+		/*$order->item = $this->placedOrder->wtf;
+		//$order->deliverylocation = $this->placedOrder->shit;
+		$order->save();*/
 		
 	}
 }
