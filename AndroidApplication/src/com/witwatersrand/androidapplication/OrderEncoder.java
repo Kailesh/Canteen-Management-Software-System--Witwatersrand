@@ -17,7 +17,7 @@ import android.util.Log;
  */
 public class OrderEncoder {
 
-	final String loggerTag = "WITWATERSRAND";
+	final String LOGGER_TAG = "WITWATERSRAND";
 	private MenuItem[] _orderList;
 	private String _orderJsonMessage;
 	float _total;
@@ -71,10 +71,10 @@ public class OrderEncoder {
 		try {
 			myJsonObject.writeJSONString(myStringWriter);
 			_orderJsonMessage = myStringWriter.toString();
-			Log.i(loggerTag, _orderJsonMessage);
+			Log.i(LOGGER_TAG, _orderJsonMessage);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			Log.i(loggerTag, e.getMessage());
+			Log.i(LOGGER_TAG, e.getMessage());
 			e.printStackTrace();
 		}
 	}

@@ -20,15 +20,15 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 
 public class Items extends ListActivity {
-	final String loggerTag = "WITWATERSRAND"; // Debug Purposes
+	final String LOGGER_TAG = "WITWATERSRAND"; // Debug Purposes
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Log.i(loggerTag, "Items -- onCreate()");
+		Log.i(LOGGER_TAG, "Items -- onCreate()");
 
 		DownloadMenuData task = new DownloadMenuData();
-		Log.i(loggerTag, "Items -- Calling another thread for the HTTP GET request");
+		Log.i(LOGGER_TAG, "Items -- Calling another thread for the HTTP GET request");
 		task.execute(new String[] {"http://146.141.125.177/yii/index.php/mobile/getmenu"});
 	}
 
@@ -41,7 +41,7 @@ public class Items extends ListActivity {
 	private class DownloadMenuData extends AsyncTask<String, Void, String> {
 		@Override
 		protected String doInBackground(String... urls) {
-			Log.i(loggerTag, "Items -- DownloadMenuData -- doInBackground()");
+			Log.i(LOGGER_TAG, "Items -- DownloadMenuData -- doInBackground()");
 
 			 //String jsonMenuString = sendHTTPRequest(urls);
 			String jsonMenuString = "{ \"updated\": \"false\",\"menu\": [{ \"item\": \"Hake\",\"station\": \"A la Minute Grill\",\"price\": \"16.53\", \"availability\": \"true\"},{\"item\": \"Beef Olives\",\"station\": \"Main Meal\",\"price\": \"28.50\",\"availability\": \"false\"},{\"item\": \"Chicken Lasagne & Veg\",\"station\": \"Frozen Meals\",\"price\": \"28.50\",\"availability\": \"true\"}]}";
@@ -51,7 +51,7 @@ public class Items extends ListActivity {
 
 		private String sendHTTPRequest(String... urls) {
 			for (String url : urls) {
-				Log.d(loggerTag, "Inside for inside doInBackground()");
+				Log.d(LOGGER_TAG, "Inside for inside doInBackground()");
 				try {
 					int TIMEOUT_MILLISEC = 10000; // = 10 seconds
 					HttpParams httpParams = new BasicHttpParams();
@@ -63,22 +63,22 @@ public class Items extends ListActivity {
 
 					HttpGet myGetRequest = new HttpGet(url);
 					HttpResponse myResponse = client.execute(myGetRequest);
-					Log.i(loggerTag,
+					Log.i(LOGGER_TAG,
 							"Items -- DownloadMenuData -- HTTP request complete");
 
 					if (myResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-						Log.i(loggerTag, "Items -- DownloadMenuData -- HTTP OK");
+						Log.i(LOGGER_TAG, "Items -- DownloadMenuData -- HTTP OK");
 						String myJsonString = EntityUtils.toString(myResponse
 								.getEntity());
-						Log.d(loggerTag, myJsonString);
+						Log.d(LOGGER_TAG, myJsonString);
 						return myJsonString;
 					}
 				} catch (IOException e) {
 					e.printStackTrace();
-					Log.d(loggerTag, e.getMessage());
+					Log.d(LOGGER_TAG, e.getMessage());
 				} catch (Exception b) {
 					b.printStackTrace();
-					Log.d(loggerTag, b.getMessage());
+					Log.d(LOGGER_TAG, b.getMessage());
 				}
 			}
 			return null;
@@ -86,8 +86,8 @@ public class Items extends ListActivity {
 
 		protected void onPostExecute(String myJsonMessage) {
 			super.onPostExecute(myJsonMessage);
-			Log.i(loggerTag, "Items -- DownloadMenuData -- onPostExecute()");
-			Log.i(loggerTag, "Items -- DownloadMenuData -- myJsonMessage = " + myJsonMessage);
+			Log.i(LOGGER_TAG, "Items -- DownloadMenuData -- onPostExecute()");
+			Log.i(LOGGER_TAG, "Items -- DownloadMenuData -- myJsonMessage = " + myJsonMessage);
 			MenuParser myMenuParser = new MenuParser(myJsonMessage);
 			
 			MenuItem[] myMenu = myMenuParser.getMenu();
@@ -97,7 +97,7 @@ public class Items extends ListActivity {
 			myDatabase.setMenu(myMenu);
 			myDatabase.close();
 			
-			Log.i(loggerTag,
+			Log.i(LOGGER_TAG,
 					"Items -- DownloadMenuData -- Calling setListAdapter()");
 			setListAdapter(new MenuItemsAdapter(Items.this,
 					R.layout.activity_items, myMenu));

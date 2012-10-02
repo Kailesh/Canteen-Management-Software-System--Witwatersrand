@@ -12,7 +12,7 @@ import android.util.Log;
  * 
  */
 public class MenuItem {
-	final private String loggerTag = "WITWATERSRAND";
+	final private String LOGGER_TAG = "WITWATERSRAND";
 	private String _itemName;
 	private float _price;
 	private String _stationName;
@@ -20,7 +20,7 @@ public class MenuItem {
 	private int _quantity;
 
 	MenuItem(String itemName, float price, String station) {
-		Log.i(loggerTag, "MenuItem -- Constructor with parameters");
+		Log.i(LOGGER_TAG, "MenuItem -- Constructor with parameters");
 		this._itemName = itemName;
 		this._price = price;
 		this._stationName = station;
@@ -29,7 +29,7 @@ public class MenuItem {
 	}
 	
 	MenuItem() {
-		Log.i(loggerTag, "MenuItem -- Constructor");
+		Log.i(LOGGER_TAG, "MenuItem -- Constructor");
 		this._itemName = "Default-Name";
 		this._price = 0;
 		this._stationName = "Default-Station";
@@ -43,7 +43,7 @@ public class MenuItem {
 	 * @return the _itemame
 	 */
 	public String getItemName() {
-		Log.i(loggerTag, "MenuItem -- getItemname()");
+		Log.i(LOGGER_TAG, "MenuItem -- getItemname()");
 		return _itemName;
 	}
 

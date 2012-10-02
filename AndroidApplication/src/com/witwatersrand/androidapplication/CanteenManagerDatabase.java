@@ -17,7 +17,7 @@ import android.util.Log;
  */
 public class CanteenManagerDatabase {
 	
-	private static final String loggerTag = "WITWATERSRAND";
+	private static final String LOGGER_TAG = "WITWATERSRAND";
 
 	public static final String KEY_ITEM_NAME = "item_name ";
 	public static final String KEY_STATION = "station";
@@ -37,24 +37,24 @@ public class CanteenManagerDatabase {
 	private SQLiteDatabase _database;
 	
 	public CanteenManagerDatabase(Context context) {
-		Log.i(loggerTag, "CanteenManagerDatabase -- Constructor");
+		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- Constructor");
 		this._context = context;
 	}
 	
 	public CanteenManagerDatabase open() throws SQLException {
-		Log.i(loggerTag, "CanteenManagerDatabase -- open()");
+		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- open()");
 		_helper = new DBHelper(_context);
 		_database = _helper.getWritableDatabase();
 		return this;
 	}
 	
 	public void close() throws SQLException {
-		Log.i(loggerTag, "CanteenManagerDatabase -- close()");
+		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- close()");
 		_helper.close();
 	}
 	
 	public long addMenuItem(MenuItem item) throws SQLException  {
-		Log.i(loggerTag, "CanteenManagerDatabase -- addmenuItem()");
+		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- addmenuItem()");
 		ContentValues newRow = new ContentValues();
 		newRow.put(KEY_ITEM_NAME, item.getItemName());
 		newRow.put(KEY_STATION, item.getStationName());
@@ -64,14 +64,14 @@ public class CanteenManagerDatabase {
 	}
 	
 	public void setMenu(MenuItem[] menu) throws SQLException {
-		Log.i(loggerTag, "CanteenManagerDatabase -- setMenu()");
+		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- setMenu()");
 		for(int i = 0; i < menu.length; i++) {
 			addMenuItem(menu[i]);
 		}
 	}
 	
 	public MenuItem[] getMenu() throws SQLException {
-		Log.i(loggerTag, "CanteenManagerDatabase -- getMenu");
+		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- getMenu");
 		String[] columns = new String[]{KEY_ITEM_NAME, KEY_STATION, KEY_PRICE, KEY_AVAILABILITY, KEY_PURCHASE_QUANTITY};
 		Cursor myCursor = _database.query(DATABASE_TABLE_MENU_ITEMS, columns, null, null, null, null, null, null);
 		
@@ -98,27 +98,27 @@ public class CanteenManagerDatabase {
 	}
 	
 	public void deleteAllItems() throws SQLException {
-		Log.i(loggerTag, "CanteenManagerDatabase -- deleteallItems()");
+		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- deleteallItems()");
 		_database.delete(DATABASE_TABLE_MENU_ITEMS, null, null);
 	}
 	
 	
 	public void updateAvailability(String name, boolean availability) throws SQLException {
-		Log.i(loggerTag, "CanteenManagerDatabase -- updateAvailability()");
+		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- updateAvailability()");
 		ContentValues updateRow =  new ContentValues();
 		updateRow.put(KEY_AVAILABILITY, availability);
 		_database.update(DATABASE_TABLE_MENU_ITEMS, updateRow, KEY_ITEM_NAME + "=" + name, null);
 	}
 	
 	public void updatePurchaseQuantity(String name, int quantity) throws SQLException {
-		Log.i(loggerTag, "CanteenManagerDatabase -- updatePurchaseQuantity()");
+		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- updatePurchaseQuantity()");
 		ContentValues updateRow =  new ContentValues();
 		updateRow.put(KEY_PURCHASE_QUANTITY, quantity);
 		_database.update(DATABASE_TABLE_MENU_ITEMS, updateRow, KEY_ITEM_NAME + "=" + name, null); // Change the table name here
 	}
 	
 	public MenuItem[] getStationItems(String station) throws SQLException {
-		Log.i(loggerTag, "CanteenManagerDatabase -- getStationItems()");
+		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- getStationItems()");
 		String[] columns = new String[]{KEY_ITEM_NAME, KEY_STATION, KEY_PRICE, KEY_AVAILABILITY, KEY_PURCHASE_QUANTITY};
 		Cursor stationCursor = _database.query(DATABASE_TABLE_MENU_ITEMS, columns, KEY_STATION + "=" + station, null, null, null, null);
 
@@ -149,7 +149,7 @@ public class CanteenManagerDatabase {
 	 * @return the numberOrders
 	 */
 	public int getNumberOrders() {
-		Log.i(loggerTag, "CanteenManagerDatabase -- getNumberOrders()");
+		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- getNumberOrders()");
 		return _numberOrders;
 	}
 
@@ -157,12 +157,12 @@ public class CanteenManagerDatabase {
 	 * @param numberOrders the numberOrders to set
 	 */
 	public void setNumberOrders(int numberOrders) {
-		Log.i(loggerTag, "CanteenManagerDatabase -- setNumber()");
+		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- setNumber()");
 		this._numberOrders = numberOrders;
 	}
 	
 	public void createOrderTable(MenuItem[] order) throws SQLException {
-		Log.i(loggerTag, "CanteenManagerDatabase -- createOrderTable()");
+		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- createOrderTable()");
 		_numberOrders++;
 		String newTableExecutionString = "CREATE TABLE " + 
 					DATABASE_TABLE_ORDER + _numberOrders + " (" +
@@ -190,13 +190,13 @@ public class CanteenManagerDatabase {
 		 */
 		public DBHelper(Context context) {
 			super(context, DATABASE_NAME, null, DATABASE_VERSION);
-			Log.i(loggerTag, "CanteenManagerDatabase -- DBHelper -- Constructor");
+			Log.i(LOGGER_TAG, "CanteenManagerDatabase -- DBHelper -- Constructor");
 		}
 
 		@Override
 		public void onCreate(SQLiteDatabase db) {
 		 	// Called the first time the database is ever created
-			Log.i(loggerTag, "CanteenManagerDatabase -- DBHelper -- onCreate()");
+			Log.i(LOGGER_TAG, "CanteenManagerDatabase -- DBHelper -- onCreate()");
 			db.execSQL( "CREATE TABLE " +  DATABASE_TABLE_MENU_ITEMS + " (" + 
 					KEY_ITEM_NAME + " TEXT NOT NULL, " + 
 					KEY_STATION + " TEXT NOT NULL, " + 
@@ -209,7 +209,7 @@ public class CanteenManagerDatabase {
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 			// Called if the table exists
-			Log.i(loggerTag, "CanteenManagerDatabase -- DBHelper -- onUpgrade()");
+			Log.i(LOGGER_TAG, "CanteenManagerDatabase -- DBHelper -- onUpgrade()");
 			db.execSQL("DROP TABLE IF EXISTS " + DATABASE_TABLE_MENU_ITEMS );
 			onCreate(db);
 

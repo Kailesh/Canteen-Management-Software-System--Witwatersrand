@@ -22,7 +22,7 @@ import android.widget.TextView;
  */
 public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 	
-	private final String loggerTag = "WITWATERSRAND";
+	private final String LOGGER_TAG = "WITWATERSRAND";
 	private final Context _context;
 	MenuItem[] _myMenu;
 	int _LAYOUT_RESOURCE_ID;
@@ -30,7 +30,7 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 	public MenuItemsAdapter(Context context, int textViewResourceId,
 			MenuItem[] menuItems) {
 		super(context, textViewResourceId, menuItems);
-		Log.i(loggerTag, "MenuItemsAdapter -- Constructor");
+		Log.i(LOGGER_TAG, "MenuItemsAdapter -- Constructor");
 		this._context = context;
 		this._myMenu = menuItems;
 		this._LAYOUT_RESOURCE_ID = textViewResourceId;
@@ -44,13 +44,13 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 	 */
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		Log.i(loggerTag, "MenuItemsAdapter getView()");
+		Log.i(LOGGER_TAG, "MenuItemsAdapter getView()");
 		LayoutInflater myInflater = (LayoutInflater) _context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 		View rowRootView = myInflater.inflate(_LAYOUT_RESOURCE_ID, parent,
 				false);
-		Log.i(loggerTag, "MenuItemsAdapter -- Inflator called");
+		Log.i(LOGGER_TAG, "MenuItemsAdapter -- Inflator called");
 		TextView itemNameTV = (TextView) rowRootView
 				.findViewById(R.id.tvItemName);
 		int TEXT_WIDTH = (int) TypedValue.applyDimension(
@@ -71,7 +71,7 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 
 		final NumberPicker quantityPicker = (NumberPicker) rowRootView.findViewById(R.id.selectedPicker);
 
-		Log.i(loggerTag, "MenuItemsAdapter -- getView() -- quantityPicker.getValue() = " + quantityPicker.getValue());
+		Log.i(LOGGER_TAG, "MenuItemsAdapter -- getView() -- quantityPicker.getValue() = " + quantityPicker.getValue());
 		
 		final int myPosition = position;
 
@@ -80,12 +80,12 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 		mySelectedButton
 				.setOnClickListener(new OnClickListener() {
 					public void onClick(View v) {
-						Log.d(loggerTag, "Button pressed for item name: " + _myMenu[myPosition].getItemName());
+						Log.d(LOGGER_TAG, "Button pressed for item name: " + _myMenu[myPosition].getItemName());
 						_myMenu[myPosition].setQuantity(quantityPicker.getValue());
-						Log.d(loggerTag, "_myMenu[myPosition].getQuantity() = " + _myMenu[myPosition].getQuantity());
+						Log.d(LOGGER_TAG, "_myMenu[myPosition].getQuantity() = " + _myMenu[myPosition].getQuantity());
 					}
 				});
-		Log.i(loggerTag, "MenuItemsAdapter getView() complete");
+		Log.i(LOGGER_TAG, "MenuItemsAdapter getView() complete");
 		return rowRootView;
 	}
 
@@ -96,7 +96,7 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 	 */
 	@Override
 	public boolean isEnabled(int position) {
-		Log.i(loggerTag, "MenuItemsAdapter isEnabled()");
+		Log.i(LOGGER_TAG, "MenuItemsAdapter isEnabled()");
 		if (_myMenu[position].isAvailable()) {
 			return true;
 		}
