@@ -42,7 +42,7 @@ public class MenuItem {
 	/**
 	 * @return the _itemame
 	 */
-	public String getItemname() {
+	public String getItemName() {
 		Log.i(loggerTag, "MenuItem -- getItemname()");
 		return _itemName;
 	}
@@ -114,6 +114,11 @@ public class MenuItem {
 	 */
 	public void setQuantity(int _quantity) {
 		this._quantity = _quantity;
+	}
+
+	public boolean getAvailability() {
+		// TODO Auto-generated method stub
+		return _availability;
 	}
 
 }

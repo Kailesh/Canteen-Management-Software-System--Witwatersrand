@@ -3,8 +3,6 @@
  */
 package com.witwatersrand.androidapplication;
 
-import java.text.DecimalFormat;
-
 import net.technologichron.android.control.NumberPicker;
 
 import android.content.Context;
@@ -24,9 +22,7 @@ import android.widget.TextView;
  */
 public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 	
-	String loggerTag = "WITWATERSRAND";
-
-	private final String _tag = "WITWATERSRAND";
+	private final String loggerTag = "WITWATERSRAND";
 	private final Context _context;
 	MenuItem[] _myMenu;
 	int _LAYOUT_RESOURCE_ID;
@@ -61,7 +57,7 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 				TypedValue.COMPLEX_UNIT_DIP, 195, getContext().getResources()
 						.getDisplayMetrics());
 		itemNameTV.setWidth(TEXT_WIDTH);
-		itemNameTV.setText(_myMenu[position].getItemname());
+		itemNameTV.setText(_myMenu[position].getItemName());
 
 		TextView stationNameTV = (TextView) rowRootView
 				.findViewById(R.id.tvStationName);
@@ -73,8 +69,6 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 				
 		priceTV.setText("R " + String.format("%.2f", _myMenu[position].getPrice()));
 
-		// TODO Quantity Picker - find out out how the picker works
-		
 		final NumberPicker quantityPicker = (NumberPicker) rowRootView.findViewById(R.id.selectedPicker);
 
 		Log.i(loggerTag, "MenuItemsAdapter -- getView() -- quantityPicker.getValue() = " + quantityPicker.getValue());
@@ -86,7 +80,7 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 		mySelectedButton
 				.setOnClickListener(new OnClickListener() {
 					public void onClick(View v) {
-						Log.d(loggerTag, "Button pressed for item name: " + _myMenu[myPosition].getItemname());
+						Log.d(loggerTag, "Button pressed for item name: " + _myMenu[myPosition].getItemName());
 						_myMenu[myPosition].setQuantity(quantityPicker.getValue());
 						Log.d(loggerTag, "_myMenu[myPosition].getQuantity() = " + _myMenu[myPosition].getQuantity());
 					}

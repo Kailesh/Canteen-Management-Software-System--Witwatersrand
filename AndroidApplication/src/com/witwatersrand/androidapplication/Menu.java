@@ -19,7 +19,7 @@ import android.widget.Toast;
 public class Menu extends ListActivity {
 
 	String myItems[] = { "Todays Items", "Video Feed", "User Information", "Cart",
-			"Current Order", "Progress", "Logout", "About", "Main", "Bleh" };
+			"Current Order", "Progress", "Logout", "About"};
 
 	/*
 	 * (non-Javadoc)

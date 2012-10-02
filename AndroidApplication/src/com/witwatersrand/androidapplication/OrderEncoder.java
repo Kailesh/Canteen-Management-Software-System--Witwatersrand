@@ -59,7 +59,7 @@ public class OrderEncoder {
 			// TODO Sort out these warnings
 			myMenuItem.put(PURCHASE_QUANTITY_TAG, _orderList[i].getQuantity());
 			myMenuItem.put(STATION_TAG, _orderList[i].getStationName());
-			myMenuItem.put(ITEM_NAME_TAG, _orderList[i].getItemname());
+			myMenuItem.put(ITEM_NAME_TAG, _orderList[i].getItemName());
 			purchaseOrderList.add(myMenuItem);
 		}
 		myJsonObject.put(BASKET_TAG, purchaseOrderList);
