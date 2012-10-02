@@ -5,9 +5,11 @@ import java.io.IOException;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
-import android.app.ListActivity;
+import android.app.Activity;
+
 import android.util.Log;
 import android.view.Menu;
+import android.widget.ListView;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -19,17 +21,22 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 
-public class Items extends ListActivity {
+public class Items extends Activity {
 	final String LOGGER_TAG = "WITWATERSRAND"; // Debug Purposes
+	ListView _menuLV;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Log.i(LOGGER_TAG, "Items -- onCreate()");
-
+		setContentView(R.layout.activity_items);
+		Log.i(LOGGER_TAG, "001");
+		_menuLV = (ListView) findViewById(R.id.lvMenuItems);
+		Log.i(LOGGER_TAG, "002");
 		DownloadMenuData task = new DownloadMenuData();
 		Log.i(LOGGER_TAG, "Items -- Calling another thread for the HTTP GET request");
 		task.execute(new String[] {"http://146.141.125.177/yii/index.php/mobile/getmenu"});
+		Log.i(LOGGER_TAG, "003");
 	}
 
 	@Override
@@ -99,8 +106,8 @@ public class Items extends ListActivity {
 			
 			Log.i(LOGGER_TAG,
 					"Items -- DownloadMenuData -- Calling setListAdapter()");
-			setListAdapter(new MenuItemsAdapter(Items.this,
-					R.layout.activity_items, myMenu));
+			_menuLV.setAdapter(new MenuItemsAdapter(Items.this,
+					R.layout.purchase_menu_item, myMenu));
 		}
 	}
 }

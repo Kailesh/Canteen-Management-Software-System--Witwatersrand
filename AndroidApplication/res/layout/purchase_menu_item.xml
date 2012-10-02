@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="5dp" >
+
+    <TextView
+        android:id="@+id/tvItemName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="Default Name"
+        android:textSize="17dp" />
+
+    <TextView
+        android:id="@+id/tvStationName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvItemName"
+        android:text="Default Station"
+        android:textSize="12dp" />
+
+    <Button
+        android:id="@+id/selectedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:text="Add To Cart"
+       	android:textSize="17dp" />
+
+    <TextView
+        android:id="@+id/tvPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvStationName"
+        android:layout_below="@+id/tvStationName"
+        android:text="Default Price"
+        android:textSize="12dp" />
+
+    <net.technologichron.android.control.NumberPicker
+        android:id="@+id/selectedPicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvPrice"
+        android:layout_below="@+id/tvPrice"
+        android:orientation="horizontal" >
+    </net.technologichron.android.control.NumberPicker>
+
+</RelativeLayout>

@@ -1,51 +1,40 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:padding="5dp" >
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
 
     <TextView
-        android:id="@+id/tvItemName"
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:text="Default Name"
-        android:textSize="17dp" />
+        android:layout_centerHorizontal="true"
+        android:text="@string/title_activity_todays_items"
+        android:textSize="30dp" />
 
     <TextView
-        android:id="@+id/tvStationName"
+        android:id="@+id/tvTotal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvItemName"
-        android:text="Default Station"
-        android:textSize="12dp" />
+        android:layout_below="@+id/textView2"
+        android:layout_centerHorizontal="true"
+        android:text="@string/default_price"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <Button
-        android:id="@+id/selectedButton"
-        android:layout_width="wrap_content"
+        android:id="@+id/bPurchase"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:text="Add To Cart"
-       	android:textSize="17dp" />
+        android:layout_below="@+id/tvTotal"
+        android:layout_centerHorizontal="true"
+        android:text="@string/button_title_goto_cart" />
 
-    <TextView
-        android:id="@+id/tvPrice"
-        android:layout_width="wrap_content"
+    <ListView
+        android:id="@+id/lvMenuItems"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/tvStationName"
-        android:layout_below="@+id/tvStationName"
-        android:text="Default Price"
-        android:textSize="12dp" />
-
-    <net.technologichron.android.control.NumberPicker
-        android:id="@+id/selectedPicker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/tvPrice"
-        android:layout_below="@+id/tvPrice"
-        android:orientation="horizontal" >
-    </net.technologichron.android.control.NumberPicker>
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/bPurchase" >
+    </ListView>
 
 </RelativeLayout>
