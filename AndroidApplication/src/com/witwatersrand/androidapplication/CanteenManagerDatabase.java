@@ -19,7 +19,6 @@ public class CanteenManagerDatabase {
 	
 	private static final String loggerTag = "WITWATERSRAND";
 
-	public static final String KEY_ROWID = "_id";
 	public static final String KEY_ITEM_NAME = "item_name ";
 	public static final String KEY_STATION = "station";
 	public static final String KEY_PRICE = "price";
@@ -73,7 +72,7 @@ public class CanteenManagerDatabase {
 	
 	public MenuItem[] getMenu() throws SQLException {
 		Log.i(loggerTag, "CanteenManagerDatabase -- getMenu");
-		String[] columns = new String[]{KEY_ROWID, KEY_ITEM_NAME, KEY_STATION, KEY_PRICE, KEY_AVAILABILITY, KEY_PURCHASE_QUANTITY};
+		String[] columns = new String[]{KEY_ITEM_NAME, KEY_STATION, KEY_PRICE, KEY_AVAILABILITY, KEY_PURCHASE_QUANTITY};
 		Cursor myCursor = _database.query(DATABASE_TABLE_MENU_ITEMS, columns, null, null, null, null, null, null);
 		
 		int iName = myCursor.getColumnIndex(KEY_ITEM_NAME);
@@ -120,7 +119,7 @@ public class CanteenManagerDatabase {
 	
 	public MenuItem[] getStationItems(String station) throws SQLException {
 		Log.i(loggerTag, "CanteenManagerDatabase -- getStationItems()");
-		String[] columns = new String[]{KEY_ROWID, KEY_ITEM_NAME, KEY_STATION, KEY_PRICE, KEY_AVAILABILITY, KEY_PURCHASE_QUANTITY};
+		String[] columns = new String[]{KEY_ITEM_NAME, KEY_STATION, KEY_PRICE, KEY_AVAILABILITY, KEY_PURCHASE_QUANTITY};
 		Cursor stationCursor = _database.query(DATABASE_TABLE_MENU_ITEMS, columns, KEY_STATION + "=" + station, null, null, null, null);
 
 		int iName = stationCursor.getColumnIndex(KEY_ITEM_NAME);
@@ -199,7 +198,6 @@ public class CanteenManagerDatabase {
 		 	// Called the first time the database is ever created
 			Log.i(loggerTag, "CanteenManagerDatabase -- DBHelper -- onCreate()");
 			db.execSQL( "CREATE TABLE " +  DATABASE_TABLE_MENU_ITEMS + " (" + 
-					KEY_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + 
 					KEY_ITEM_NAME + " TEXT NOT NULL, " + 
 					KEY_STATION + " TEXT NOT NULL, " + 
 					KEY_PRICE + " REAL NOT NULL DEFAULT 0," +
