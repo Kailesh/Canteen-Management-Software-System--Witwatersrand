@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:text="Cart"
+        android:text="@string/title_activity_cart"
         android:textSize="30dp"
         tools:context=".Cart" />
 
@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView2"
         android:layout_centerHorizontal="true"
-        android:text="Total: R146.54"
+        android:text="@string/default_price"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <Button
@@ -29,7 +29,7 @@
         android:layout_below="@+id/tvTotal"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:text="Place Order" />
+        android:text="@string/button_title_place_order" />
 
     <ListView
         android:id="@+id/lvOrderItems"
