@@ -41,7 +41,7 @@ public class Cart extends Activity {
 		
 		UploadOrder task = new UploadOrder();
 		Log.i(loggerTag, "Cart -- Calling another thread for the HTTP POST request");
-		task.execute(new String[] {"http://146.141.125.123/yii/index.php/mobile/PlaceOrders"});
+		task.execute(new String[] {"http://146.141.125.177/yii/index.php/mobile/PlaceOrders"});
 	}
 
 	private MenuItem[] getOrderList() {

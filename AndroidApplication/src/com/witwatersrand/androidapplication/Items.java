@@ -29,7 +29,7 @@ public class Items extends ListActivity {
 
 		DownloadMenuData task = new DownloadMenuData();
 		Log.i(loggerTag, "Items -- Calling another thread for the HTTP GET request");
-		task.execute(new String[] {"http://146.141.125.123/yii/index.php/mobile/getmenu"});
+		task.execute(new String[] {"http://146.141.125.177/yii/index.php/mobile/getmenu"});
 	}
 
 	@Override
