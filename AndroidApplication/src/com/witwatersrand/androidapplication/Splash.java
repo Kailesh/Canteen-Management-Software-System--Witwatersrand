@@ -38,6 +38,7 @@ public class Splash extends Activity {
 					Intent startCanteenApplication = new Intent("com.witwatersrand.androidapplication.STARTMENU");
 					startActivity(startCanteenApplication);
 				}
+				
 			}
 		};
 		timerThread.start();
