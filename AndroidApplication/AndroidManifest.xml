@@ -17,7 +17,7 @@
             android:name=".Splash"
             android:label="@string/app_name" >
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="com.witwatersrand.androidapplication.SPLASH" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
@@ -32,10 +32,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Menu"
+            android:name=".StartMenu"
             android:label="@string/title_menu_list" >
             <intent-filter>
-                <action android:name="com.witwatersrand.androidapplication.MENU" />
+                <action android:name="com.witwatersrand.androidapplication.STARTMENU" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
