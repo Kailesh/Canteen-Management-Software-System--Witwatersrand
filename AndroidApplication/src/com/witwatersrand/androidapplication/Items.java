@@ -6,9 +6,13 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 import android.app.Activity;
+import android.content.Intent;
 
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ListView;
 
 import org.apache.http.HttpResponse;
@@ -21,24 +25,35 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 
-public class Items extends Activity {
+public class Items extends Activity implements OnClickListener{
 	final String LOGGER_TAG = "WITWATERSRAND"; // Debug Purposes
 	ListView _menuLV;
+	Button goToCartB;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Log.i(LOGGER_TAG, "Items -- onCreate()");
 		setContentView(R.layout.activity_items);
-		Log.i(LOGGER_TAG, "001");
 		_menuLV = (ListView) findViewById(R.id.lvMenuItems);
-		Log.i(LOGGER_TAG, "002");
+		goToCartB = (Button) findViewById(R.id.bPurchase);
+		goToCartB.setOnClickListener(this);
 		DownloadMenuData task = new DownloadMenuData();
 		Log.i(LOGGER_TAG, "Items -- Calling another thread for the HTTP GET request");
 		task.execute(new String[] {"http://146.141.125.177/yii/index.php/mobile/getmenu"});
-		Log.i(LOGGER_TAG, "003");
 	}
 
+	public void onClick(View arg0) {
+		switch(arg0.getId())
+		{
+		case R.id.bPurchase:
+			Intent cartIntent = new Intent("com.witwatersrand.androidapplication.CART");
+			startActivity(cartIntent);
+			break;
+		// More button, more cases
+		}
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.activity_items, menu);
