@@ -15,7 +15,6 @@ public class SimulateStateAtTime extends Activity implements OnClickListener{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_simulate_state_at_time);
-        
         sevenAmB = (Button) findViewById(R.id.bSevenAM);
         sevenAmB.setOnClickListener(this);
         

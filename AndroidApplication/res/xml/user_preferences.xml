@@ -19,7 +19,8 @@
         android:key="deleivery_location"
         android:dependency="delivery"
         android:summary="Select one of the following delivery locations"
-        android:entries="array/list" >
+        android:entries="@array/delivery_locations"
+        android:entryValues="@array/delivery_location_values">
     </ListPreference>
     
     <CheckBoxPreference
@@ -32,15 +33,16 @@
     <EditTextPreference
         android:title="Current Accout Balance"
         android:key="accountbalance"
-        android:summary="Displays the current user RMB account balance. The user requries sufficient money to make purchases from RMB Canteen Manager"
-		android:enabled="false">
+        android:summary="Displays the current user RMB account balance. The user requries sufficient funds to make purchases from RMB Canteen Manager"
+        android:enabled="false">
     </EditTextPreference>
     
     <EditTextPreference
-        android:title="Purchase Made Today"
+        android:title="Purchases Made Today"
         android:key="purchases"
-        android:summary="Displays the number of purchase made by the user today"
-		android:enabled="false">
+        android:summary="Displays the number of purchase made by the user today" 
+        android:enabled="false"
+   		>
     </EditTextPreference>
     
     
