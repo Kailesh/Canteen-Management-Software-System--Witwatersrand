@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <EditTextPreference
+        android:key="name"
+        android:summary="Enter your Name"
+        android:title="Name" >
+    </EditTextPreference>
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="delivery"
+        android:title="Delivery" 
+        android:summary="Check the box if you require delivery of the purchase">
+    </CheckBoxPreference>
+    
+    <ListPreference 
+        android:title="Delivery Location"
+        android:key="deleivery_location"
+        android:dependency="delivery"
+        android:summary="Select one of the following delivery locations"
+        android:entries="array/list" >
+    </ListPreference>
+    
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="remember_password"
+        android:title="Remember Password"
+        android:summary="Check the box for automatic log-in">
+	</CheckBoxPreference>
+	
+    <EditTextPreference
+        android:title="Current Accout Balance"
+        android:key="accountbalance"
+        android:summary="Displays the current user RMB account balance. The user requries sufficient money to make purchases from RMB Canteen Manager"
+		android:enabled="false">
+    </EditTextPreference>
+    
+    <EditTextPreference
+        android:title="Purchase Made Today"
+        android:key="purchases"
+        android:summary="Displays the number of purchase made by the user today"
+		android:enabled="false">
+    </EditTextPreference>
+    
+    
+
+</PreferenceScreen>
