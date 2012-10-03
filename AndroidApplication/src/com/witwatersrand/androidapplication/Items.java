@@ -109,15 +109,18 @@ public class Items extends Activity implements OnClickListener{
 		protected void onPostExecute(String myJsonMessage) {
 			super.onPostExecute(myJsonMessage);
 			Log.i(LOGGER_TAG, "Items -- DownloadMenuData -- onPostExecute()");
-			Log.i(LOGGER_TAG, "Items -- DownloadMenuData -- myJsonMessage = " + myJsonMessage);
+			Log.i(LOGGER_TAG, "Items -- DownloadMenuData -- onPostExecute() -- myJsonMessage = " + myJsonMessage);
 			MenuParser myMenuParser = new MenuParser(myJsonMessage);
 			
 			MenuItem[] myMenu = myMenuParser.getMenu();
 			
-			CanteenManagerDatabase myDatabase = new CanteenManagerDatabase(Items.this);
-			myDatabase.open();
-			myDatabase.setMenu(myMenu);
-			myDatabase.close();
+			Log.i(LOGGER_TAG, "Items -- DownloadMenuData -- storing in database");
+			
+			//CanteenManagerDatabase myDatabase = new CanteenManagerDatabase(Items.this);
+			
+			//myDatabase.open();
+			//myDatabase.setMenu(myMenu);
+			//myDatabase.close();
 			
 			Log.i(LOGGER_TAG,
 					"Items -- DownloadMenuData -- Calling setListAdapter()");

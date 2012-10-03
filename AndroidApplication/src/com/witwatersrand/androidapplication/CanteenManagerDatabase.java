@@ -28,13 +28,13 @@ public class CanteenManagerDatabase {
 	private static final String DATABASE_NAME = "canteen_manager_database";
 	private static final String DATABASE_TABLE_MENU_ITEMS = "menu_items_table";
 	private static final String DATABASE_TABLE_ORDER = "order_table_";
-	private static final int DATABASE_VERSION = 1;
-	
-	private int _numberOrders = 0;
+	private static int DATABASE_VERSION = 1;
 
 	private DBHelper _helper;
 	private final Context _context;
 	private SQLiteDatabase _database;
+	
+	
 	
 	public CanteenManagerDatabase(Context context) {
 		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- Constructor");
@@ -43,7 +43,7 @@ public class CanteenManagerDatabase {
 	
 	public CanteenManagerDatabase open() throws SQLException {
 		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- open()");
-		_helper = new DBHelper(_context);
+		_helper = new DBHelper(_context, DATABASE_VERSION);
 		_database = _helper.getWritableDatabase();
 		return this;
 	}
@@ -102,7 +102,6 @@ public class CanteenManagerDatabase {
 		_database.delete(DATABASE_TABLE_MENU_ITEMS, null, null);
 	}
 	
-	
 	public void updateAvailability(String name, boolean availability) throws SQLException {
 		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- updateAvailability()");
 		ContentValues updateRow =  new ContentValues();
@@ -143,36 +142,31 @@ public class CanteenManagerDatabase {
 		return menu;
 	}
 	
-	
-	
-	/**
-	 * @return the numberOrders
-	 */
-	public int getNumberOrders() {
-		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- getNumberOrders()");
-		return _numberOrders;
-	}
-
-	/**
-	 * @param numberOrders the numberOrders to set
-	 */
-	public void setNumberOrders(int numberOrders) {
-		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- setNumber()");
-		this._numberOrders = numberOrders;
-	}
-	
-	public void createOrderTable(MenuItem[] order) throws SQLException {
+	public void createOrderTable(int orderTable) throws SQLException {
 		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- createOrderTable()");
-		_numberOrders++;
+		_database.execSQL("DROP TABLE IF EXISTS " + DATABASE_TABLE_ORDER + orderTable);
 		String newTableExecutionString = "CREATE TABLE " + 
-					DATABASE_TABLE_ORDER + _numberOrders + " (" +
+					DATABASE_TABLE_ORDER + orderTable + " (" +
 					KEY_ITEM_NAME + " TEXT NOT NULL, " +
 					KEY_STATION + " TEXT NOT NULL, " +
 					KEY_PURCHASE_QUANTITY + " INTEGER NOT NULL DEFAULT 0);";
-		// TODO PLACE ORDERS IN TABLE
 		_database.execSQL(newTableExecutionString);
 	}
-
+	
+	public long addPurchaseItemToOrder(MenuItem purchaseItem, int orderNumber) {
+		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- addPurchaseItemToOrder()");
+		ContentValues newRow = new ContentValues();
+		newRow.put(KEY_ITEM_NAME, purchaseItem.getItemName());
+		newRow.put(KEY_STATION, purchaseItem.getStationName());
+		newRow.put(KEY_PURCHASE_QUANTITY, purchaseItem.getQuantity());
+		return _database.insert(DATABASE_TABLE_ORDER + orderNumber, null, newRow);
+	}
+	
+	public void removeOrderTable(int tableNumber) {
+		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- removeAllOrdertables()");
+		_database.execSQL("DROP TABLE IF EXISTS " + DATABASE_TABLE_ORDER + tableNumber);
+	}
+ 
 	private static class DBHelper extends SQLiteOpenHelper {
 
 		/*		
@@ -188,8 +182,8 @@ public class CanteenManagerDatabase {
 		 * a cursor factory, and version of the database.
 		 * 
 		 */
-		public DBHelper(Context context) {
-			super(context, DATABASE_NAME, null, DATABASE_VERSION);
+		public DBHelper(Context context, int databaseVersion) {
+			super(context, DATABASE_NAME, null, databaseVersion);
 			Log.i(LOGGER_TAG, "CanteenManagerDatabase -- DBHelper -- Constructor");
 		}
 
@@ -204,15 +198,28 @@ public class CanteenManagerDatabase {
 					KEY_AVAILABILITY + " INTEGER NOT NULL DEFAULT 1, " +
 					KEY_PURCHASE_QUANTITY + " INTEGER NOT NULL DEFAULT 0);"
 					);
+			
 		}
 
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-			// Called if the table exists
-			Log.i(LOGGER_TAG, "CanteenManagerDatabase -- DBHelper -- onUpgrade()");
-			db.execSQL("DROP TABLE IF EXISTS " + DATABASE_TABLE_MENU_ITEMS );
-			onCreate(db);
-
+// Called if the table exists
+//			Log.i(LOGGER_TAG, "CanteenManagerDatabase -- DBHelper -- onUpgrade()");
+//			Log.i(LOGGER_TAG, "CanteenManagerDatabase -- DBHelper -- onUpgrade() -- oldVersion = " + oldVersion);
+//			Log.i(LOGGER_TAG, "CanteenManagerDatabase -- DBHelper -- onUpgrade() -- newVersion = " + newVersion);
+//			if(oldVersion < newVersion) {
+//				db.execSQL( "CREATE TABLE " +  DATABASE_TABLE_ORDER + newVersion + " (" + 
+//						KEY_ITEM_NAME + " TEXT NOT NULL, " + 
+//						KEY_STATION + " TEXT NOT NULL, " + 
+//						KEY_PRICE + " REAL NOT NULL DEFAULT 0," +
+//						KEY_AVAILABILITY + " INTEGER NOT NULL DEFAULT 1, " +
+//						KEY_PURCHASE_QUANTITY + " INTEGER NOT NULL DEFAULT 0);"
+//						);
+//			}
+//			else if (oldVersion > newVersion) {
+//				Log.i(LOGGER_TAG, "CanteenManagerDatabase -- DBHelper -- onUpgrade() -- Need to delete");
+//				// db.execSQL("DROP TABLE IF EXISTS " + DATABASE_TABLE_ORDER + oldVersion );
+//			}
 		}
 	}
 }

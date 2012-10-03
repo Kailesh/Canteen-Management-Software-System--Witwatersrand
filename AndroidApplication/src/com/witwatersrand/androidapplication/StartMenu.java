@@ -18,7 +18,7 @@ import android.widget.ListView;
 public class StartMenu extends ListActivity {
 	private static final String LOGGER_TAG = "WITWATERSRAND";
 	private static final String menuOptions[] = { "Todays Items", "Video Feed", "User Information", "Cart",
-			"Current Order", "Progress", "Logout", "About"};
+			"Current Order", "Progress", "Simulate State At Time", "Logout", "About"};
 	
 	/*
 	 * (non-Javadoc)
@@ -28,7 +28,7 @@ public class StartMenu extends ListActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Log.d(LOGGER_TAG, "StartMenu -- onCreate()");
+		Log.i(LOGGER_TAG, "StartMenu -- onCreate()");
 		setListAdapter(new ArrayAdapter<String>(StartMenu.this,
 				android.R.layout.simple_list_item_1, menuOptions));
 	}
@@ -42,7 +42,7 @@ public class StartMenu extends ListActivity {
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
-		Log.d(LOGGER_TAG, "StartMenu -- onListItemClick()");
+		Log.i(LOGGER_TAG, "StartMenu -- onListItemClick()");
 		String selectedClass = menuOptions[position];
 
 		try {

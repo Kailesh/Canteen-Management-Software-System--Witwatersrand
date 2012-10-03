@@ -103,6 +103,16 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+  
+        <activity
+            android:name=".SimulateStateAtTime"
+            android:label="@string/title_activity_simulate_state_at_time" >
+            <intent-filter>
+                <action android:name="com.witwatersrand.androidapplication.SIMULATESTATEATTIME" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

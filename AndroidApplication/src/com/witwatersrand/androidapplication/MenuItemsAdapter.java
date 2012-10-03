@@ -11,7 +11,6 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
@@ -26,6 +25,8 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 	private final Context _context;
 	MenuItem[] _myMenu;
 	int _LAYOUT_RESOURCE_ID;
+	NumberPicker quantityPicker;
+	
 
 	public MenuItemsAdapter(Context context, int textViewResourceId,
 			MenuItem[] menuItems) {
@@ -69,22 +70,25 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 				
 		priceTV.setText("R " + String.format("%.2f", _myMenu[position].getPrice()));
 
-		final NumberPicker quantityPicker = (NumberPicker) rowRootView.findViewById(R.id.selectedPicker);
+		quantityPicker = (NumberPicker) rowRootView.findViewById(R.id.selectedPicker);
 
 		Log.i(LOGGER_TAG, "MenuItemsAdapter -- getView() -- quantityPicker.getValue() = " + quantityPicker.getValue());
 		
-		final int myPosition = position;
+		final int _selectedPosition = position;
+		Button mySelectedButton = (Button) rowRootView.findViewById(R.id.selectedButton);
+		mySelectedButton.setOnClickListener(new View.OnClickListener() {
+			
+			public void onClick(View v) {
+				Log.i(LOGGER_TAG, "Button pressed for item name: " + _myMenu[_selectedPosition].getItemName());
 
-		Button mySelectedButton = (Button) rowRootView
-				.findViewById(R.id.selectedButton);
-		mySelectedButton
-				.setOnClickListener(new OnClickListener() {
-					public void onClick(View v) {
-						Log.d(LOGGER_TAG, "Button pressed for item name: " + _myMenu[myPosition].getItemName());
-						_myMenu[myPosition].setQuantity(quantityPicker.getValue());
-						Log.d(LOGGER_TAG, "_myMenu[myPosition].getQuantity() = " + _myMenu[myPosition].getQuantity());
-					}
-				});
+				_myMenu[_selectedPosition].setQuantity(quantityPicker.getValue());
+				Log.d(LOGGER_TAG, "_myMenu[_selectedPosition].getQuantity() = " + _myMenu[_selectedPosition].getQuantity());
+				CanteenManagerDatabase myDatabase = new CanteenManagerDatabase(_context);
+				myDatabase.open();
+				myDatabase.addPurchaseItemToOrder(_myMenu[_selectedPosition], 1);
+				myDatabase.close();
+			}
+		});
 		Log.i(LOGGER_TAG, "MenuItemsAdapter getView() complete");
 		return rowRootView;
 	}
@@ -102,4 +106,8 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 		}
 		return false;
 	}
+
+
+			
+
 }
