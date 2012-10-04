@@ -80,12 +80,12 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 			
 			public void onClick(View v) {
 				Log.i(LOGGER_TAG, "Button pressed for item name: " + _myMenu[_selectedPosition].getItemName());
-
-				_myMenu[_selectedPosition].setQuantity(quantityPicker.getValue());
-				Log.d(LOGGER_TAG, "_myMenu[_selectedPosition].getQuantity() = " + _myMenu[_selectedPosition].getQuantity());
+				int enteredQuantity = quantityPicker.getValue();
+				Log.d(LOGGER_TAG, "enteredQuantity = " + enteredQuantity);
 				CanteenManagerDatabase myDatabase = new CanteenManagerDatabase(_context);
 				myDatabase.open();
-				myDatabase.addPurchaseItemToOrder(_myMenu[_selectedPosition], 1);
+				// TODO The last parameter should be retrieved as a shared preference
+				myDatabase.addPurchaseItemToOrder(_myMenu[_selectedPosition] , enteredQuantity, 1);
 				myDatabase.close();
 			}
 		});

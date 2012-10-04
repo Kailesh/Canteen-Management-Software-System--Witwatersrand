@@ -47,19 +47,23 @@ public class OrderEncoder {
 		encodeOrderIntoJson();
 	}
 	
+	// TODO Unchecked conversion - Type safety: The method put(Object, Object) 
+	// belongs to the raw type HashMap. References to generic type HashMap<K,V> 
+	// should be parameterized
+	@SuppressWarnings("unchecked")
 	private void encodeOrderIntoJson() {
 		Log.i(LOGGER_TAG, "OrderEncoder -- encodeOrderIntoJson()");
 		JSONObject myJsonObject = new JSONObject();
 		JSONArray purchaseOrderList = new JSONArray();
 		for(int i = 0; i<_orderList.length; i++) {
 			JSONObject myMenuItem = new JSONObject();
-			// TODO Sort out these warnings
+			
 			myMenuItem.put(PURCHASE_QUANTITY_TAG, _orderList[i].getPurchaseQuantity());
 			myMenuItem.put(STATION_TAG, _orderList[i].getStationName());
 			myMenuItem.put(ITEM_NAME_TAG, _orderList[i].getItemName());
 			purchaseOrderList.add(myMenuItem);
 		}
-		myJsonObject.put(BASKET_TAG, purchaseOrderList);
+		myJsonObject.put( BASKET_TAG, purchaseOrderList);
 		myJsonObject.put(DELIVERY_TAG, _deliveryLocation);
 		myJsonObject.put(TOTAL_TAG, _total);
 		myJsonObject.put(DEVICE_ID_TAG, _deviceID);

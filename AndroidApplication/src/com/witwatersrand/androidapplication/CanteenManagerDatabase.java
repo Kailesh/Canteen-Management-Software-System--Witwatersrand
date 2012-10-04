@@ -17,14 +17,15 @@ import android.util.Log;
  */
 public class CanteenManagerDatabase {
 	
+	// TODO make sure that this class is not prone to SQL injection attacks
 	private static final String LOGGER_TAG = "WITWATERSRAND";
-
-	public static final String KEY_ITEM_NAME = "item_name ";
-	public static final String KEY_STATION = "station";
-	public static final String KEY_PRICE = "price";
-	public static final String KEY_AVAILABILITY = "availability";
-	public static final String KEY_PURCHASE_QUANTITY = "purchase_quantity";
-	public static final String KEY_ORDER = "order_number";
+	
+	private static final String KEY_ITEM_NAME = "item_name ";
+	private static final String KEY_STATION = "station";
+	private static final String KEY_PRICE = "price";
+	private static final String KEY_AVAILABILITY = "availability";
+	private static final String KEY_PURCHASE_QUANTITY = "purchase_quantity";
+	private static final String KEY_ORDER = "order_number";
 
 	private static final String DATABASE_NAME = "canteen_manager_database";
 	private static final String DATABASE_TABLE_MENU_ITEMS = "menu_items_table";
@@ -34,8 +35,6 @@ public class CanteenManagerDatabase {
 	private DBHelper _helper;
 	private final Context _context;
 	private SQLiteDatabase _database;
-	
-	
 	
 	public CanteenManagerDatabase(Context context) {
 		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- Constructor");
@@ -60,7 +59,7 @@ public class CanteenManagerDatabase {
 		newRow.put(KEY_ITEM_NAME, item.getItemName());
 		newRow.put(KEY_STATION, item.getStationName());
 		newRow.put(KEY_PRICE, item.getPrice());
-		newRow.put(KEY_AVAILABILITY, item.getAvailability());
+		newRow.put(KEY_AVAILABILITY, item.isAvailable());
 		return _database.insert(DATABASE_TABLE_MENU_ITEMS, null, newRow);
 	}
 	
@@ -80,7 +79,6 @@ public class CanteenManagerDatabase {
 		int iStation = myCursor.getColumnIndex(KEY_STATION);
 		int iPrice = myCursor.getColumnIndex(KEY_PRICE);
 		int iAvailability = myCursor.getColumnIndex(KEY_AVAILABILITY);
-		int iQuantity = myCursor.getColumnIndex(KEY_PRICE);
 		
 		MenuItem[] menu = new MenuItem[myCursor.getCount()];
 		
@@ -89,12 +87,9 @@ public class CanteenManagerDatabase {
 			menu[i].setItemName(myCursor.getString(iName));
 			menu[i].setStationName(myCursor.getString(iStation));
 			menu[i].setPrice(myCursor.getFloat(iPrice));
-			
 			boolean tempAvailability = (myCursor.getInt(iAvailability) == 1);
 			menu[i].setAvailability(tempAvailability);
-			menu[i].setQuantity(myCursor.getInt(iQuantity));
 		}
-		
 		return menu;
 	}
 	
@@ -126,7 +121,6 @@ public class CanteenManagerDatabase {
 		int iStation = stationCursor.getColumnIndex(KEY_STATION);
 		int iPrice = stationCursor.getColumnIndex(KEY_PRICE);
 		int iAvailability = stationCursor.getColumnIndex(KEY_AVAILABILITY);
-		int iQuantity = stationCursor.getColumnIndex(KEY_PRICE);
 		
 		MenuItem[] menu = new MenuItem[stationCursor.getCount()];
 		
@@ -135,21 +129,19 @@ public class CanteenManagerDatabase {
 			menu[i].setItemName(stationCursor.getString(iName));
 			menu[i].setStationName(stationCursor.getString(iStation));
 			menu[i].setPrice(stationCursor.getFloat(iPrice));
-			
 			boolean tempAvailability = (stationCursor.getInt(iAvailability) == 1);
 			menu[i].setAvailability(tempAvailability);
-			menu[i].setQuantity(stationCursor.getInt(iQuantity));
 		}
 		return menu;
 	}
 	
-	public long addPurchaseItemToOrder(MenuItem purchaseItem, int orderNumber) {
+	public long addPurchaseItemToOrder(MenuItem menuItemToPurchase, int quantity, int orderNumber) {
 		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- addPurchaseItemToOrder()");
 		ContentValues newRow = new ContentValues();
-		newRow.put(KEY_ITEM_NAME, purchaseItem.getItemName());
-		newRow.put(KEY_STATION, purchaseItem.getStationName());
-		newRow.put(KEY_PRICE, purchaseItem.getPrice());
-		newRow.put(KEY_PURCHASE_QUANTITY, purchaseItem.getQuantity());
+		newRow.put(KEY_ITEM_NAME, menuItemToPurchase.getItemName());
+		newRow.put(KEY_STATION, menuItemToPurchase.getStationName());
+		newRow.put(KEY_PRICE, menuItemToPurchase.getPrice());
+		newRow.put(KEY_PURCHASE_QUANTITY, quantity);
 		newRow.put(KEY_ORDER, orderNumber);
 		return _database.insert(DATABASE_TABLE_ORDER, null, newRow);
 	}
@@ -157,6 +149,29 @@ public class CanteenManagerDatabase {
 	public void removeAllOrderItems() {
 		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- removeAllOrderItems()");
 		_database.delete(DATABASE_TABLE_ORDER, null, null);
+	}
+	
+	public OrderItem[] getOrder(int orderNumner) {
+		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- getOrder()");
+		String[] columns = new String[]{KEY_ITEM_NAME, KEY_STATION, KEY_PRICE, KEY_PURCHASE_QUANTITY, KEY_ORDER};
+		Cursor orderCursor = _database.query(DATABASE_TABLE_ORDER, columns, KEY_ORDER + "=" + orderNumner, null, null, null, null);
+		int iName = orderCursor.getColumnIndex(KEY_ITEM_NAME);
+		int iStation = orderCursor.getColumnIndex(KEY_STATION);
+		int iPrice = orderCursor.getColumnIndex(KEY_PRICE);
+		int iQuantity = orderCursor.getColumnIndex(KEY_PURCHASE_QUANTITY);
+		
+		OrderItem[] orderList = new OrderItem[orderCursor.getCount()];
+		
+		int i = 0;	
+		for (orderCursor.moveToFirst(); !orderCursor.isAfterLast(); orderCursor.moveToNext()) {
+			orderList[i].setItemName(orderCursor.getString(iName));
+			orderList[i].setStationName(orderCursor.getString(iStation));
+			orderList[i].setPrice(orderCursor.getFloat(iPrice));
+			orderList[i].setPurchaseQuantity(orderCursor.getInt(iQuantity));
+			i++;
+		}
+		
+		return orderList;
 	}
  
 	private static class DBHelper extends SQLiteOpenHelper {
@@ -187,15 +202,15 @@ public class CanteenManagerDatabase {
 					KEY_ITEM_NAME + " TEXT NOT NULL, " + 
 					KEY_STATION + " TEXT NOT NULL, " + 
 					KEY_PRICE + " REAL NOT NULL DEFAULT 0," +
-					KEY_AVAILABILITY + " INTEGER NOT NULL DEFAULT 1, " +
-					KEY_PURCHASE_QUANTITY + " INTEGER NOT NULL DEFAULT 0);"
+					KEY_AVAILABILITY + " INTEGER NOT NULL DEFAULT 1);"
 					);
 			db.execSQL( "CREATE TABLE " +  DATABASE_TABLE_ORDER + " (" + 
 					KEY_ITEM_NAME + " TEXT NOT NULL, " + 
 					KEY_STATION + " TEXT NOT NULL, " +
 					KEY_PRICE + " REAL NOT NULL DEFAULT 0," +
 					KEY_PURCHASE_QUANTITY + " INTEGER NOT NULL DEFAULT 0," +
-					KEY_ORDER + " INTEGER NOT NULL DEFAULT 0);");
+					KEY_ORDER + " INTEGER NOT NULL DEFAULT 0);"
+					);
 		}
 
 		@Override
@@ -203,6 +218,7 @@ public class CanteenManagerDatabase {
 				Log.i(LOGGER_TAG, "CanteenManagerDatabase -- DBHelper -- onUpgrade()");
 				db.execSQL("DROP TABLE IF EXISTS " + DATABASE_TABLE_MENU_ITEMS);
 				db.execSQL("DROP TABLE IF EXISTS " + DATABASE_TABLE_ORDER);
+				onCreate(db);
 		}
 	}
 }
