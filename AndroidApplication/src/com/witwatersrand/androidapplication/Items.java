@@ -40,7 +40,7 @@ public class Items extends Activity implements OnClickListener{
 		goToCartB.setOnClickListener(this);
 		DownloadMenuData task = new DownloadMenuData();
 		Log.i(LOGGER_TAG, "Items -- Calling another thread for the HTTP GET request");
-		task.execute(new String[] {"http://146.141.125.177/yii/index.php/mobile/getmenu"});
+		task.execute(new String[] {"http://146.141.125.21/yii/index.php/mobile/getmenu"});
 	}
 
 	public void onClick(View arg0) {
@@ -116,11 +116,11 @@ public class Items extends Activity implements OnClickListener{
 			
 			Log.i(LOGGER_TAG, "Items -- DownloadMenuData -- storing in database");
 			
-			//CanteenManagerDatabase myDatabase = new CanteenManagerDatabase(Items.this);
+			CanteenManagerDatabase myDatabase = new CanteenManagerDatabase(Items.this);
 			
-			//myDatabase.open();
-			//myDatabase.setMenu(myMenu);
-			//myDatabase.close();
+			myDatabase.open();
+			myDatabase.setMenu(myMenu);
+			myDatabase.close();
 			
 			Log.i(LOGGER_TAG,
 					"Items -- DownloadMenuData -- Calling setListAdapter()");

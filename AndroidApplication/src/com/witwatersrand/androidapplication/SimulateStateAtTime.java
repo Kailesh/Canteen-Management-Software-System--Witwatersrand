@@ -32,13 +32,8 @@ public class SimulateStateAtTime extends Activity implements OnClickListener{
 		case R.id.bSevenAM:
 			CanteenManagerDatabase myDatabase = new CanteenManagerDatabase(this);
 			myDatabase.open();
-			myDatabase.deleteAllItems();
-			
-			int numberOfOrders = 4;
-			for(int i = 1; i <= numberOfOrders; i++)
-				myDatabase.removeOrderTable(i);
-			
-			myDatabase.close();
+			myDatabase.removeAllMenuItems();
+			myDatabase.removeAllOrderItems();
 			break;
 		}
 		
