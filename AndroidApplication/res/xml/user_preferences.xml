@@ -15,13 +15,23 @@
     </CheckBoxPreference>
     
     <ListPreference 
-        android:title="Delivery Location"
-        android:key="deleivery_location"
+        android:title="Delivery Floor"
+        android:key="deleivery_floor"
         android:dependency="delivery"
-        android:summary="Select one of the following delivery locations"
+        android:summary="Select a floor for the delivery"
         android:entries="@array/delivery_locations"
         android:entryValues="@array/delivery_location_values">
     </ListPreference>
+
+    <ListPreference 
+        android:title="Region"
+        android:key="deleivery_location"
+        android:dependency="delivery"
+        android:summary="Select which side the delivery should be made"
+        android:entries="@array/kitchen_or_not"
+        android:entryValues="@array/kitchen_or_not_values">
+    </ListPreference>
+    
     
     <CheckBoxPreference
         android:defaultValue="false"
@@ -45,6 +55,4 @@
    		>
     </EditTextPreference>
     
-    
-
 </PreferenceScreen>
