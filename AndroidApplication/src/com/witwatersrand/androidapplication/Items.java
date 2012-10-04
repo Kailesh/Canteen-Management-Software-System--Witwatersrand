@@ -65,7 +65,7 @@ public class Items extends Activity implements OnClickListener{
 		protected String doInBackground(String... urls) {
 			Log.i(LOGGER_TAG, "Items -- DownloadMenuData -- doInBackground()");
 
-			 //String jsonMenuString = sendHTTPRequest(urls);
+			//String jsonMenuString = sendHTTPRequest(urls);
 			String jsonMenuString = "{ \"updated\": \"false\",\"menu\": [{ \"item\": \"Hake\",\"station\": \"A la Minute Grill\",\"price\": \"16.53\", \"availability\": \"true\"},{\"item\": \"Beef Olives\",\"station\": \"Main Meal\",\"price\": \"28.50\",\"availability\": \"false\"},{\"item\": \"Chicken Lasagne & Veg\",\"station\": \"Frozen Meals\",\"price\": \"28.50\",\"availability\": \"true\"}]}";
 
 			return jsonMenuString;

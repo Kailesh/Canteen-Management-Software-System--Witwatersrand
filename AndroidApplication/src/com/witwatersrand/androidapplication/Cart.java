@@ -33,7 +33,7 @@ public class Cart extends Activity {
 
 		// Create orderlist
 		
-		MenuItem[] myOrder = getOrderList();
+		OrderItem[] myOrder = getOrderList();
 		
 		OrderEncoder myOrderEncoder = new OrderEncoder(myOrder);
 		httpPostMessage = myOrderEncoder.getOrderJsonMessage();
@@ -44,21 +44,21 @@ public class Cart extends Activity {
 		task.execute(new String[] {"http://146.141.125.177/yii/index.php/mobile/PlaceOrders"});
 	}
 
-	private MenuItem[] getOrderList() {
-		MenuItem[] myOrder = new MenuItem[3];
-		myOrder[0] = new MenuItem();
+	private OrderItem[] getOrderList() {
+		OrderItem[] myOrder = new OrderItem[3];
+		myOrder[0] = new OrderItem();
 		myOrder[0].setItemName("Hake");
-		myOrder[0].setQuantity(1);
+		myOrder[0].setPurchaseQuantity(1);
 		myOrder[0].setStationName("A la Minute Grill");
 
-		myOrder[1] = new MenuItem();
+		myOrder[1] = new OrderItem();
 		myOrder[1].setItemName("Beef Olives");
-		myOrder[1].setQuantity(2);
+		myOrder[1].setPurchaseQuantity(2);
 		myOrder[1].setStationName("Main Meal");
 	
-		myOrder[2] = new MenuItem();
+		myOrder[2] = new OrderItem();
 		myOrder[2].setItemName("Chicken Lasagne");
-		myOrder[2].setQuantity(3);
+		myOrder[2].setPurchaseQuantity(3);
 		myOrder[2].setStationName("Frozen Meals");
 		
 		

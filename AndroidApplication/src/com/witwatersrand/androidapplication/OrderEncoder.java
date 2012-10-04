@@ -18,7 +18,7 @@ import android.util.Log;
 public class OrderEncoder {
 
 	final String LOGGER_TAG = "WITWATERSRAND";
-	private MenuItem[] _orderList;
+	private OrderItem[] _orderList;
 	private String _orderJsonMessage;
 	float _total;
 	boolean _delivery;
@@ -36,7 +36,8 @@ public class OrderEncoder {
 	
 	
 	
-	public OrderEncoder(MenuItem[] order) {
+	public OrderEncoder(OrderItem[] order) {
+		Log.i(LOGGER_TAG, "OrderEncoder -- Constructor");
 		this._orderList = order;
 		_total = 0;
 		_delivery = false;
@@ -46,18 +47,14 @@ public class OrderEncoder {
 		encodeOrderIntoJson();
 	}
 	
-	/**
-	 * @return the _deviceID
-	 */
-	
-
 	private void encodeOrderIntoJson() {
+		Log.i(LOGGER_TAG, "OrderEncoder -- encodeOrderIntoJson()");
 		JSONObject myJsonObject = new JSONObject();
 		JSONArray purchaseOrderList = new JSONArray();
 		for(int i = 0; i<_orderList.length; i++) {
 			JSONObject myMenuItem = new JSONObject();
 			// TODO Sort out these warnings
-			myMenuItem.put(PURCHASE_QUANTITY_TAG, _orderList[i].getQuantity());
+			myMenuItem.put(PURCHASE_QUANTITY_TAG, _orderList[i].getPurchaseQuantity());
 			myMenuItem.put(STATION_TAG, _orderList[i].getStationName());
 			myMenuItem.put(ITEM_NAME_TAG, _orderList[i].getItemName());
 			purchaseOrderList.add(myMenuItem);
@@ -73,7 +70,6 @@ public class OrderEncoder {
 			_orderJsonMessage = myStringWriter.toString();
 			Log.i(LOGGER_TAG, _orderJsonMessage);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			Log.i(LOGGER_TAG, e.getMessage());
 			e.printStackTrace();
 		}
@@ -83,6 +79,7 @@ public class OrderEncoder {
 	 * @return the orderJsonMessage
 	 */
 	public String getOrderJsonMessage() {
+		Log.i(LOGGER_TAG, "OrderEncoder -- getOrderJsonMessage()");
 		return _orderJsonMessage;
 	}
 
@@ -90,6 +87,7 @@ public class OrderEncoder {
 	 * @param orderJsonMessage the orderJsonMessage to set
 	 */
 	public void setOrderJsonMessage(String orderJsonMessage) {
+		Log.i(LOGGER_TAG, "OrderEncoder -- setOrderJsonMessage()");
 		this._orderJsonMessage = orderJsonMessage;
 	}
 	
@@ -97,6 +95,7 @@ public class OrderEncoder {
 	 * @return the total
 	 */
 	public float getTotal() {
+		Log.i(LOGGER_TAG, "OrderEncoder -- getTotal()");
 		return _total;
 	}
 
@@ -104,6 +103,7 @@ public class OrderEncoder {
 	 * @param total the total to set
 	 */
 	public void setTotal(float total) {
+		Log.i(LOGGER_TAG, "OrderEncoder -- setTotal()");
 		this._total = total;
 	}
 
@@ -111,6 +111,7 @@ public class OrderEncoder {
 	 * @return the delivery
 	 */
 	public boolean isToBeDelivered() {
+		Log.i(LOGGER_TAG, "OrderEncoder -- isToBeDelivered()");
 		return _delivery;
 	}
 
@@ -118,31 +119,36 @@ public class OrderEncoder {
 	 * @param delivery the delivery to set
 	 */
 	public void setDelivery(boolean delivery) {
+		Log.i(LOGGER_TAG, "OrderEncoder -- setDelivery()");
 		this._delivery = delivery;
 	}
 	
 	/**
 	 * @return the _deliveryLocation
 	 */
-	public String get_deliveryLocation() {
+	public String getDeliveryLocation() {
+		Log.i(LOGGER_TAG, "OrderEncoder -- getDeliveryLocation()");
 		return _deliveryLocation;
 	}
 
 	/**
 	 * @param _deliveryLocation the _deliveryLocation to set
 	 */
-	public void set_deliveryLocation(String _deliveryLocation) {
+	public void setDeliveryLocation(String _deliveryLocation) {
+		Log.i(LOGGER_TAG, "OrderEncoder -- setDeliveryLocation()");
 		this._deliveryLocation = _deliveryLocation;
 	}
 	
-	public String get_deviceID() {
+	public String getDeviceID() {
+		Log.i(LOGGER_TAG, "OrderEncoder -- setDeliveryLocation()");
 		return _deviceID;
 	}
 
 	/**
 	 * @param _deviceID the _deviceID to set
 	 */
-	public void set_deviceID(String _deviceID) {
+	public void setDeviceID(String _deviceID) {
+		Log.i(LOGGER_TAG, "OrderEncoder -- setDeviceID()");
 		this._deviceID = _deviceID;
 	}
 }
