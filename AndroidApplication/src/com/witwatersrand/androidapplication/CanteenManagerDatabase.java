@@ -143,17 +143,6 @@ public class CanteenManagerDatabase {
 		return menu;
 	}
 	
-//	public void createOrderTable(int orderTable) throws SQLException {
-//		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- createOrderTable()");
-//		_database.execSQL("DROP TABLE IF EXISTS " + DATABASE_TABLE_ORDER + orderTable);
-//		String newTableExecutionString = "CREATE TABLE " + 
-//					DATABASE_TABLE_ORDER + orderTable + " (" +
-//					KEY_ITEM_NAME + " TEXT NOT NULL, " +
-//					KEY_STATION + " TEXT NOT NULL, " +
-//					KEY_PURCHASE_QUANTITY + " INTEGER NOT NULL DEFAULT 0);";
-//		_database.execSQL(newTableExecutionString);
-//	}
-	
 	public long addPurchaseItemToOrder(MenuItem purchaseItem, int orderNumber) {
 		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- addPurchaseItemToOrder()");
 		ContentValues newRow = new ContentValues();
@@ -165,10 +154,10 @@ public class CanteenManagerDatabase {
 		return _database.insert(DATABASE_TABLE_ORDER, null, newRow);
 	}
 	
-//	public void removeOrderTable(int tableNumber) {
-//		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- removeAllOrdertables()");
-//		_database.execSQL("DROP TABLE IF EXISTS " + DATABASE_TABLE_ORDER + tableNumber);
-//	}
+	public void removeAllOrderItems() {
+		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- removeAllOrderItems()");
+		_database.delete(DATABASE_TABLE_ORDER, null, null);
+	}
  
 	private static class DBHelper extends SQLiteOpenHelper {
 
@@ -215,10 +204,5 @@ public class CanteenManagerDatabase {
 				db.execSQL("DROP TABLE IF EXISTS " + DATABASE_TABLE_MENU_ITEMS);
 				db.execSQL("DROP TABLE IF EXISTS " + DATABASE_TABLE_ORDER);
 		}
-	}
-
-	public void removeAllOrderItems() {
-		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- removeAllOrderItems()");
-		_database.delete(DATABASE_TABLE_ORDER, null, null);
 	}
 }
