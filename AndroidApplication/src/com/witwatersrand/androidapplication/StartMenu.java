@@ -18,7 +18,7 @@ import android.widget.ListView;
 public class StartMenu extends ListActivity {
 	private static final String LOGGER_TAG = "WITWATERSRAND";
 	private static final String menuOptions[] = { "Todays Items", "Video Feed", "User Information", "Cart",
-			"Current Order", "Progress", "Simulate State At Time", "Logout", "About"};
+			"Current Order", "Progress", "Simulate State At Time", "Exit", "About Us"};
 	
 	/*
 	 * (non-Javadoc)

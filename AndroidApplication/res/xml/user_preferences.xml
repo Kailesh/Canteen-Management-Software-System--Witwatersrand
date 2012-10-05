@@ -3,7 +3,7 @@
 
     <EditTextPreference
         android:key="name"
-        android:summary="Enter your Name"
+        android:summary="Displays the user's name"
         android:title="Name" >
     </EditTextPreference>
 
@@ -32,27 +32,11 @@
         android:entryValues="@array/kitchen_or_not_values">
     </ListPreference>
     
-    
     <CheckBoxPreference
         android:defaultValue="false"
         android:key="remember_password"
         android:title="Remember Password"
         android:summary="Check the box for automatic log-in">
 	</CheckBoxPreference>
-	
-    <EditTextPreference
-        android:title="Current Accout Balance"
-        android:key="accountbalance"
-        android:summary="Displays the current user RMB account balance. The user requries sufficient funds to make purchases from RMB Canteen Manager"
-        android:enabled="false">
-    </EditTextPreference>
-    
-    <EditTextPreference
-        android:title="Purchases Made Today"
-        android:key="purchases"
-        android:summary="Displays the number of purchase made by the user today" 
-        android:enabled="false"
-   		>
-    </EditTextPreference>
-    
+	    
 </PreferenceScreen>

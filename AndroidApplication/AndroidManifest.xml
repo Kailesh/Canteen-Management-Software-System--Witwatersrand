@@ -113,6 +113,16 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".AboutUs"
+            android:theme="@android:style/Theme.Dialog"
+            android:label="@string/title_activity_about_us" >
+            <intent-filter>
+                <action android:name="com.witwatersrand.androidapplication.ABOUTUS" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

@@ -4,9 +4,11 @@ import java.io.IOException;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 
 import android.util.Log;
 import android.view.Menu;
@@ -29,6 +31,7 @@ public class Items extends Activity implements OnClickListener{
 	final String LOGGER_TAG = "WITWATERSRAND"; // Debug Purposes
 	ListView _menuLV;
 	Button goToCartB;
+	static final String fileName = "mySharedPreferences";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -38,9 +41,25 @@ public class Items extends Activity implements OnClickListener{
 		_menuLV = (ListView) findViewById(R.id.lvMenuItems);
 		goToCartB = (Button) findViewById(R.id.bPurchase);
 		goToCartB.setOnClickListener(this);
-		DownloadMenuData task = new DownloadMenuData();
-		Log.i(LOGGER_TAG, "Items -- Calling another thread for the HTTP GET request");
-		task.execute(new String[] {"http://146.141.125.21/yii/index.php/mobile/getmenu"});
+		
+		SharedPreferences currentPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+		boolean menuUpdated = currentPreferences.getBoolean("menu_updated", false);
+		
+		if(menuUpdated) {
+			Log.i(LOGGER_TAG, "Items -- onCreate() -- The menu is updated and a request to the server will not be sent");
+			
+			CanteenManagerDatabase myDatabase = new CanteenManagerDatabase(this);
+			myDatabase.open();
+			MenuItem[] myMenu = myDatabase.getMenu();
+			myDatabase.close();
+			_menuLV.setAdapter(new MenuItemsAdapter(Items.this,
+					R.layout.purchase_menu_item, myMenu));
+					
+		} else {
+			DownloadMenuData task = new DownloadMenuData();
+			Log.i(LOGGER_TAG, "Items -- onCreate() -- Calling another thread for the HTTP GET request");
+			task.execute(new String[] {"http://146.141.125.21/yii/index.php/mobile/getmenu"});
+		}
 	}
 
 	public void onClick(View arg0) {
@@ -64,7 +83,6 @@ public class Items extends Activity implements OnClickListener{
 		@Override
 		protected String doInBackground(String... urls) {
 			Log.i(LOGGER_TAG, "Items -- DownloadMenuData -- doInBackground()");
-
 			//String jsonMenuString = sendHTTPRequest(urls);
 			String jsonMenuString = "{ \"updated\": \"false\",\"menu\": [{ \"item\": \"Hake\",\"station\": \"A la Minute Grill\",\"price\": \"16.53\", \"availability\": \"true\"},{\"item\": \"Beef Olives\",\"station\": \"Main Meal\",\"price\": \"28.50\",\"availability\": \"false\"},{\"item\": \"Chicken Lasagne & Veg\",\"station\": \"Frozen Meals\",\"price\": \"28.50\",\"availability\": \"true\"}]}";
 
