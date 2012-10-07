@@ -38,7 +38,7 @@ public class Splash extends Activity {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				} finally {
-					Intent startCanteenApplication = new Intent("com.witwatersrand.androidapplication.STARTMENU");
+					Intent startCanteenApplication = new Intent("com.witwatersrand.androidapplication.LOGIN");
 					startActivity(startCanteenApplication);
 				}
 				

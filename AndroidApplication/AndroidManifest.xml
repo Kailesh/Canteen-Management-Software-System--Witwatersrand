@@ -32,15 +32,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".StartingPoint"
-            android:label="starting point" >
-            <intent-filter>
-                <action android:name="com.witwatersrand.androidapplication.STARTINGPOINT" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
             android:name=".TodaysItems"
             android:label="@string/title_activity_todays_items" >
             <intent-filter>
@@ -103,7 +94,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-  
         <activity
             android:name=".SimulateStateAtTime"
             android:label="@string/title_activity_simulate_state_at_time" >
@@ -115,10 +105,19 @@
         </activity>
         <activity
             android:name=".AboutUs"
-            android:theme="@android:style/Theme.Dialog"
-            android:label="@string/title_activity_about_us" >
+            android:label="@string/title_activity_about_us"
+            android:theme="@android:style/Theme.Dialog" >
             <intent-filter>
                 <action android:name="com.witwatersrand.androidapplication.ABOUTUS" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Authentication"
+            android:label="@string/title_activity_authentication" >
+            <intent-filter>
+                <action android:name="com.witwatersrand.androidapplication.LOGIN" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
