@@ -10,6 +10,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import android.os.AsyncTask;
 import android.util.Log;
 
 /**

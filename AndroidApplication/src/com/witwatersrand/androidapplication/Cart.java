@@ -21,7 +21,7 @@ import android.view.Menu;
 
 public class Cart extends Activity {
 	final String LOGGER_TAG = "WITWATERSRAND";
-	String httpPostMessage;
+	String _httpPostMessage;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -35,8 +35,8 @@ public class Cart extends Activity {
 		OrderItem[] myOrder = getOrderList();
 		
 		OrderEncoder myOrderEncoder = new OrderEncoder(myOrder);
-		httpPostMessage = myOrderEncoder.getOrderJsonMessage();
-		Log.i(LOGGER_TAG, "Cart -- httpPostMessage = " + httpPostMessage);
+		_httpPostMessage = myOrderEncoder.getOrderJsonMessage();
+		Log.i(LOGGER_TAG, "Cart -- _httpPostMessage = " + _httpPostMessage);
 		
 		UploadOrder task = new UploadOrder();
 		Log.i(LOGGER_TAG, "Cart -- Calling another thread for the HTTP POST request");
@@ -86,35 +86,21 @@ public class Cart extends Activity {
 			for (String url : urls) {
 				Log.i(LOGGER_TAG, "Cart -- UploadOrder -- sendHTTPRequest()");
 				int TIMEOUT_MILLISEC = 10000; // = 10 seconds
-				Log.i(LOGGER_TAG, "001");
 				
-				HttpParams httpParams = new BasicHttpParams();
-				Log.i(LOGGER_TAG, "002");
-				
+				HttpParams httpParams = new BasicHttpParams();	
 				HttpConnectionParams.setConnectionTimeout(httpParams,
 						TIMEOUT_MILLISEC);
 				HttpConnectionParams.setSoTimeout(httpParams,
 						TIMEOUT_MILLISEC);
-				Log.i(LOGGER_TAG, "003");
-				
 				HttpClient client = new DefaultHttpClient(httpParams);
 				
-				Log.i(LOGGER_TAG, "004");
 				try {
 					HttpPost myPostRequest = new HttpPost(url);
-					Log.i(LOGGER_TAG, "005");
+					Log.i(LOGGER_TAG, "_httpPostMessage = " + _httpPostMessage);
 					
-					Log.i(LOGGER_TAG, "httpPostMessage = " + httpPostMessage);
-					
-					StringEntity message = new StringEntity(httpPostMessage);
-					
-					Log.i(LOGGER_TAG, "006");
+					StringEntity message = new StringEntity(_httpPostMessage);
 					myPostRequest.addHeader("content-type", "applcation/json");
-					Log.i(LOGGER_TAG, "007");
-					
 					myPostRequest.setEntity(message);
-					Log.i(LOGGER_TAG, "008");
-					
 					HttpResponse myResponse = client.execute(myPostRequest);
 					
 					Log.i(LOGGER_TAG, "Cart -- UploadOrder -- HTTP request complete");

@@ -17,7 +17,7 @@ import android.util.Log;
  */
 public class OrderEncoder {
 
-	final String LOGGER_TAG = "WITWATERSRAND";
+	final private static String LOGGER_TAG = "WITWATERSRAND";
 	private OrderItem[] _orderList;
 	private String _orderJsonMessage;
 	float _total;
@@ -25,16 +25,13 @@ public class OrderEncoder {
 	String _deliveryLocation;
 	String _deviceID;
 
-
-	String TOTAL_TAG = "total";
-	String DELIVERY_TAG = "deliveryLocation";
-	String BASKET_TAG = "basket";
-	String ITEM_NAME_TAG = "item";
-	String STATION_TAG = "station";
-	String PURCHASE_QUANTITY_TAG = "quantity";
-	String DEVICE_ID_TAG = "deviceID";
-	
-	
+	final private static String TOTAL_TAG = "total";
+	final private static String DELIVERY_TAG = "deliveryLocation";
+	final private static String BASKET_TAG = "basket";
+	final private static String ITEM_NAME_TAG = "item";
+	final private static String STATION_TAG = "station";
+	final private static String PURCHASE_QUANTITY_TAG = "quantity";
+	final private static String DEVICE_ID_TAG = "deviceID";
 	
 	public OrderEncoder(OrderItem[] order) {
 		Log.i(LOGGER_TAG, "OrderEncoder -- Constructor");
@@ -63,7 +60,7 @@ public class OrderEncoder {
 			myMenuItem.put(ITEM_NAME_TAG, _orderList[i].getItemName());
 			purchaseOrderList.add(myMenuItem);
 		}
-		myJsonObject.put( BASKET_TAG, purchaseOrderList);
+		myJsonObject.put(BASKET_TAG, purchaseOrderList);
 		myJsonObject.put(DELIVERY_TAG, _deliveryLocation);
 		myJsonObject.put(TOTAL_TAG, _total);
 		myJsonObject.put(DEVICE_ID_TAG, _deviceID);

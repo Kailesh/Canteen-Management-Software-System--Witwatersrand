@@ -145,4 +145,6 @@ public class Items extends Activity implements OnClickListener{
 					R.layout.purchase_menu_item, myMenu));
 		}
 	}
+	
+
 }
