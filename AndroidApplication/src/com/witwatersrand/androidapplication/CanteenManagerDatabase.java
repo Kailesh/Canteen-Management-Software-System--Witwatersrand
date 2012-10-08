@@ -10,6 +10,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.widget.Toast;
 
 /**
  * @author Kailesh
@@ -105,12 +106,7 @@ public class CanteenManagerDatabase {
 		_database.update(DATABASE_TABLE_MENU_ITEMS, updateRow, KEY_ITEM_NAME + "=" + name, null);
 	}
 	
-	public void updatePurchaseQuantity(String name, int quantity) throws SQLException {
-		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- updatePurchaseQuantity()");
-		ContentValues updateRow =  new ContentValues();
-		updateRow.put(KEY_PURCHASE_QUANTITY, quantity);
-		_database.update(DATABASE_TABLE_MENU_ITEMS, updateRow, KEY_ITEM_NAME + "=" + name, null); // Change the table name here
-	}
+	
 	
 	public MenuItem[] getStationItems(String station) throws SQLException {
 		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- getStationItems()");
@@ -135,15 +131,40 @@ public class CanteenManagerDatabase {
 		return menu;
 	}
 	
-	public long addPurchaseItemToOrder(MenuItem menuItemToPurchase, int quantity, int orderNumber) {
+	public void addPurchaseItemToOrder(MenuItem menuItemToPurchase, int quantity, int orderNumber)  throws SQLException {
 		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- addPurchaseItemToOrder()");
 		ContentValues newRow = new ContentValues();
-		newRow.put(KEY_ITEM_NAME, menuItemToPurchase.getItemName());
-		newRow.put(KEY_STATION, menuItemToPurchase.getStationName());
-		newRow.put(KEY_PRICE, menuItemToPurchase.getPrice());
-		newRow.put(KEY_PURCHASE_QUANTITY, quantity);
-		newRow.put(KEY_ORDER, orderNumber);
-		return _database.insert(DATABASE_TABLE_ORDER, null, newRow);
+		if (isInOrderTable(menuItemToPurchase.getItemName(), orderNumber) ) {
+			updatePurchaseQuantity(menuItemToPurchase.getItemName(), quantity, orderNumber); 
+			Toast.makeText(_context, menuItemToPurchase.getItemName() + " updated in order list " + orderNumber, Toast.LENGTH_SHORT).show();
+		} else {
+			newRow.put(KEY_ITEM_NAME, menuItemToPurchase.getItemName());
+			newRow.put(KEY_STATION, menuItemToPurchase.getStationName());
+			newRow.put(KEY_PRICE, menuItemToPurchase.getPrice());
+			newRow.put(KEY_PURCHASE_QUANTITY, quantity);
+			newRow.put(KEY_ORDER, orderNumber);
+			_database.insert(DATABASE_TABLE_ORDER, null, newRow);
+			Toast.makeText(_context, menuItemToPurchase.getItemName() + " added to the order list " + orderNumber, Toast.LENGTH_SHORT).show();
+		}
+	}
+	
+	public void updatePurchaseQuantity(String name, int quantity, int orderNumber) throws SQLException {
+		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- updatePurchaseQuantity()");
+		ContentValues updateRow =  new ContentValues();
+		updateRow.put(KEY_PURCHASE_QUANTITY, quantity);
+		_database.update(DATABASE_TABLE_ORDER, updateRow, KEY_ITEM_NAME + "='" + name +"' AND " +  KEY_ORDER + "='" + orderNumber + "'", null); // Change the table name here
+	}
+	
+	private boolean isInOrderTable(String itemName, int orderNumber) {
+		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- isInOrderTable()");
+		String[] columns = new String[]{KEY_ITEM_NAME, KEY_STATION, KEY_PRICE, KEY_PURCHASE_QUANTITY, };
+		Cursor stationCursor = _database.query(DATABASE_TABLE_ORDER, columns, KEY_ITEM_NAME + "='" + itemName + "'" + " AND " + KEY_ORDER + "='" + orderNumber + "'", null, null, null, null);
+
+		if (stationCursor.getCount() == 0) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 	
 	public void removeAllOrderItems() {
@@ -170,9 +191,10 @@ public class CanteenManagerDatabase {
 			orderList[i].setPurchaseQuantity(orderCursor.getInt(iQuantity));
 			i++;
 		}
-		
 		return orderList;
 	}
+	
+
  
 	private static class DBHelper extends SQLiteOpenHelper {
 
