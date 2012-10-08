@@ -6,6 +6,7 @@ package com.witwatersrand.androidapplication;
 import net.technologichron.android.control.NumberPicker;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * @author Kailesh
@@ -25,7 +27,10 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 	private final Context _context;
 	MenuItem[] _myMenu;
 	int _LAYOUT_RESOURCE_ID;
-	NumberPicker quantityPicker;
+	View rowRootView;
+	
+	private static final String APPLIATION_DATA_FILENAME = "preferencesFilename";
+	private static final String ORDER_NUMBER_KEY = "order";
 	
 	public MenuItemsAdapter(Context context, int textViewResourceId,
 			MenuItem[] menuItems) {
@@ -48,7 +53,7 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 		LayoutInflater myInflater = (LayoutInflater) _context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-		View rowRootView = myInflater.inflate(_LAYOUT_RESOURCE_ID, parent,
+		rowRootView = myInflater.inflate(_LAYOUT_RESOURCE_ID, parent,
 				false);
 		Log.i(LOGGER_TAG, "MenuItemsAdapter -- Inflator called");
 		TextView itemNameTV = (TextView) rowRootView
@@ -68,24 +73,31 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 				.findViewById(R.id.tvPrice);
 				
 		priceTV.setText("R " + String.format("%.2f", _myMenu[position].getPrice()));
-
-		quantityPicker = (NumberPicker) rowRootView.findViewById(R.id.selectedPicker);
-
-		Log.i(LOGGER_TAG, "MenuItemsAdapter -- getView() -- quantityPicker.getValue() = " + quantityPicker.getValue());
 		
 		final int _selectedPosition = position;
 		Button mySelectedButton = (Button) rowRootView.findViewById(R.id.selectedButton);
+		
+		
+		
 		mySelectedButton.setOnClickListener(new View.OnClickListener() {
-			
+		NumberPicker quantityPicker = (NumberPicker) rowRootView.findViewById(R.id.selectedPicker);
 			public void onClick(View v) {
 				Log.i(LOGGER_TAG, "Button pressed for item name: " + _myMenu[_selectedPosition].getItemName());
 				int enteredQuantity = quantityPicker.getValue();
 				Log.d(LOGGER_TAG, "enteredQuantity = " + enteredQuantity);
-				CanteenManagerDatabase myDatabase = new CanteenManagerDatabase(_context);
-				myDatabase.open();
-				// TODO The last parameter should be retrieved as a shared preference
-				myDatabase.addPurchaseItemToOrder(_myMenu[_selectedPosition] , enteredQuantity, 1);
-				myDatabase.close();
+				if (enteredQuantity == 0) {
+					Log.i(LOGGER_TAG, "MenuItemsAdapter -- getView() -- Attempted to add zero products");
+					Toast.makeText(_context, "Please increase the quantity of the item called " + _myMenu[_selectedPosition].getItemName() + " before adding to cart", Toast.LENGTH_LONG).show();					
+					return;
+				} else {
+					SharedPreferences applicationData = _context.getSharedPreferences(ORDER_NUMBER_KEY, 0);
+					
+					CanteenManagerDatabase myDatabase = new CanteenManagerDatabase(_context);
+					myDatabase.open();
+					// TODO The last parameter should be retrieved as a shared preference
+					myDatabase.addPurchaseItemToOrder(_myMenu[_selectedPosition] , enteredQuantity, applicationData.getInt(ORDER_NUMBER_KEY, 1));
+					myDatabase.close();
+				}
 			}
 		});
 		Log.i(LOGGER_TAG, "MenuItemsAdapter getView() complete");
