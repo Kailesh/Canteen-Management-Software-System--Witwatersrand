@@ -26,7 +26,7 @@ public class TodaysItems extends ListActivity {
 		String selectedClass = mySelection[position];
 
 		try {
-			Class myClass;
+			Class<?> myClass;
 
 			myClass = Class.forName("com.witwatersrand.androidapplication."
 					+ selectedClass.replaceAll("\\s", ""));

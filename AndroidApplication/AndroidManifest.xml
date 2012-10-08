@@ -23,19 +23,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Main"
-            android:label="@string/title_activity_main" >
-            <intent-filter>
-                <action android:name="com.witwatersrand.androidapplication.MAIN" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".Menu"
+            android:name=".StartMenu"
             android:label="@string/title_menu_list" >
             <intent-filter>
-                <action android:name="com.witwatersrand.androidapplication.MENU" />
+                <action android:name="com.witwatersrand.androidapplication.STARTMENU" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -108,6 +99,26 @@
             android:label="@string/title_activity_cart" >
             <intent-filter>
                 <action android:name="com.witwatersrand.androidapplication.CART" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+  
+        <activity
+            android:name=".SimulateStateAtTime"
+            android:label="@string/title_activity_simulate_state_at_time" >
+            <intent-filter>
+                <action android:name="com.witwatersrand.androidapplication.SIMULATESTATEATTIME" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".AboutUs"
+            android:theme="@android:style/Theme.Dialog"
+            android:label="@string/title_activity_about_us" >
+            <intent-filter>
+                <action android:name="com.witwatersrand.androidapplication.ABOUTUS" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <EditTextPreference
+        android:key="name"
+        android:summary="Displays the user's name"
+        android:title="Name" >
+    </EditTextPreference>
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="delivery"
+        android:title="Delivery" 
+        android:summary="Check the box if you require delivery of the purchase">
+    </CheckBoxPreference>
+    
+    <ListPreference 
+        android:title="Delivery Floor"
+        android:key="deleivery_floor"
+        android:dependency="delivery"
+        android:summary="Select a floor for the delivery"
+        android:entries="@array/delivery_locations"
+        android:entryValues="@array/delivery_location_values">
+    </ListPreference>
+
+    <ListPreference 
+        android:title="Region"
+        android:key="deleivery_location"
+        android:dependency="delivery"
+        android:summary="Select which side the delivery should be made"
+        android:entries="@array/kitchen_or_not"
+        android:entryValues="@array/kitchen_or_not_values">
+    </ListPreference>
+    
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="remember_password"
+        android:title="Remember Password"
+        android:summary="Check the box for automatic log-in">
+	</CheckBoxPreference>
+	    
+</PreferenceScreen>

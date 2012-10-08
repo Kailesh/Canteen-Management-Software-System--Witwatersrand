@@ -5,7 +5,6 @@ import java.io.IOException;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -21,44 +20,44 @@ import android.util.Log;
 import android.view.Menu;
 
 public class Cart extends Activity {
-	final String loggerTag = "WITWATERSRAND";
+	final String LOGGER_TAG = "WITWATERSRAND";
 	String httpPostMessage;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Log.i(loggerTag, "Cart -- onCreate()");
+		Log.i(LOGGER_TAG, "Cart -- onCreate()");
 
 		setContentView(R.layout.activity_cart);
 
 		// Create orderlist
 		
-		MenuItem[] myOrder = getOrderList();
+		OrderItem[] myOrder = getOrderList();
 		
 		OrderEncoder myOrderEncoder = new OrderEncoder(myOrder);
 		httpPostMessage = myOrderEncoder.getOrderJsonMessage();
-		Log.i(loggerTag, "Cart -- httpPostMessage = " + httpPostMessage);
+		Log.i(LOGGER_TAG, "Cart -- httpPostMessage = " + httpPostMessage);
 		
 		UploadOrder task = new UploadOrder();
-		Log.i(loggerTag, "Cart -- Calling another thread for the HTTP POST request");
+		Log.i(LOGGER_TAG, "Cart -- Calling another thread for the HTTP POST request");
 		task.execute(new String[] {"http://146.141.125.177/yii/index.php/mobile/PlaceOrders"});
 	}
 
-	private MenuItem[] getOrderList() {
-		MenuItem[] myOrder = new MenuItem[3];
-		myOrder[0] = new MenuItem();
+	private OrderItem[] getOrderList() {
+		OrderItem[] myOrder = new OrderItem[3];
+		myOrder[0] = new OrderItem();
 		myOrder[0].setItemName("Hake");
-		myOrder[0].setQuantity(1);
+		myOrder[0].setPurchaseQuantity(1);
 		myOrder[0].setStationName("A la Minute Grill");
 
-		myOrder[1] = new MenuItem();
+		myOrder[1] = new OrderItem();
 		myOrder[1].setItemName("Beef Olives");
-		myOrder[1].setQuantity(2);
+		myOrder[1].setPurchaseQuantity(2);
 		myOrder[1].setStationName("Main Meal");
 	
-		myOrder[2] = new MenuItem();
+		myOrder[2] = new OrderItem();
 		myOrder[2].setItemName("Chicken Lasagne");
-		myOrder[2].setQuantity(3);
+		myOrder[2].setPurchaseQuantity(3);
 		myOrder[2].setStationName("Frozen Meals");
 		
 		
@@ -75,64 +74,64 @@ public class Cart extends Activity {
 
 		@Override
 		protected String doInBackground(String... urls) {
-			Log.i(loggerTag, "Cart -- UploadOrder -- doInBackground()");
+			Log.i(LOGGER_TAG, "Cart -- UploadOrder -- doInBackground()");
 
 			String responseMessage = sendHTTPRequest(urls);
-			Log.i(loggerTag, "Cart -- UploadOrder -- responseMessage = " + responseMessage);
+			Log.i(LOGGER_TAG, "Cart -- UploadOrder -- responseMessage = " + responseMessage);
 
 			return responseMessage;
 		}
 
 		private String sendHTTPRequest(String[] urls) {
 			for (String url : urls) {
-				Log.i(loggerTag, "Cart -- UploadOrder -- sendHTTPRequest()");
+				Log.i(LOGGER_TAG, "Cart -- UploadOrder -- sendHTTPRequest()");
 				int TIMEOUT_MILLISEC = 10000; // = 10 seconds
-				Log.i(loggerTag, "001");
+				Log.i(LOGGER_TAG, "001");
 				
 				HttpParams httpParams = new BasicHttpParams();
-				Log.i(loggerTag, "002");
+				Log.i(LOGGER_TAG, "002");
 				
 				HttpConnectionParams.setConnectionTimeout(httpParams,
 						TIMEOUT_MILLISEC);
 				HttpConnectionParams.setSoTimeout(httpParams,
 						TIMEOUT_MILLISEC);
-				Log.i(loggerTag, "003");
+				Log.i(LOGGER_TAG, "003");
 				
 				HttpClient client = new DefaultHttpClient(httpParams);
 				
-				Log.i(loggerTag, "004");
+				Log.i(LOGGER_TAG, "004");
 				try {
 					HttpPost myPostRequest = new HttpPost(url);
-					Log.i(loggerTag, "005");
+					Log.i(LOGGER_TAG, "005");
 					
-					Log.i(loggerTag, "httpPostMessage = " + httpPostMessage);
+					Log.i(LOGGER_TAG, "httpPostMessage = " + httpPostMessage);
 					
 					StringEntity message = new StringEntity(httpPostMessage);
 					
-					Log.i(loggerTag, "006");
+					Log.i(LOGGER_TAG, "006");
 					myPostRequest.addHeader("content-type", "applcation/json");
-					Log.i(loggerTag, "007");
+					Log.i(LOGGER_TAG, "007");
 					
 					myPostRequest.setEntity(message);
-					Log.i(loggerTag, "008");
+					Log.i(LOGGER_TAG, "008");
 					
 					HttpResponse myResponse = client.execute(myPostRequest);
 					
-					Log.i(loggerTag, "Cart -- UploadOrder -- HTTP request complete");
+					Log.i(LOGGER_TAG, "Cart -- UploadOrder -- HTTP request complete");
 
 					if (myResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-						Log.i(loggerTag, "Cart -- UploadOrder -- HTTP OK");
+						Log.i(LOGGER_TAG, "Cart -- UploadOrder -- HTTP OK");
 						String myJsonString = EntityUtils.toString(myResponse
 								.getEntity());
-						Log.d(loggerTag, myJsonString);
+						Log.d(LOGGER_TAG, myJsonString);
 						return myJsonString;
 					}
 				} catch (IOException e) {
 					e.printStackTrace();
-					Log.d(loggerTag, "Cart -- Exception e -- " + e.toString() + " -- " + e.getMessage());
+					Log.d(LOGGER_TAG, "Cart -- Exception e -- " + e.toString() + " -- " + e.getMessage());
 				} catch (Exception b) {
 					b.printStackTrace();
-					Log.d(loggerTag, "Cart -- Exception b -- " + b.toString() + " -- " + b.getMessage());
+					Log.d(LOGGER_TAG, "Cart -- Exception b -- " + b.toString() + " -- " + b.getMessage());
 				} finally {
 					client.getConnectionManager().shutdown();
 				}

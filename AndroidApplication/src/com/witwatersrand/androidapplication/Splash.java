@@ -6,13 +6,14 @@ package com.witwatersrand.androidapplication;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 /**
  * @author Kailesh
  * 
  */
 public class Splash extends Activity {
-
+	private static final String LOGGER_TAG = "WITWATERSRAND";
 	/**
 	 * 
 	 */
@@ -20,6 +21,7 @@ public class Splash extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		Log.i(LOGGER_TAG, "Splash -- onCreate()");
 		setContentView(R.layout.splash);
 		Thread timerThread = new Thread() {
 
@@ -30,14 +32,16 @@ public class Splash extends Activity {
 			 */
 			@Override
 			public void run() {
+				Log.i(LOGGER_TAG, "Splash -- onCreate() -- run()");
 				try {
 					sleep(1500); // 2000 ms = 2 s
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				} finally {
-					Intent startCanteenApplication = new Intent("com.witwatersrand.androidapplication.MENU");
+					Intent startCanteenApplication = new Intent("com.witwatersrand.androidapplication.STARTMENU");
 					startActivity(startCanteenApplication);
 				}
+				
 			}
 		};
 		timerThread.start();
@@ -48,10 +52,8 @@ public class Splash extends Activity {
 	 */
 	@Override
 	protected void onPause() {
-		// TODO Auto-generated method stub
+		Log.i(LOGGER_TAG, "Splash -- onPause()");
 		super.onPause();
 		finish();
 	}
-	
-	
 }
