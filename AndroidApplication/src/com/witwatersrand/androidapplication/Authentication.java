@@ -81,7 +81,6 @@ public class Authentication extends Activity implements OnClickListener {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-
 		getMenuInflater().inflate(R.menu.activity_authentication, menu);
 		return true;
 	}
@@ -123,7 +122,8 @@ public class Authentication extends Activity implements OnClickListener {
 		protected String doInBackground(String... urls) {
 			Log.i(LOGGER_TAG, "Authentication -- AuthenticateUser -- doInBackground()");
 			//String jsonAuthenticationString = sendHTTPRequest(urls);
-
+			
+			// Faking the HTTP response message	
 			String jsonAuthenticationString = "{\"access\": true,\"reason\": \"RMB-OK\",\"accountBalance\": 2445.45}";
 			return jsonAuthenticationString;
 		}
@@ -180,10 +180,9 @@ public class Authentication extends Activity implements OnClickListener {
 		@Override
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
-			Log.i(LOGGER_TAG,
-					"Authentication -- AuthenticateUser -- onPostExecute()");
-			Log.i(LOGGER_TAG,
-					"Authentication -- AuthenticateUser -- onPostExecute() -- result = " + result);
+			Log.i(LOGGER_TAG, "Authentication -- AuthenticateUser -- onPostExecute()");
+			Log.i(LOGGER_TAG, "Authentication -- AuthenticateUser -- onPostExecute() -- result = " + result);
+			
 			if (result.equals(NOT_RECEIVED_MESSAGE)) {
 				Toast.makeText(Authentication.this, NOT_RECEIVED_MESSAGE, Toast.LENGTH_SHORT).show();
 			} else {
