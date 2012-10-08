@@ -113,7 +113,6 @@ public class Authentication extends Activity implements OnClickListener {
 		}
 		AuthenticateUser task = new AuthenticateUser();
 		task.execute(new String[] { "http://146.141.125.108/yii/index.php/mobile/Authenticate" });
-		
 	}
 
 	private class AuthenticateUser extends AsyncTask<String, Void, String> {

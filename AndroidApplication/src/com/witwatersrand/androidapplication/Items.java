@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -31,7 +32,11 @@ public class Items extends Activity implements OnClickListener{
 	final static private String LOGGER_TAG = "WITWATERSRAND"; // Debug Purposes
 	ListView _menuLV;
 	Button goToCartB;
+	TextView balanceTV;
 	static final String fileName = "mySharedPreferences";
+	
+	private static final String APPLIATION_DATA_FILENAME = "preferencesFilename";
+	private static final String USER_ACCOUNT_BALANCE_KEY = "account_balance";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -41,9 +46,13 @@ public class Items extends Activity implements OnClickListener{
 		_menuLV = (ListView) findViewById(R.id.lvMenuItems);
 		goToCartB = (Button) findViewById(R.id.bPurchase);
 		goToCartB.setOnClickListener(this);
+		balanceTV = (TextView) findViewById(R.id.tvBalance);
 		
 		SharedPreferences currentPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 		boolean menuUpdated = currentPreferences.getBoolean("menu_updated", false);
+		
+		SharedPreferences applicationData = getSharedPreferences(APPLIATION_DATA_FILENAME, 0);
+		balanceTV.setText("R " + String.format("%.2f", applicationData.getFloat(USER_ACCOUNT_BALANCE_KEY, 0)));	
 		
 		if(menuUpdated) {
 			Log.i(LOGGER_TAG, "Items -- onCreate() -- The menu is updated and a request to the server will not be sent");
@@ -54,7 +63,7 @@ public class Items extends Activity implements OnClickListener{
 			myDatabase.close();
 			_menuLV.setAdapter(new MenuItemsAdapter(Items.this,
 					R.layout.purchase_menu_item, myMenu));
-					
+		
 		} else {
 			DownloadMenuData task = new DownloadMenuData();
 			Log.i(LOGGER_TAG, "Items -- onCreate() -- Calling another thread for the HTTP GET request");

@@ -27,7 +27,6 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 	int _LAYOUT_RESOURCE_ID;
 	NumberPicker quantityPicker;
 	
-
 	public MenuItemsAdapter(Context context, int textViewResourceId,
 			MenuItem[] menuItems) {
 		super(context, textViewResourceId, menuItems);
@@ -106,8 +105,4 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 		}
 		return false;
 	}
-
-
-			
-
 }
