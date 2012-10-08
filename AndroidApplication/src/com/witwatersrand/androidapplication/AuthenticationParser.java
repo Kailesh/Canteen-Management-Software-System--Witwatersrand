@@ -25,7 +25,7 @@ public class AuthenticationParser {
 	
 	boolean _loginSuccess;
 	String _reason;
-	double _accountBalance;
+	float _accountBalance;
 
 	public AuthenticationParser(String jsonAuthenticationMessage) {
 		Log.i(LOGGER_TAG, "AuthenticationParser -- Constructor");
@@ -43,12 +43,11 @@ public class AuthenticationParser {
 		JSONParser parser = new JSONParser();
 		try {
 			_jsonObject = (JSONObject) parser.parse(jsonAuthenticationMessage);
-			
-			JSONObject authentication = (JSONObject) _jsonObject.get(JSON_AUTHENTICATION_KEY);
-			
-			_loginSuccess = (Boolean) authentication.get(JSON_ACCESS_KEY);
-			_reason = (String) authentication.get(JSON_REASON_KEY);
-			_accountBalance = (Double) _jsonObject.get(JSON_ACCOUNT_BALANCE);
+						
+			_loginSuccess = (Boolean) _jsonObject.get(JSON_ACCESS_KEY);
+			_reason = (String) _jsonObject.get(JSON_REASON_KEY);
+			// TODO Conversion from double to float happens here
+			//_accountBalance = Float. _jsonObject.get(JSON_ACCOUNT_BALANCE));
 			Log.i(LOGGER_TAG, "AuthenticationParser -- parseAuthenticationData() -- Data parsed");
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -76,7 +75,7 @@ public class AuthenticationParser {
 	/**
 	 * @return the _accountBalance
 	 */
-	public double getAccountBalance() {
+	public float getAccountBalance() {
 		Log.i(LOGGER_TAG, "AuthenticationParser -- getAccountBalance()");
 		return _accountBalance;
 	}

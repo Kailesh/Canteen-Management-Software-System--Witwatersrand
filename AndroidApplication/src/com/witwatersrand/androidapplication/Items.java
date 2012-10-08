@@ -28,7 +28,7 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 
 public class Items extends Activity implements OnClickListener{
-	final String LOGGER_TAG = "WITWATERSRAND"; // Debug Purposes
+	final static private String LOGGER_TAG = "WITWATERSRAND"; // Debug Purposes
 	ListView _menuLV;
 	Button goToCartB;
 	static final String fileName = "mySharedPreferences";
@@ -145,6 +145,4 @@ public class Items extends Activity implements OnClickListener{
 					R.layout.purchase_menu_item, myMenu));
 		}
 	}
-	
-
 }

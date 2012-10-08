@@ -13,13 +13,14 @@ import android.widget.ListView;
 
 /**
  * @author Kailesh
- *
+ * 
  */
 public class StartMenu extends ListActivity {
 	private static final String LOGGER_TAG = "WITWATERSRAND";
-	private static final String menuOptions[] = { "Todays Items", "Video Feed", "User Information", "Cart",
-			"Current Order", "Progress", "Simulate State At Time", "Exit", "About Us"};
-	
+	private static final String menuOptions[] = { "Todays Items", "Video Feed",
+			"User Information", "Cart", "Current Order", "Progress",
+			"Simulate State At Time", "Exit", "About Us" };
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -32,7 +33,7 @@ public class StartMenu extends ListActivity {
 		setListAdapter(new ArrayAdapter<String>(StartMenu.this,
 				android.R.layout.simple_list_item_1, menuOptions));
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -45,17 +46,23 @@ public class StartMenu extends ListActivity {
 		Log.i(LOGGER_TAG, "StartMenu -- onListItemClick()");
 		String selectedClass = menuOptions[position];
 
-		try {
-			Class<?> myClass;
+		if (selectedClass.equals("Exit")) {
+			finish();
+		} else {
 
-			myClass = Class.forName("com.witwatersrand.androidapplication."
-					+ selectedClass.replaceAll("\\s", ""));
+			try {
+				Class<?> myClass;
 
-			Intent myIntent = new Intent(StartMenu.this, myClass);
-			startActivity(myIntent);
-		} catch (ClassNotFoundException e) {
-			Log.d(LOGGER_TAG, "ClassNotFoundException Exception -- " + e.toString());
-			e.printStackTrace();
+				myClass = Class.forName("com.witwatersrand.androidapplication."
+						+ selectedClass.replaceAll("\\s", ""));
+
+				Intent myIntent = new Intent(StartMenu.this, myClass);
+				startActivity(myIntent);
+			} catch (ClassNotFoundException e) {
+				Log.d(LOGGER_TAG,
+						"ClassNotFoundException Exception -- " + e.toString());
+				e.printStackTrace();
+			}
 		}
 	}
 }
