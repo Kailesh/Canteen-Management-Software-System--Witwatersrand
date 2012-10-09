@@ -1,8 +1,6 @@
 package com.witwatersrand.androidapplication;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -19,10 +17,6 @@ public class CartAdapter extends ArrayAdapter<OrderItem> {
 	int _LAYOUT_RESOURCE_ID;
 	View rowRootView;
 	TextView quantityTV;
-	
-	private static final String APPLIATION_DATA_FILENAME = "preferencesFilename";
-	private static final String ORDER_NUMBER_KEY = "order";
-	private static final String TOTAL_COST_KEY = "total_cost";
 	
 	public CartAdapter(Context context, int textViewResourceId,
 			OrderItem[] orderList) {
@@ -88,20 +82,16 @@ public class CartAdapter extends ArrayAdapter<OrderItem> {
 				_myCart[_selectedPosition].setPurchaseQuantity(itemQuantity);
 				
 				myUniqueQuantityTV.setText("" + itemQuantity);
-				
-				SharedPreferences applicationData = _context.getSharedPreferences(APPLIATION_DATA_FILENAME, 0);
-				
+								
 				CanteenManagerDatabase myDatabase = new CanteenManagerDatabase(_context);
 				myDatabase.open();
-				myDatabase.updatePurchaseQuantity(_myCart[_selectedPosition].getItemName(), itemQuantity, applicationData.getInt(ORDER_NUMBER_KEY, 1));
+				myDatabase.updatePurchaseQuantity(_myCart[_selectedPosition].getItemName(), itemQuantity, ApplicationPreferences.getOrderNumber(_context));
 				
-				float total = myDatabase.getTotalForOrder(applicationData.getInt(ORDER_NUMBER_KEY, 1));				
+				float total = myDatabase.getTotalForOrder(ApplicationPreferences.getOrderNumber(_context));				
 				// TODO Not good practice but works
 				Cart.totalTV.setText("R " + String.format("%.2f", total));
 
-				Editor myEditor = applicationData.edit();
-				myEditor.putFloat(TOTAL_COST_KEY, total);
-				myEditor.commit();
+				ApplicationPreferences.setLatestOrderTotal(_context, total);
 				myDatabase.close();
 			}
 		});
@@ -118,21 +108,17 @@ public class CartAdapter extends ArrayAdapter<OrderItem> {
 				_myCart[_selectedPosition].setPurchaseQuantity(itemQuantity);
 				
 				myUniqueQuantityTV.setText("" + itemQuantity);
-				
-				SharedPreferences applicationData = _context.getSharedPreferences(APPLIATION_DATA_FILENAME, 0);
-				
+								
 				CanteenManagerDatabase myDatabase = new CanteenManagerDatabase(_context);
 				myDatabase.open();
-				myDatabase.updatePurchaseQuantity(_myCart[_selectedPosition].getItemName(), itemQuantity, applicationData.getInt(ORDER_NUMBER_KEY, 1));
+				myDatabase.updatePurchaseQuantity(_myCart[_selectedPosition].getItemName(), itemQuantity, ApplicationPreferences.getOrderNumber(_context));
 				
-				float total = myDatabase.getTotalForOrder(applicationData.getInt(ORDER_NUMBER_KEY, 1));
+				float total = myDatabase.getTotalForOrder(ApplicationPreferences.getOrderNumber(_context));
 				
 				// TODO Not good practice but works
 				Cart.totalTV.setText("R " + String.format("%.2f", total));
 
-				Editor myEditor = applicationData.edit();
-				myEditor.putFloat(TOTAL_COST_KEY, total);
-				myEditor.commit();
+				ApplicationPreferences.setLatestOrderTotal(_context, total);
 				myDatabase.close();
 			}
 		});

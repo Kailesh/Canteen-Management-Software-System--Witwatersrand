@@ -34,8 +34,6 @@ public class Items extends Activity implements OnClickListener{
 	Button goToCartB;
 	public static TextView totalTV;
 
-	static final String APPLIATION_DATA_FILENAME = "mySharedPreferences";
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -74,7 +72,7 @@ public class Items extends Activity implements OnClickListener{
 			Intent cartIntent = new Intent("com.witwatersrand.androidapplication.CART");
 			startActivity(cartIntent);
 			break;
-		// More button, more cases
+		// More buttons, more cases
 		}
 	}
 	

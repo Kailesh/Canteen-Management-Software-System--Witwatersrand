@@ -2,23 +2,24 @@ package com.witwatersrand.androidapplication;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class SimulateStateAtTime extends Activity implements OnClickListener{
 	
 	Button sevenAmB;
-
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_simulate_state_at_time);
         sevenAmB = (Button) findViewById(R.id.bSevenAM);
         sevenAmB.setOnClickListener(this);
-        
-        
     }
 
     @Override
@@ -34,8 +35,12 @@ public class SimulateStateAtTime extends Activity implements OnClickListener{
 			myDatabase.open();
 			myDatabase.removeAllMenuItems();
 			myDatabase.removeAllOrderItems();
+			
+			ApplicationPreferences.setOrderNumber(this, 1);
+			ApplicationPreferences.setLatestOrderTotal(this, 0);
+			
+			Toast.makeText(this, "Menu table, order table emptied and order number reset to 1", Toast.LENGTH_SHORT).show();
 			break;
 		}
-		
 	}
 }

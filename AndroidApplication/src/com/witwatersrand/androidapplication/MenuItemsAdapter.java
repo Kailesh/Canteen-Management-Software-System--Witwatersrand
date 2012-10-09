@@ -6,8 +6,6 @@ package com.witwatersrand.androidapplication;
 import net.technologichron.android.control.NumberPicker;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -29,10 +27,6 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 	MenuItem[] _myMenu;
 	int _LAYOUT_RESOURCE_ID;
 	View rowRootView;
-	
-	private static final String APPLIATION_DATA_FILENAME = "preferencesFilename";
-	private static final String ORDER_NUMBER_KEY = "order";
-	private static final String TOTAL_COST_KEY = "total_cost";
 	
 	public MenuItemsAdapter(Context context, int textViewResourceId,
 			MenuItem[] menuItems) {
@@ -95,22 +89,24 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 					Toast.makeText(_context, "Please increase the quantity of the item called " + _myMenu[_selectedPosition].getItemName() + " before adding to cart", Toast.LENGTH_LONG).show();					
 					return;
 				} else {
-					SharedPreferences applicationData = _context.getSharedPreferences(APPLIATION_DATA_FILENAME, 0);
+					
+					int orderNumber =  ApplicationPreferences.getOrderNumber(_context);
+					Log.d(LOGGER_TAG, "orderNumber = " + orderNumber );
+					ApplicationPreferences.setOrderNumber(_context, orderNumber);
 					
 					CanteenManagerDatabase myDatabase = new CanteenManagerDatabase(_context);
-					myDatabase.open();
-					myDatabase.addPurchaseItemToOrder(_myMenu[_selectedPosition] , enteredQuantity, applicationData.getInt(ORDER_NUMBER_KEY, 1));
 					
-					float total = myDatabase.getTotalForOrder(applicationData.getInt(ORDER_NUMBER_KEY, 1));
+					myDatabase.open();
+					myDatabase.addPurchaseItemToOrder(_myMenu[_selectedPosition], enteredQuantity, orderNumber);
+					
+					Log.d(LOGGER_TAG, "orderNumber = " + orderNumber);
+					float total = myDatabase.getTotalForOrder(orderNumber);
 					Log.i(LOGGER_TAG, "MenuItemsAdapter -- getView() -- Total = " + total);
 					
 					// TODO Not good practice but works
 					Items.totalTV.setText("R " + String.format("%.2f", total));
 					
-					Editor myEditor = applicationData.edit();
-					myEditor.putFloat(TOTAL_COST_KEY, total);
-					myEditor.commit();
-	
+					ApplicationPreferences.setLatestOrderTotal(_context, total);
 					myDatabase.close();
 				}
 			}

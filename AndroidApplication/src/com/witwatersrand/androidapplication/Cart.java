@@ -24,6 +24,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class Cart extends Activity implements OnClickListener {
 	final String LOGGER_TAG = "WITWATERSRAND";
@@ -50,62 +51,58 @@ public class Cart extends Activity implements OnClickListener {
 
 		makePurchaseB = (Button) findViewById(R.id.bPurchase);
 		makePurchaseB.setOnClickListener(this);
-
-		
-
-		// OrderEncoder myOrderEncoder = new OrderEncoder(myOrder);
-		// _httpPostMessage = myOrderEncoder.getOrderJsonMessage();
-		// Log.i(LOGGER_TAG, "Cart -- _httpPostMessage = " + _httpPostMessage);
-		//
-		// UploadOrder task = new UploadOrder();
-		// Log.i(LOGGER_TAG,
-		// "Cart -- Calling another thread for the HTTP POST request");
-		// task.execute(new String[]
-		// {"http://146.141.125.177/yii/index.php/mobile/PlaceOrders"});
 	}
 
 	public void onClick(View v) {
+		Log.i(LOGGER_TAG, "Cart -- onClick()");
 		switch (v.getId()) {
 		case R.id.bPurchase:
-			OrderItem[] myOrder = getOrderList();
+			SharedPreferences applicationData = getSharedPreferences(APPLIATION_DATA_FILENAME, 0);
+
+			CanteenManagerDatabase myDatabase = new CanteenManagerDatabase(this);
+			myDatabase.open();
 			
+			int orderNumber = applicationData.getInt(ORDER_NUMBER_KEY, 1);
+			OrderItem[] myOrder = myDatabase.getOrder(orderNumber);
+			myDatabase.close();
 			
+			SharedPreferences.Editor myEditor = applicationData.edit();
+			orderNumber++;
+			myEditor.putInt(ORDER_NUMBER_KEY, orderNumber);
+			myEditor.commit();
+			
+			OrderEncoder myOrderEncoder = new OrderEncoder(myOrder);
+			_httpPostMessage = myOrderEncoder.getOrderJsonMessage();
+			Log.i(LOGGER_TAG, "Cart -- _httpPostMessage = " + _httpPostMessage);
+
+			UploadOrder task = new UploadOrder();
+			Log.i(LOGGER_TAG,
+					"Cart -- Calling another thread for the HTTP POST request");
+			task.execute(new String[]
+					{"http://146.141.125.177/yii/index.php/mobile/PlaceOrders"});
+			Button currentB = (Button) findViewById(R.id.bPurchase);
+			currentB.setEnabled(false);
 			break;
 		}
 	}
 
 	private void loadCart() {
+		Log.i(LOGGER_TAG, "Cart -- loadCart()");
+
 		SharedPreferences applicationData = getSharedPreferences(
 				APPLIATION_DATA_FILENAME, 0);
 
 		CanteenManagerDatabase myDatabase = new CanteenManagerDatabase(this);
 		myDatabase.open();
-		_myCart = myDatabase.getOrder(applicationData.getInt(ORDER_NUMBER_KEY,
-				1));
+		
+		int orderNumber = applicationData.getInt(ORDER_NUMBER_KEY, 1);
+		Log.d(LOGGER_TAG, "orderNumber = " + orderNumber);
+		_myCart = myDatabase.getOrder(orderNumber);
+		Log.d(LOGGER_TAG, "_myCart.length = " + _myCart.length);
 		myDatabase.close();
 
 		_cartLV.setAdapter(new CartAdapter(this, R.layout.cart_list_item,
 				_myCart));
-	}
-
-	private OrderItem[] getOrderList() {
-		OrderItem[] myOrder = new OrderItem[3];
-		myOrder[0] = new OrderItem();
-		myOrder[0].setItemName("Hake");
-		myOrder[0].setPurchaseQuantity(1);
-		myOrder[0].setStationName("A la Minute Grill");
-
-		myOrder[1] = new OrderItem();
-		myOrder[1].setItemName("Beef Olives");
-		myOrder[1].setPurchaseQuantity(2);
-		myOrder[1].setStationName("Main Meal");
-
-		myOrder[2] = new OrderItem();
-		myOrder[2].setItemName("Chicken Lasagne");
-		myOrder[2].setPurchaseQuantity(3);
-		myOrder[2].setStationName("Frozen Meals");
-
-		return myOrder;
 	}
 
 	@Override
@@ -120,10 +117,11 @@ public class Cart extends Activity implements OnClickListener {
 		protected String doInBackground(String... urls) {
 			Log.i(LOGGER_TAG, "Cart -- UploadOrder -- doInBackground()");
 
-			String responseMessage = sendHTTPRequest(urls);
-			Log.i(LOGGER_TAG, "Cart -- UploadOrder -- responseMessage = "
-					+ responseMessage);
+			//String responseMessage = sendHTTPRequest(urls);
+			//Log.i(LOGGER_TAG, "Cart -- UploadOrder -- responseMessage = "
+			//		+ responseMessage);
 
+			String responseMessage  = "bleh";
 			return responseMessage;
 		}
 
@@ -181,6 +179,7 @@ public class Cart extends Activity implements OnClickListener {
 		@Override
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
+			Toast.makeText(Cart.this, "Order Placed :)", Toast.LENGTH_LONG).show();
 		}
 	}
 

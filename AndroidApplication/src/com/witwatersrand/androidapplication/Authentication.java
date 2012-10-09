@@ -17,10 +17,8 @@ import org.apache.http.util.EntityUtils;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -39,13 +37,6 @@ public class Authentication extends Activity implements OnClickListener {
 	private boolean _remember;
 	private static final String NOT_RECEIVED_MESSAGE = "Not received";
 	
-	private static final String NAME_PREFERENCE_KEY = "name";
-	private static final String REMEMBER_ME_PREFERENCE_KEY = "remember_password";
-	
-	private static final String APPLIATION_DATA_FILENAME = "preferencesFilename";
-	private static final String USER_ACCOUNT_BALANCE_KEY = "account_balance";
-	private static final String PASSWORD_KEY = "password";
-	
 	private static final String UNKNOWN = "Unknown";
 	
 	@Override
@@ -63,13 +54,10 @@ public class Authentication extends Activity implements OnClickListener {
 		usernameET = (EditText) findViewById(R.id.etUsername);
 		passwordET = (EditText) findViewById(R.id.etPassword);
 		rememberMeCB = (CheckBox) findViewById(R.id.cbRememberMe);
-		
-		SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-		
-		if (myPreferences.getBoolean(REMEMBER_ME_PREFERENCE_KEY, false)) {
-			_username = myPreferences .getString(NAME_PREFERENCE_KEY, UNKNOWN);			
-			SharedPreferences applicationData = getSharedPreferences(APPLIATION_DATA_FILENAME, 0);
-			_password = applicationData.getString(PASSWORD_KEY, UNKNOWN);
+				
+		if (ApplicationPreferences.isUserRemembered(getBaseContext())) {
+			_username = ApplicationPreferences.getUserName(getBaseContext());			
+			_password = ApplicationPreferences.getPassword(this);
 	
 			sendAuthenticationRequest();
 		} else {
@@ -188,19 +176,12 @@ public class Authentication extends Activity implements OnClickListener {
 				AuthenticationParser myAuthenticationParser;
 				myAuthenticationParser = new AuthenticationParser(result);
 				
-				SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-				SharedPreferences.Editor myEditor =  myPreferences.edit();
-				myEditor.putString(NAME_PREFERENCE_KEY, _username);
-				myEditor.putBoolean(REMEMBER_ME_PREFERENCE_KEY, _remember);
-				myEditor.commit();
-				
-				SharedPreferences applicationData = getSharedPreferences(APPLIATION_DATA_FILENAME, 0);
-				SharedPreferences.Editor mySharedPreferenceEditor =  applicationData.edit();
-				mySharedPreferenceEditor.putFloat(USER_ACCOUNT_BALANCE_KEY , myAuthenticationParser.getAccountBalance());
+				ApplicationPreferences.setUserName(Authentication.this, _username);
+				ApplicationPreferences.setRememberMeStatus(Authentication.this, _remember);
+				ApplicationPreferences.setAccountBalance(Authentication.this, myAuthenticationParser.getAccountBalance());
 				// TODO Need to MD5 hash with salt
-				mySharedPreferenceEditor.putString(PASSWORD_KEY, _password);
-				mySharedPreferenceEditor.commit();
-				
+				ApplicationPreferences.setPassword(Authentication.this, _password);
+
 				if (myAuthenticationParser.isAutheticated()) {
 					Intent startCanteenApplication = new Intent(
 							"com.witwatersrand.androidapplication.STARTMENU");
@@ -210,13 +191,6 @@ public class Authentication extends Activity implements OnClickListener {
 					Toast.makeText(Authentication.this, "Authentication Failure! " + myAuthenticationParser.getReason(), Toast.LENGTH_SHORT).show();
 				}
 			}
-			
-			/*
-			 * Setup preferences 
- 			 * don't some how create the number of purchase
-			 * variable for the first time, don't save the boolean for updated
-			 * menu for the first time
-			 */
 		}
 	}
 }
