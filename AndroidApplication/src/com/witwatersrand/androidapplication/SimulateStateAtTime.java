@@ -38,7 +38,7 @@ public class SimulateStateAtTime extends Activity implements OnClickListener{
 			
 			ApplicationPreferences.setOrderNumber(this, 1);
 			ApplicationPreferences.setLatestOrderTotal(this, 0);
-			
+			ApplicationPreferences.setMenuUpdated(this, false);
 			Toast.makeText(this, "Menu table, order table emptied and order number reset to 1", Toast.LENGTH_SHORT).show();
 			break;
 		}

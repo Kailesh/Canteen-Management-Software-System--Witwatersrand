@@ -94,7 +94,7 @@ public class Items extends Activity implements OnClickListener{
 
 		private String sendHTTPRequest(String... urls) {
 			for (String url : urls) {
-				Log.d(LOGGER_TAG, "Inside for inside doInBackground()");
+				Log.i(LOGGER_TAG, "Items -- DownloadMenuData -- doInBackground()");
 				try {
 					int TIMEOUT_MILLISEC = 10000; // = 10 seconds
 					HttpParams httpParams = new BasicHttpParams();
@@ -147,6 +147,6 @@ public class Items extends Activity implements OnClickListener{
 
 			_menuLV.setAdapter(new MenuItemsAdapter(Items.this,
 					R.layout.purchase_menu_item, myMenu));
-		}	
+		}
 	}
 }

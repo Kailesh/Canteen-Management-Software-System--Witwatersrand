@@ -22,7 +22,7 @@ public class MenuParser {
 	boolean _updated;
 	MenuItem[] _menu;
 	JSONObject _jsonObject;
-	String JSON_UPDATE_KEY = "updated";
+
 	String JSON_MENU_OBJECT_KEY = "menu";
 	String JSON_ITEM_KEY = "item";
 	String JSON_PRICE_KEY = "price";
@@ -49,7 +49,6 @@ public class MenuParser {
 			
 			Log.i(LOGGER_TAG, "MenuParser -- parseMenuData() -- _menu.lenght = " + _menu.length);
 				
-			setUpdate(Boolean.parseBoolean((String) _jsonObject.get(JSON_UPDATE_KEY)));
 			setMenuItems();
 			Log.i(LOGGER_TAG, "MenuParser -- parseMenuData() -- Data parsed");
 		} catch (ParseException e) {
