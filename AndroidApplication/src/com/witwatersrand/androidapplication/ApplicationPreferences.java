@@ -23,6 +23,7 @@ public class ApplicationPreferences {
 	private static final String PASSWORD_KEY = "password";
 	private static final String USER_ACCOUNT_BALANCE_KEY = "account_balance";
 	private static final String MENU_UPDATED_KEY = "menu_updated";
+	private static final String HAVE_MENU_KEY = "have_menu";
 	
 	private static SharedPreferences getSharedPreferences(Context context) {
 		Log.i(LOGGER_TAG, "ApplicationPreferences -- getPreferences()");
@@ -100,5 +101,15 @@ public class ApplicationPreferences {
 	public static void setMenuUpdated(Context context, boolean updated) {
 		Log.i(LOGGER_TAG, "ApplicationPreferences -- setOrderNumber()");
 		getSharedPreferences(context).edit().putBoolean(MENU_UPDATED_KEY, updated).commit();
+	}
+	
+	public static boolean haveMenu(Context context) {
+		Log.i(LOGGER_TAG, "ApplicationPreferences -- haveMenu()");
+		return getSharedPreferences(context).getBoolean(HAVE_MENU_KEY, false);
+	}
+	
+	public static void setHaveMenu(Context context, boolean haveMenu) {
+		Log.i(LOGGER_TAG, "ApplicationPreferences -- setHaveMenu()");
+		getSharedPreferences(context).edit().putBoolean(HAVE_MENU_KEY, haveMenu).commit();
 	}
 }
