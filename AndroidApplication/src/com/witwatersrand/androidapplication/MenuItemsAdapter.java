@@ -7,6 +7,7 @@ import net.technologichron.android.control.NumberPicker;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -28,10 +29,11 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 	MenuItem[] _myMenu;
 	int _LAYOUT_RESOURCE_ID;
 	View rowRootView;
-
+	View headerView;
 	
 	private static final String APPLIATION_DATA_FILENAME = "preferencesFilename";
 	private static final String ORDER_NUMBER_KEY = "order";
+	private static final String TOTAL_COST_KEY = "total_cost";
 	
 	public MenuItemsAdapter(Context context, int textViewResourceId,
 			MenuItem[] menuItems) {
@@ -56,7 +58,14 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 
 		rowRootView = myInflater.inflate(_LAYOUT_RESOURCE_ID, parent,
 				false);
+		headerView = myInflater.inflate(R.layout.menu_items_list_header, parent, false);
+		
+		
+		TextView balanceTV = (TextView) headerView.findViewById(R.id.tvHeaderTotal);
+		balanceTV.setText("lash");
 		Log.i(LOGGER_TAG, "MenuItemsAdapter -- Inflator called");
+	
+		
 		TextView itemNameTV = (TextView) rowRootView
 				.findViewById(R.id.tvItemName);
 		int TEXT_WIDTH = (int) TypedValue.applyDimension(
@@ -82,6 +91,7 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 		mySelectedButton.setOnClickListener(new View.OnClickListener() {
 		NumberPicker quantityPicker = (NumberPicker) rowRootView.findViewById(R.id.selectedPicker);
 
+
 			public void onClick(View v) {
 				Log.i(LOGGER_TAG, "Button pressed for item name: " + _myMenu[_selectedPosition].getItemName());
 				int enteredQuantity = quantityPicker.getValue();
@@ -91,7 +101,9 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 					Toast.makeText(_context, "Please increase the quantity of the item called " + _myMenu[_selectedPosition].getItemName() + " before adding to cart", Toast.LENGTH_LONG).show();					
 					return;
 				} else {
-					SharedPreferences applicationData = _context.getSharedPreferences(ORDER_NUMBER_KEY, 0);
+					
+					
+					SharedPreferences applicationData = _context.getSharedPreferences(APPLIATION_DATA_FILENAME, 0);
 					
 					CanteenManagerDatabase myDatabase = new CanteenManagerDatabase(_context);
 					myDatabase.open();
@@ -100,8 +112,14 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 					
 					float total = myDatabase.getTotalForOrder(applicationData.getInt(ORDER_NUMBER_KEY, 1));
 					Log.i(LOGGER_TAG, "MenuItemsAdapter -- getView() -- Total = " + total);
-					((TextView) findViewById(R.id.tvTotal)).setText("lash");
-
+					
+					// TODO Not good practice but works
+					Items.balanceTV.setText("R " + total);
+					
+					Editor myEditor = applicationData.edit();
+					myEditor.putFloat(TOTAL_COST_KEY, total);
+					myEditor.commit();
+	
 					myDatabase.close();
 				}
 			}
@@ -123,4 +141,7 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 		}
 		return false;
 	}
+	
+	
+	
 }

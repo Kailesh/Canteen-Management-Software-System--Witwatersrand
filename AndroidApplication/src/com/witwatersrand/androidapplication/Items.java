@@ -32,11 +32,9 @@ public class Items extends Activity implements OnClickListener{
 	final static private String LOGGER_TAG = "WITWATERSRAND"; // Debug Purposes
 	ListView _menuLV;
 	Button goToCartB;
-	TextView balanceTV;
-	static final String fileName = "mySharedPreferences";
-	
-	private static final String APPLIATION_DATA_FILENAME = "preferencesFilename";
-	private static final String USER_ACCOUNT_BALANCE_KEY = "account_balance";
+	public static TextView balanceTV;
+
+	static final String APPLIATION_DATA_FILENAME = "mySharedPreferences";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -81,6 +79,7 @@ public class Items extends Activity implements OnClickListener{
 		}
 	}
 	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.activity_items, menu);
@@ -146,11 +145,11 @@ public class Items extends Activity implements OnClickListener{
 			myDatabase.open();
 			myDatabase.setMenu(myMenu);
 			myDatabase.close();
-			
-			Log.i(LOGGER_TAG,
-					"Items -- DownloadMenuData -- Calling setListAdapter()");
+
+			Log.i(LOGGER_TAG, "Items -- DownloadMenuData -- Calling setListAdapter()");
+
 			_menuLV.setAdapter(new MenuItemsAdapter(Items.this,
 					R.layout.purchase_menu_item, myMenu));
-		}
+		}	
 	}
 }

@@ -16,12 +16,18 @@ import org.apache.http.util.EntityUtils;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.Menu;
+import android.widget.ListView;
 
 public class Cart extends Activity {
 	final String LOGGER_TAG = "WITWATERSRAND";
 	String _httpPostMessage;
+	ListView _cartLV;
+	
+	static final String APPLIATION_DATA_FILENAME = "mySharedPreferences";
+	private static final String ORDER_NUMBER_KEY = "order";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -30,7 +36,9 @@ public class Cart extends Activity {
 
 		setContentView(R.layout.activity_cart);
 
-		// Create orderlist
+		_cartLV = (ListView) findViewById(R.id.lvCart);
+		
+		loadCart();
 		
 		OrderItem[] myOrder = getOrderList();
 		
@@ -41,6 +49,15 @@ public class Cart extends Activity {
 		UploadOrder task = new UploadOrder();
 		Log.i(LOGGER_TAG, "Cart -- Calling another thread for the HTTP POST request");
 		task.execute(new String[] {"http://146.141.125.177/yii/index.php/mobile/PlaceOrders"});
+	}
+
+	private void loadCart() {
+		SharedPreferences applicationData = getSharedPreferences(APPLIATION_DATA_FILENAME, 0);
+		applicationData.getInt(ORDER_NUMBER_KEY, 1);
+		
+		OrderItem[] myCart;
+		
+		_cartLV.setAdapter(new OrderAdapter(this, R.layout.purchase_menu_item, myCart));
 	}
 
 	private OrderItem[] getOrderList() {
