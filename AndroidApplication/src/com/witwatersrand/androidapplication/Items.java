@@ -47,10 +47,8 @@ public class Items extends Activity implements OnClickListener{
 		totalTV = (TextView) findViewById(R.id.tvMenuItemsTotal);
 		totalTV.setText("R " + String.format("%.2f", (float) 0));	
 		
-		
 		SharedPreferences currentPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 		boolean menuUpdated = currentPreferences.getBoolean("menu_updated", false);
-		
 		
 		if(menuUpdated) {
 			Log.i(LOGGER_TAG, "Items -- onCreate() -- The menu is updated and a request to the server will not be sent");

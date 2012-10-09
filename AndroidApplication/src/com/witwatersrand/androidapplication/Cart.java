@@ -19,16 +19,20 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class Cart extends Activity {
+public class Cart extends Activity implements OnClickListener {
 	final String LOGGER_TAG = "WITWATERSRAND";
 	String _httpPostMessage;
 	ListView _cartLV;
 	OrderItem[] _myCart;
 	public static TextView totalTV;
-	
+	Button makePurchaseB;
+
 	static final String APPLIATION_DATA_FILENAME = "mySharedPreferences";
 	private static final String ORDER_NUMBER_KEY = "order";
 
@@ -41,29 +45,47 @@ public class Cart extends Activity {
 
 		_cartLV = (ListView) findViewById(R.id.lvCart);
 		totalTV = (TextView) findViewById(R.id.tvCartTotal);
-		totalTV.setText("R " + String.format("%.2f", (float) 0));	
+		totalTV.setText("R " + String.format("%.2f", (float) 0));
 		loadCart();
+
+		makePurchaseB = (Button) findViewById(R.id.bPurchase);
+		makePurchaseB.setOnClickListener(this);
+
 		
-		//OrderItem[] myOrder = getOrderList();
-//		
-//		OrderEncoder myOrderEncoder = new OrderEncoder(myOrder);
-//		_httpPostMessage = myOrderEncoder.getOrderJsonMessage();
-//		Log.i(LOGGER_TAG, "Cart -- _httpPostMessage = " + _httpPostMessage);
-//		
-//		UploadOrder task = new UploadOrder();
-//		Log.i(LOGGER_TAG, "Cart -- Calling another thread for the HTTP POST request");
-//		task.execute(new String[] {"http://146.141.125.177/yii/index.php/mobile/PlaceOrders"});
-}
+
+		// OrderEncoder myOrderEncoder = new OrderEncoder(myOrder);
+		// _httpPostMessage = myOrderEncoder.getOrderJsonMessage();
+		// Log.i(LOGGER_TAG, "Cart -- _httpPostMessage = " + _httpPostMessage);
+		//
+		// UploadOrder task = new UploadOrder();
+		// Log.i(LOGGER_TAG,
+		// "Cart -- Calling another thread for the HTTP POST request");
+		// task.execute(new String[]
+		// {"http://146.141.125.177/yii/index.php/mobile/PlaceOrders"});
+	}
+
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.bPurchase:
+			OrderItem[] myOrder = getOrderList();
+			
+			
+			break;
+		}
+	}
 
 	private void loadCart() {
-		SharedPreferences applicationData = getSharedPreferences(APPLIATION_DATA_FILENAME, 0);
+		SharedPreferences applicationData = getSharedPreferences(
+				APPLIATION_DATA_FILENAME, 0);
 
 		CanteenManagerDatabase myDatabase = new CanteenManagerDatabase(this);
 		myDatabase.open();
-		_myCart = myDatabase.getOrder(applicationData.getInt(ORDER_NUMBER_KEY, 1));
+		_myCart = myDatabase.getOrder(applicationData.getInt(ORDER_NUMBER_KEY,
+				1));
 		myDatabase.close();
-		
-		_cartLV.setAdapter(new CartAdapter(this, R.layout.cart_list_item, _myCart));
+
+		_cartLV.setAdapter(new CartAdapter(this, R.layout.cart_list_item,
+				_myCart));
 	}
 
 	private OrderItem[] getOrderList() {
@@ -77,13 +99,12 @@ public class Cart extends Activity {
 		myOrder[1].setItemName("Beef Olives");
 		myOrder[1].setPurchaseQuantity(2);
 		myOrder[1].setStationName("Main Meal");
-	
+
 		myOrder[2] = new OrderItem();
 		myOrder[2].setItemName("Chicken Lasagne");
 		myOrder[2].setPurchaseQuantity(3);
 		myOrder[2].setStationName("Frozen Meals");
-		
-		
+
 		return myOrder;
 	}
 
@@ -100,7 +121,8 @@ public class Cart extends Activity {
 			Log.i(LOGGER_TAG, "Cart -- UploadOrder -- doInBackground()");
 
 			String responseMessage = sendHTTPRequest(urls);
-			Log.i(LOGGER_TAG, "Cart -- UploadOrder -- responseMessage = " + responseMessage);
+			Log.i(LOGGER_TAG, "Cart -- UploadOrder -- responseMessage = "
+					+ responseMessage);
 
 			return responseMessage;
 		}
@@ -109,24 +131,24 @@ public class Cart extends Activity {
 			for (String url : urls) {
 				Log.i(LOGGER_TAG, "Cart -- UploadOrder -- sendHTTPRequest()");
 				int TIMEOUT_MILLISEC = 10000; // = 10 seconds
-				
-				HttpParams httpParams = new BasicHttpParams();	
+
+				HttpParams httpParams = new BasicHttpParams();
 				HttpConnectionParams.setConnectionTimeout(httpParams,
 						TIMEOUT_MILLISEC);
-				HttpConnectionParams.setSoTimeout(httpParams,
-						TIMEOUT_MILLISEC);
+				HttpConnectionParams.setSoTimeout(httpParams, TIMEOUT_MILLISEC);
 				HttpClient client = new DefaultHttpClient(httpParams);
-				
+
 				try {
 					HttpPost myPostRequest = new HttpPost(url);
 					Log.i(LOGGER_TAG, "_httpPostMessage = " + _httpPostMessage);
-					
+
 					StringEntity message = new StringEntity(_httpPostMessage);
 					myPostRequest.addHeader("content-type", "applcation/json");
 					myPostRequest.setEntity(message);
 					HttpResponse myResponse = client.execute(myPostRequest);
-					
-					Log.i(LOGGER_TAG, "Cart -- UploadOrder -- HTTP request complete");
+
+					Log.i(LOGGER_TAG,
+							"Cart -- UploadOrder -- HTTP request complete");
 
 					if (myResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 						Log.i(LOGGER_TAG, "Cart -- UploadOrder -- HTTP OK");
@@ -137,16 +159,18 @@ public class Cart extends Activity {
 					}
 				} catch (IOException e) {
 					e.printStackTrace();
-					Log.d(LOGGER_TAG, "Cart -- Exception e -- " + e.toString() + " -- " + e.getMessage());
+					Log.d(LOGGER_TAG, "Cart -- Exception e -- " + e.toString()
+							+ " -- " + e.getMessage());
 				} catch (Exception b) {
 					b.printStackTrace();
-					Log.d(LOGGER_TAG, "Cart -- Exception b -- " + b.toString() + " -- " + b.getMessage());
+					Log.d(LOGGER_TAG, "Cart -- Exception b -- " + b.toString()
+							+ " -- " + b.getMessage());
 				} finally {
 					client.getConnectionManager().shutdown();
 				}
 			}
 			// TODO Throw Exception
-			return null; 
+			return null;
 		}
 
 		/*
@@ -159,4 +183,5 @@ public class Cart extends Activity {
 			super.onPostExecute(result);
 		}
 	}
+
 }

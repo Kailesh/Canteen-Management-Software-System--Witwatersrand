@@ -81,19 +81,43 @@ public class CartAdapter extends ArrayAdapter<OrderItem> {
 			int  itemQuantity = 0;
 			public void onClick(View v) {
 				Log.i(LOGGER_TAG, "CartAdapter -- getView() -- onClick() -- Button pressed for item name: " + _myCart[_selectedPosition].getItemName());
-				
-				Log.d(LOGGER_TAG, "itemQuantity before = " + itemQuantity);
 
 				itemQuantity = Integer.parseInt(myUniqueQuantityTV.getText().toString());
-				Log.d(LOGGER_TAG, "itemQuantity after assigning the textview to it = " + itemQuantity);
-				
 				itemQuantity++;
-				Log.d(LOGGER_TAG, "itemQuantity after incrementing = " + itemQuantity);
 				
 				_myCart[_selectedPosition].setPurchaseQuantity(itemQuantity);
 				
 				myUniqueQuantityTV.setText("" + itemQuantity);
-				Log.d(LOGGER_TAG, "myUniqueQuantityTV after assigning itemQuantity to it = " + myUniqueQuantityTV.getText().toString());
+				
+				SharedPreferences applicationData = _context.getSharedPreferences(APPLIATION_DATA_FILENAME, 0);
+				
+				CanteenManagerDatabase myDatabase = new CanteenManagerDatabase(_context);
+				myDatabase.open();
+				myDatabase.updatePurchaseQuantity(_myCart[_selectedPosition].getItemName(), itemQuantity, applicationData.getInt(ORDER_NUMBER_KEY, 1));
+				
+				float total = myDatabase.getTotalForOrder(applicationData.getInt(ORDER_NUMBER_KEY, 1));				
+				// TODO Not good practice but works
+				Cart.totalTV.setText("R " + String.format("%.2f", total));
+
+				Editor myEditor = applicationData.edit();
+				myEditor.putFloat(TOTAL_COST_KEY, total);
+				myEditor.commit();
+				myDatabase.close();
+			}
+		});
+		
+		// Remove button
+		Button removeButton = (Button) rowRootView.findViewById(R.id.bDecerement);
+		removeButton.setOnClickListener(new View.OnClickListener() {
+			TextView myUniqueQuantityTV = (TextView) rowRootView.findViewById(R.id.tvCartQuantity);
+			int  itemQuantity = 0;
+			public void onClick(View v) {
+				Log.i(LOGGER_TAG, "CartAdapter -- getView() -- onClick() -- Button pressed for item name: " + _myCart[_selectedPosition].getItemName());
+				itemQuantity = Integer.parseInt(myUniqueQuantityTV.getText().toString());				
+				itemQuantity--;				
+				_myCart[_selectedPosition].setPurchaseQuantity(itemQuantity);
+				
+				myUniqueQuantityTV.setText("" + itemQuantity);
 				
 				SharedPreferences applicationData = _context.getSharedPreferences(APPLIATION_DATA_FILENAME, 0);
 				
@@ -102,7 +126,6 @@ public class CartAdapter extends ArrayAdapter<OrderItem> {
 				myDatabase.updatePurchaseQuantity(_myCart[_selectedPosition].getItemName(), itemQuantity, applicationData.getInt(ORDER_NUMBER_KEY, 1));
 				
 				float total = myDatabase.getTotalForOrder(applicationData.getInt(ORDER_NUMBER_KEY, 1));
-				Log.i(LOGGER_TAG, "CartAdapter -- getView() -- Total = " + total);
 				
 				// TODO Not good practice but works
 				Cart.totalTV.setText("R " + String.format("%.2f", total));
