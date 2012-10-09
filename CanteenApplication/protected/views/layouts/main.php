@@ -22,7 +22,12 @@
 <div class="container" id="page">
 
 	<div id="header">
-		<div id="logo"><?php echo CHtml::encode(Yii::app()->name); ?></div>
+		<div id="logo">
+		<img src="/yii/images/logo_rmb.jpg" alt="logo" align="left" border="1" /> 
+			<div id=logo-content>
+			<?php echo CHtml::encode(Yii::app()->name); ?>
+			</div>
+		</div>
 	</div><!-- header -->
 
 	<div id="mainmenu">
@@ -31,7 +36,7 @@
 		{
 			$this->widget('zii.widgets.CMenu',array(
 					'items'=>array(
-							//array('label'=>'Home', 'url'=>array('post/index')),
+							array('label'=>'Home', 'url'=>array('site/index')),
 							array('label'=>'How-to', 'url'=>array('site/howto')),
 							array('label'=>'Incoming Orders', 'url'=>array('site/displayOrder')),
 							array('label'=>'Completed Orders', 'url'=>array('site/completeOrder')),
