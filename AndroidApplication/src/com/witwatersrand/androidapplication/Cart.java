@@ -16,7 +16,6 @@ import org.apache.http.util.EntityUtils;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -57,19 +56,16 @@ public class Cart extends Activity implements OnClickListener {
 		Log.i(LOGGER_TAG, "Cart -- onClick()");
 		switch (v.getId()) {
 		case R.id.bPurchase:
-			SharedPreferences applicationData = getSharedPreferences(APPLIATION_DATA_FILENAME, 0);
-
 			CanteenManagerDatabase myDatabase = new CanteenManagerDatabase(this);
 			myDatabase.open();
 			
-			int orderNumber = applicationData.getInt(ORDER_NUMBER_KEY, 1);
+			int orderNumber = ApplicationPreferences.getOrderNumber(this);
+			ApplicationPreferences.setOrderNumber(this, orderNumber);
 			OrderItem[] myOrder = myDatabase.getOrder(orderNumber);
 			myDatabase.close();
 			
-			SharedPreferences.Editor myEditor = applicationData.edit();
 			orderNumber++;
-			myEditor.putInt(ORDER_NUMBER_KEY, orderNumber);
-			myEditor.commit();
+			ApplicationPreferences.setOrderNumber(this, orderNumber);
 			
 			OrderEncoder myOrderEncoder = new OrderEncoder(myOrder);
 			_httpPostMessage = myOrderEncoder.getOrderJsonMessage();
@@ -89,15 +85,11 @@ public class Cart extends Activity implements OnClickListener {
 	private void loadCart() {
 		Log.i(LOGGER_TAG, "Cart -- loadCart()");
 
-		SharedPreferences applicationData = getSharedPreferences(
-				APPLIATION_DATA_FILENAME, 0);
-
 		CanteenManagerDatabase myDatabase = new CanteenManagerDatabase(this);
 		myDatabase.open();
 		
-		int orderNumber = applicationData.getInt(ORDER_NUMBER_KEY, 1);
-		Log.d(LOGGER_TAG, "orderNumber = " + orderNumber);
-		_myCart = myDatabase.getOrder(orderNumber);
+		Log.d(LOGGER_TAG, "orderNumber = " + ApplicationPreferences.getOrderNumber(this));
+		_myCart = myDatabase.getOrder(ApplicationPreferences.getOrderNumber(this));
 		Log.d(LOGGER_TAG, "_myCart.length = " + _myCart.length);
 		myDatabase.close();
 
