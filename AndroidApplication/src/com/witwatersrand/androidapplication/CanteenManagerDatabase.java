@@ -21,7 +21,7 @@ public class CanteenManagerDatabase {
 	// TODO make sure that this class is not prone to SQL injection attacks
 	private static final String LOGGER_TAG = "WITWATERSRAND";
 	
-	private static final String KEY_ITEM_NAME = "item_name ";
+	private static final String KEY_ITEM_NAME = "item_name";
 	private static final String KEY_STATION = "station";
 	private static final String KEY_PRICE = "price";
 	private static final String KEY_AVAILABILITY = "availability";
@@ -92,6 +92,7 @@ public class CanteenManagerDatabase {
 			boolean tempAvailability = (myCursor.getInt(iAvailability) == 1);
 			menu[i].setAvailability(tempAvailability);
 		}
+		myCursor.close();
 		return menu;
 	}
 	
@@ -129,6 +130,7 @@ public class CanteenManagerDatabase {
 			boolean tempAvailability = (stationCursor.getInt(iAvailability) == 1);
 			menu[i].setAvailability(tempAvailability);
 		}
+		stationCursor.close();
 		return menu;
 	}
 	
@@ -162,10 +164,13 @@ public class CanteenManagerDatabase {
 		Cursor stationCursor = _database.query(DATABASE_TABLE_ORDER, columns, KEY_ITEM_NAME + "='" + itemName + "'" + " AND " + KEY_ORDER + "='" + orderNumber + "'", null, null, null, null);
 
 		if (stationCursor.getCount() == 0) {
+			stationCursor.close();
 			return false;
 		} else {
+			stationCursor.close();
 			return true;
 		}
+		
 	}
 	
 	public void removeAllOrderItems() {
@@ -176,22 +181,24 @@ public class CanteenManagerDatabase {
 	public OrderItem[] getOrder(int orderNumner) {
 		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- getOrder()");
 		String[] columns = new String[]{KEY_ITEM_NAME, KEY_STATION, KEY_PRICE, KEY_PURCHASE_QUANTITY, KEY_ORDER};
-		Cursor orderCursor = _database.query(DATABASE_TABLE_ORDER, columns, KEY_ORDER + "=" + orderNumner, null, null, null, null);
+		Cursor orderCursor = _database.query(DATABASE_TABLE_ORDER, columns, KEY_ORDER + "='" + orderNumner + "'", null, null, null, null);
 		int iName = orderCursor.getColumnIndex(KEY_ITEM_NAME);
 		int iStation = orderCursor.getColumnIndex(KEY_STATION);
 		int iPrice = orderCursor.getColumnIndex(KEY_PRICE);
 		int iQuantity = orderCursor.getColumnIndex(KEY_PURCHASE_QUANTITY);
-		
+
 		OrderItem[] orderList = new OrderItem[orderCursor.getCount()];
-		
-		int i = 0;	
+
+		int i = 0;
 		for (orderCursor.moveToFirst(); !orderCursor.isAfterLast(); orderCursor.moveToNext()) {
+			orderList[i] = new OrderItem();
 			orderList[i].setItemName(orderCursor.getString(iName));
 			orderList[i].setStationName(orderCursor.getString(iStation));
 			orderList[i].setPrice(orderCursor.getFloat(iPrice));
 			orderList[i].setPurchaseQuantity(orderCursor.getInt(iQuantity));
 			i++;
 		}
+		orderCursor.close();
 		return orderList;
 	}
 	
@@ -202,6 +209,7 @@ public class CanteenManagerDatabase {
 		if(totalCursor.moveToFirst()) {
 		    return totalCursor.getFloat(0);
 		}
+		totalCursor.close();
 		return -1;
 	}
 	

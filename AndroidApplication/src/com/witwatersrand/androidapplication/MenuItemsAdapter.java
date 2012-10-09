@@ -29,7 +29,6 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 	MenuItem[] _myMenu;
 	int _LAYOUT_RESOURCE_ID;
 	View rowRootView;
-	View headerView;
 	
 	private static final String APPLIATION_DATA_FILENAME = "preferencesFilename";
 	private static final String ORDER_NUMBER_KEY = "order";
@@ -52,20 +51,16 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 	 */
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		Log.i(LOGGER_TAG, "MenuItemsAdapter getView()");
+		Log.i(LOGGER_TAG, "MenuItemsAdapter -- getView()");
 		LayoutInflater myInflater = (LayoutInflater) _context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 		rowRootView = myInflater.inflate(_LAYOUT_RESOURCE_ID, parent,
 				false);
-		headerView = myInflater.inflate(R.layout.menu_items_list_header, parent, false);
-		
-		
-		TextView balanceTV = (TextView) headerView.findViewById(R.id.tvHeaderTotal);
-		balanceTV.setText("lash");
+
 		Log.i(LOGGER_TAG, "MenuItemsAdapter -- Inflator called");
 	
-		
+		// Item name
 		TextView itemNameTV = (TextView) rowRootView
 				.findViewById(R.id.tvItemName);
 		int TEXT_WIDTH = (int) TypedValue.applyDimension(
@@ -73,21 +68,22 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 						.getDisplayMetrics());
 		itemNameTV.setWidth(TEXT_WIDTH);
 		itemNameTV.setText(_myMenu[position].getItemName());
-
+		
+		
+		// Station name
 		TextView stationNameTV = (TextView) rowRootView
 				.findViewById(R.id.tvStationName);
 		stationNameTV.setWidth(TEXT_WIDTH);
 		stationNameTV.setText(_myMenu[position].getStationName());
 
+		// Price
 		TextView priceTV = (TextView) rowRootView.findViewById(R.id.tvPrice);
-				
 		priceTV.setText("R " + String.format("%.2f", _myMenu[position].getPrice()));
 		
+		
+		// Add to cart button
 		final int _selectedPosition = position;
 		Button mySelectedButton = (Button) rowRootView.findViewById(R.id.selectedButton);
-		
-		
-		
 		mySelectedButton.setOnClickListener(new View.OnClickListener() {
 		NumberPicker quantityPicker = (NumberPicker) rowRootView.findViewById(R.id.selectedPicker);
 

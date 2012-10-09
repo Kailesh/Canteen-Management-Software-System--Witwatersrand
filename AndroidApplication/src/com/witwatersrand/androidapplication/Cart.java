@@ -25,6 +25,7 @@ public class Cart extends Activity {
 	final String LOGGER_TAG = "WITWATERSRAND";
 	String _httpPostMessage;
 	ListView _cartLV;
+	OrderItem[] _myCart;
 	
 	static final String APPLIATION_DATA_FILENAME = "mySharedPreferences";
 	private static final String ORDER_NUMBER_KEY = "order";
@@ -40,24 +41,26 @@ public class Cart extends Activity {
 		
 		loadCart();
 		
-		OrderItem[] myOrder = getOrderList();
-		
-		OrderEncoder myOrderEncoder = new OrderEncoder(myOrder);
-		_httpPostMessage = myOrderEncoder.getOrderJsonMessage();
-		Log.i(LOGGER_TAG, "Cart -- _httpPostMessage = " + _httpPostMessage);
-		
-		UploadOrder task = new UploadOrder();
-		Log.i(LOGGER_TAG, "Cart -- Calling another thread for the HTTP POST request");
-		task.execute(new String[] {"http://146.141.125.177/yii/index.php/mobile/PlaceOrders"});
-	}
+		//OrderItem[] myOrder = getOrderList();
+//		
+//		OrderEncoder myOrderEncoder = new OrderEncoder(myOrder);
+//		_httpPostMessage = myOrderEncoder.getOrderJsonMessage();
+//		Log.i(LOGGER_TAG, "Cart -- _httpPostMessage = " + _httpPostMessage);
+//		
+//		UploadOrder task = new UploadOrder();
+//		Log.i(LOGGER_TAG, "Cart -- Calling another thread for the HTTP POST request");
+//		task.execute(new String[] {"http://146.141.125.177/yii/index.php/mobile/PlaceOrders"});
+}
 
 	private void loadCart() {
 		SharedPreferences applicationData = getSharedPreferences(APPLIATION_DATA_FILENAME, 0);
-		applicationData.getInt(ORDER_NUMBER_KEY, 1);
+
+		CanteenManagerDatabase myDatabase = new CanteenManagerDatabase(this);
+		myDatabase.open();
+		_myCart = myDatabase.getOrder(applicationData.getInt(ORDER_NUMBER_KEY, 1));
+		myDatabase.close();
 		
-		OrderItem[] myCart;
-		
-		_cartLV.setAdapter(new OrderAdapter(this, R.layout.purchase_menu_item, myCart));
+		_cartLV.setAdapter(new CartAdapter(this, R.layout.cart_list_item, _myCart));
 	}
 
 	private OrderItem[] getOrderList() {

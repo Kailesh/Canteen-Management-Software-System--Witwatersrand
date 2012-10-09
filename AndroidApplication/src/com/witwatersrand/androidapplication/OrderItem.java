@@ -12,11 +12,13 @@ public class OrderItem extends CanteenItem {
 
 	OrderItem(String itemName, float price, String station) {
 		super(itemName, price, station);
+		Log.i(LOGGER_TAG, "OrderItem -- constructor with parameters");
 		this._purchaseQuantity = 0;
 	}
 	
 	OrderItem() {
 		super();
+		Log.i(LOGGER_TAG, "OrderItem -- constructor");
 		this._purchaseQuantity = 0;
 	}
 	
@@ -24,7 +26,7 @@ public class OrderItem extends CanteenItem {
 	 * @return the _purchase_quantity
 	 */
 	public int getPurchaseQuantity() {
-		Log.i(LOGGER_TAG, "CanteenItem -- geetPurchaseQuantity()");
+		Log.i(LOGGER_TAG, "OrderItem -- getPurchaseQuantity()");
 		return _purchaseQuantity;
 	}
 
@@ -32,7 +34,7 @@ public class OrderItem extends CanteenItem {
 	 * @param _purchase_quantity the _purchase_quantity to set
 	 */
 	public void setPurchaseQuantity(int quantity) {
-		Log.i(LOGGER_TAG, "CanteenItem -- setPurchaseQuantity()");
+		Log.i(LOGGER_TAG, "OrderItem -- setPurchaseQuantity()");
 		this._purchaseQuantity = quantity;
 	}
 }
