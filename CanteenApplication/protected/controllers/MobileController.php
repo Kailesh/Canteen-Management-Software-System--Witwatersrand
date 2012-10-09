@@ -81,6 +81,79 @@ class MobileController extends Controller{
 		
 	}
 	
+	public function actionAuthenticate()
+	{
+		$model = new Authenticate();
+		
+		$authenticate_json = http_get_request_body();
+		//$json = json_encode(array("username"=>"kailesh","password"=>"1c3dd8b850b055bb7b6fb0fb59a7cd04","deviceMACAddress"=>"random"));
+		$model->verifyDetails($authenticate_json);
+		
+		$verification = $model->getAccess();
+		$responseMsg = $model->generateJsonResponse();
+		
+		/*HttpResponse::status(200);
+		HttpResponse::setContentType('text/HTML');
+		HttpResponse::setData("Orders Recieved");
+		HttpResponse::send();*/
+		
+		//var_dump($responseMsg);
+		
+		if($verification===true)
+		{
+			HttpResponse::status(200);
+			HttpResponse::setContentType('application/json');
+			HttpResponse::setData($responseMsg);
+			HttpResponse::send();
+		}
+		else
+		{
+			HttpResponse::status(200);
+			HttpResponse::setContentType('application/json');
+			HttpResponse::setData($responseMsg);
+			HttpResponse::send();
+		}
+	}
+	
+	public function actionvideoFeed(){
+		
+		$model = new VideoFeed();
+		
+		$image= $model->getVideoFeed();
+		
+		HttpResponse::status(200);
+		HttpResponse::setContentType('image/JPEG');
+		HttpResponse::setData($image);
+		HttpResponse::send();
+	}
+	
+	public function actionQueryProgress()
+	{
+		$model = new QueryProgress();
+		
+		$request = http_get_request_body();
+		
+		$model->decodeStatusRequest($request);
+		$model->getStatusOrder();
+		$response = $model->encodeMsg(); 
+		
+		HttpResponse::status(200);
+		HttpResponse::setContentType('application/json');
+		HttpResponse::setData($response);
+		HttpResponse::send();
+	}
+	
+	public function actionMenuUpdate()
+	{
+		$model = new MenuUpdate();
+		$encode_response = $model->encodeResponse;
+		
+		HttpResponse::status(200);
+		HttpResponse::setContentType('application/json');
+		HttpResponse::setData($response);
+		HttpResponse::send();
+	}
+	
 }
 
 ?>
