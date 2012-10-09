@@ -28,6 +28,7 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 	MenuItem[] _myMenu;
 	int _LAYOUT_RESOURCE_ID;
 	View rowRootView;
+
 	
 	private static final String APPLIATION_DATA_FILENAME = "preferencesFilename";
 	private static final String ORDER_NUMBER_KEY = "order";
@@ -69,8 +70,7 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 		stationNameTV.setWidth(TEXT_WIDTH);
 		stationNameTV.setText(_myMenu[position].getStationName());
 
-		TextView priceTV = (TextView) rowRootView
-				.findViewById(R.id.tvPrice);
+		TextView priceTV = (TextView) rowRootView.findViewById(R.id.tvPrice);
 				
 		priceTV.setText("R " + String.format("%.2f", _myMenu[position].getPrice()));
 		
@@ -81,6 +81,7 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 		
 		mySelectedButton.setOnClickListener(new View.OnClickListener() {
 		NumberPicker quantityPicker = (NumberPicker) rowRootView.findViewById(R.id.selectedPicker);
+
 			public void onClick(View v) {
 				Log.i(LOGGER_TAG, "Button pressed for item name: " + _myMenu[_selectedPosition].getItemName());
 				int enteredQuantity = quantityPicker.getValue();
@@ -96,6 +97,11 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 					myDatabase.open();
 					// TODO The last parameter should be retrieved as a shared preference
 					myDatabase.addPurchaseItemToOrder(_myMenu[_selectedPosition] , enteredQuantity, applicationData.getInt(ORDER_NUMBER_KEY, 1));
+					
+					float total = myDatabase.getTotalForOrder(applicationData.getInt(ORDER_NUMBER_KEY, 1));
+					Log.i(LOGGER_TAG, "MenuItemsAdapter -- getView() -- Total = " + total);
+					((TextView) findViewById(R.id.tvTotal)).setText("lash");
+
 					myDatabase.close();
 				}
 			}

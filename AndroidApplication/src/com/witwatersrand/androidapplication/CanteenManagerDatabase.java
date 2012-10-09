@@ -31,6 +31,7 @@ public class CanteenManagerDatabase {
 	private static final String DATABASE_NAME = "canteen_manager_database";
 	private static final String DATABASE_TABLE_MENU_ITEMS = "menu_items_table";
 	private static final String DATABASE_TABLE_ORDER = "order_table";
+	
 	private static int DATABASE_VERSION = 1;
 
 	private DBHelper _helper;
@@ -192,6 +193,16 @@ public class CanteenManagerDatabase {
 			i++;
 		}
 		return orderList;
+	}
+	
+	public float getTotalForOrder(int orderNumber) {
+		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- getTotalForOrder()");
+		final String sumOfOrders = "SELECT TOTAL(" + KEY_PURCHASE_QUANTITY + "*" + KEY_PRICE + ") AS my_sum FROM " + DATABASE_TABLE_ORDER + " WHERE " + KEY_ORDER + "='" + orderNumber + "'";
+		Cursor totalCursor = _database.rawQuery(sumOfOrders, null);
+		if(totalCursor.moveToFirst()) {
+		    return totalCursor.getFloat(0);
+		}
+		return -1;
 	}
 	
 

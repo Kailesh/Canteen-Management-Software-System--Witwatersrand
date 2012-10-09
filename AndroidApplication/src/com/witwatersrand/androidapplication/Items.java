@@ -51,8 +51,7 @@ public class Items extends Activity implements OnClickListener{
 		SharedPreferences currentPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 		boolean menuUpdated = currentPreferences.getBoolean("menu_updated", false);
 		
-		SharedPreferences applicationData = getSharedPreferences(APPLIATION_DATA_FILENAME, 0);
-		balanceTV.setText("R " + String.format("%.2f", applicationData.getFloat(USER_ACCOUNT_BALANCE_KEY, 0)));	
+		balanceTV.setText("R " + String.format("%.2f", (float) 0));	
 		
 		if(menuUpdated) {
 			Log.i(LOGGER_TAG, "Items -- onCreate() -- The menu is updated and a request to the server will not be sent");
