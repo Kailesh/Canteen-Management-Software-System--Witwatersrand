@@ -85,13 +85,14 @@ public class CanteenManagerDatabase {
 		MenuItem[] menu = new MenuItem[myCursor.getCount()];
 		
 		int i = 0;	
-		for (myCursor.moveToFirst(); !myCursor.isAfterLast(); myCursor.moveToNext()) {
+		for (myCursor.moveToFirst(); !myCursor.isAfterLast(); myCursor.moveToNext()) {			
 			menu[i] = new MenuItem();
 			menu[i].setItemName(myCursor.getString(iName));
 			menu[i].setStationName(myCursor.getString(iStation));
 			menu[i].setPrice(myCursor.getFloat(iPrice));
 			boolean tempAvailability = (myCursor.getInt(iAvailability) == 1);
 			menu[i].setAvailability(tempAvailability);
+			i++;
 		}
 		myCursor.close();
 		return menu;

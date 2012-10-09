@@ -55,30 +55,25 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 		Log.i(LOGGER_TAG, "MenuItemsAdapter -- getView() --Inflator called");
 	
 		// Item name
-		Log.d(LOGGER_TAG, "01");
 		TextView itemNameTV = (TextView) rowRootView
 				.findViewById(R.id.tvItemName);
-		Log.d(LOGGER_TAG, "02");
 		int TEXT_WIDTH = (int) TypedValue.applyDimension(
 				TypedValue.COMPLEX_UNIT_DIP, 195, getContext().getResources()
 						.getDisplayMetrics());
-		Log.d(LOGGER_TAG, "03");
 		itemNameTV.setWidth(TEXT_WIDTH);
-		Log.d(LOGGER_TAG, "04");
-		itemNameTV.setText(_myMenu[position].getItemName());
-		Log.d(LOGGER_TAG, "05");
 		
+		Log.d(LOGGER_TAG, "_myMenu[position].getItemName() = " + _myMenu[position].getItemName());
+		itemNameTV.setText(_myMenu[position].getItemName());
 		
 		// Station name
 		TextView stationNameTV = (TextView) rowRootView
 				.findViewById(R.id.tvStationName);
 		stationNameTV.setWidth(TEXT_WIDTH);
 		stationNameTV.setText(_myMenu[position].getStationName());
-
+		
 		// Price
 		TextView priceTV = (TextView) rowRootView.findViewById(R.id.tvPrice);
 		priceTV.setText("R " + String.format("%.2f", _myMenu[position].getPrice()));
-		
 		
 		// Add to cart button
 		final int _selectedPosition = position;
