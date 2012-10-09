@@ -77,13 +77,23 @@ public class CartAdapter extends ArrayAdapter<OrderItem> {
 		final int _selectedPosition = position;
 		Button addButton = (Button) rowRootView.findViewById(R.id.bIncerement);
 		addButton.setOnClickListener(new View.OnClickListener() {
-			
+			TextView myUniqueQuantityTV = (TextView) rowRootView.findViewById(R.id.tvCartQuantity);
+			int  itemQuantity = 0;
 			public void onClick(View v) {
 				Log.i(LOGGER_TAG, "CartAdapter -- getView() -- onClick() -- Button pressed for item name: " + _myCart[_selectedPosition].getItemName());
 				
-				int  itemQuantity = Integer.parseInt(quantityTV.getText().toString());
+				Log.d(LOGGER_TAG, "itemQuantity before = " + itemQuantity);
+
+				itemQuantity = Integer.parseInt(myUniqueQuantityTV.getText().toString());
+				Log.d(LOGGER_TAG, "itemQuantity after assigning the textview to it = " + itemQuantity);
+				
 				itemQuantity++;
-				quantityTV.setText("" + itemQuantity);
+				Log.d(LOGGER_TAG, "itemQuantity after incrementing = " + itemQuantity);
+				
+				_myCart[_selectedPosition].setPurchaseQuantity(itemQuantity);
+				
+				myUniqueQuantityTV.setText("" + itemQuantity);
+				Log.d(LOGGER_TAG, "myUniqueQuantityTV after assigning itemQuantity to it = " + myUniqueQuantityTV.getText().toString());
 				
 				SharedPreferences applicationData = _context.getSharedPreferences(APPLIATION_DATA_FILENAME, 0);
 				
