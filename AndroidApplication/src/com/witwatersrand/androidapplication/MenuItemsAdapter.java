@@ -52,16 +52,21 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 		rowRootView = myInflater.inflate(_LAYOUT_RESOURCE_ID, parent,
 				false);
 
-		Log.i(LOGGER_TAG, "MenuItemsAdapter -- Inflator called");
+		Log.i(LOGGER_TAG, "MenuItemsAdapter -- getView() --Inflator called");
 	
 		// Item name
+		Log.d(LOGGER_TAG, "01");
 		TextView itemNameTV = (TextView) rowRootView
 				.findViewById(R.id.tvItemName);
+		Log.d(LOGGER_TAG, "02");
 		int TEXT_WIDTH = (int) TypedValue.applyDimension(
 				TypedValue.COMPLEX_UNIT_DIP, 195, getContext().getResources()
 						.getDisplayMetrics());
+		Log.d(LOGGER_TAG, "03");
 		itemNameTV.setWidth(TEXT_WIDTH);
+		Log.d(LOGGER_TAG, "04");
 		itemNameTV.setText(_myMenu[position].getItemName());
+		Log.d(LOGGER_TAG, "05");
 		
 		
 		// Station name

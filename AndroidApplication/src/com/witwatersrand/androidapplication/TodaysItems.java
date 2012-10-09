@@ -73,7 +73,7 @@ public class TodaysItems extends ListActivity {
 			Log.i(LOGGER_TAG, "TodaysItems -- CheckMenuUpdated -- doInBackground()");
 			// return sendHTTPRequest(urls);
 			// Faking response
-			return "{\"menuUpdated\" : false}";
+			return "{\"menuUpdated\" : true}";
 		}
 		
 		private String sendHTTPRequest(String... urls) {

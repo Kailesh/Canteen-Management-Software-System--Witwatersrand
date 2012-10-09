@@ -74,7 +74,7 @@ public class CanteenManagerDatabase {
 	
 	public MenuItem[] getMenu() throws SQLException {
 		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- getMenu");
-		String[] columns = new String[]{KEY_ITEM_NAME, KEY_STATION, KEY_PRICE, KEY_AVAILABILITY, KEY_PURCHASE_QUANTITY};
+		String[] columns = new String[]{KEY_ITEM_NAME, KEY_STATION, KEY_PRICE, KEY_AVAILABILITY};
 		Cursor myCursor = _database.query(DATABASE_TABLE_MENU_ITEMS, columns, null, null, null, null, null, null);
 		
 		int iName = myCursor.getColumnIndex(KEY_ITEM_NAME);
@@ -86,6 +86,7 @@ public class CanteenManagerDatabase {
 		
 		int i = 0;	
 		for (myCursor.moveToFirst(); !myCursor.isAfterLast(); myCursor.moveToNext()) {
+			menu[i] = new MenuItem();
 			menu[i].setItemName(myCursor.getString(iName));
 			menu[i].setStationName(myCursor.getString(iStation));
 			menu[i].setPrice(myCursor.getFloat(iPrice));

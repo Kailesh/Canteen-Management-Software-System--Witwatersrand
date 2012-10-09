@@ -48,8 +48,8 @@ public class Items extends Activity implements OnClickListener{
 		SharedPreferences currentPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 		boolean menuUpdated = currentPreferences.getBoolean("menu_updated", false);
 		
-		if(menuUpdated) {
-			Log.i(LOGGER_TAG, "Items -- onCreate() -- The menu is updated and a request to the server will not be sent");
+		if(ApplicationPreferences.haveMenu(Items.this)) {
+			Log.i(LOGGER_TAG, "Items -- onCreate() -- The menu is updated and menu items will be displayed from the database");
 			
 			CanteenManagerDatabase myDatabase = new CanteenManagerDatabase(this);
 			myDatabase.open();
@@ -59,6 +59,8 @@ public class Items extends Activity implements OnClickListener{
 					R.layout.purchase_menu_item, myMenu));
 		
 		} else {
+
+			Log.i(LOGGER_TAG, "Items -- onCreate() -- The menu is not-updated and menu items will requested");
 			DownloadMenuData task = new DownloadMenuData();
 			Log.i(LOGGER_TAG, "Items -- onCreate() -- Calling another thread for the HTTP GET request");
 			task.execute(new String[] {"http://146.141.125.21/yii/index.php/mobile/getmenu"});
@@ -132,19 +134,14 @@ public class Items extends Activity implements OnClickListener{
 			Log.i(LOGGER_TAG, "Items -- DownloadMenuData -- onPostExecute()");
 			Log.i(LOGGER_TAG, "Items -- DownloadMenuData -- onPostExecute() -- myJsonMessage = " + myJsonMessage);
 			MenuParser myMenuParser = new MenuParser(myJsonMessage);
-			
 			MenuItem[] myMenu = myMenuParser.getMenu();
-			
 			Log.i(LOGGER_TAG, "Items -- DownloadMenuData -- storing in database");
-			
 			CanteenManagerDatabase myDatabase = new CanteenManagerDatabase(Items.this);
-			
 			myDatabase.open();
 			myDatabase.setMenu(myMenu);
 			myDatabase.close();
-
+			ApplicationPreferences.setHaveMenu(Items.this, true);
 			Log.i(LOGGER_TAG, "Items -- DownloadMenuData -- Calling setListAdapter()");
-
 			_menuLV.setAdapter(new MenuItemsAdapter(Items.this,
 					R.layout.purchase_menu_item, myMenu));
 		}

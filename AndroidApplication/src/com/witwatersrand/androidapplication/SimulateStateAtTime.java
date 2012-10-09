@@ -2,8 +2,6 @@ package com.witwatersrand.androidapplication;
 
 import android.os.Bundle;
 import android.app.Activity;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -43,7 +41,7 @@ public class SimulateStateAtTime extends Activity implements OnClickListener{
 			Toast.makeText(
 					this,
 					"Menu table, order table emptied and order number reset to 1, set the boolean for updated menu at the server and currently have items in the database",
-					Toast.LENGTH_SHORT).show();
+					Toast.LENGTH_LONG).show();
 
 			break;
 		}
