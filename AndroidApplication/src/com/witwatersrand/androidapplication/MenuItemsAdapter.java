@@ -86,8 +86,6 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 		Button mySelectedButton = (Button) rowRootView.findViewById(R.id.selectedButton);
 		mySelectedButton.setOnClickListener(new View.OnClickListener() {
 		NumberPicker quantityPicker = (NumberPicker) rowRootView.findViewById(R.id.selectedPicker);
-
-
 			public void onClick(View v) {
 				Log.i(LOGGER_TAG, "Button pressed for item name: " + _myMenu[_selectedPosition].getItemName());
 				int enteredQuantity = quantityPicker.getValue();
@@ -97,20 +95,17 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 					Toast.makeText(_context, "Please increase the quantity of the item called " + _myMenu[_selectedPosition].getItemName() + " before adding to cart", Toast.LENGTH_LONG).show();					
 					return;
 				} else {
-					
-					
 					SharedPreferences applicationData = _context.getSharedPreferences(APPLIATION_DATA_FILENAME, 0);
 					
 					CanteenManagerDatabase myDatabase = new CanteenManagerDatabase(_context);
 					myDatabase.open();
-					// TODO The last parameter should be retrieved as a shared preference
 					myDatabase.addPurchaseItemToOrder(_myMenu[_selectedPosition] , enteredQuantity, applicationData.getInt(ORDER_NUMBER_KEY, 1));
 					
 					float total = myDatabase.getTotalForOrder(applicationData.getInt(ORDER_NUMBER_KEY, 1));
 					Log.i(LOGGER_TAG, "MenuItemsAdapter -- getView() -- Total = " + total);
 					
 					// TODO Not good practice but works
-					Items.balanceTV.setText("R " + total);
+					Items.totalTV.setText("R " + String.format("%.2f", total));
 					
 					Editor myEditor = applicationData.edit();
 					myEditor.putFloat(TOTAL_COST_KEY, total);
@@ -137,7 +132,4 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 		}
 		return false;
 	}
-	
-	
-	
 }

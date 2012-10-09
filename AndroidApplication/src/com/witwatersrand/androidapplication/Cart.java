@@ -20,12 +20,14 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.Menu;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class Cart extends Activity {
 	final String LOGGER_TAG = "WITWATERSRAND";
 	String _httpPostMessage;
 	ListView _cartLV;
 	OrderItem[] _myCart;
+	public static TextView totalTV;
 	
 	static final String APPLIATION_DATA_FILENAME = "mySharedPreferences";
 	private static final String ORDER_NUMBER_KEY = "order";
@@ -38,7 +40,8 @@ public class Cart extends Activity {
 		setContentView(R.layout.activity_cart);
 
 		_cartLV = (ListView) findViewById(R.id.lvCart);
-		
+		totalTV = (TextView) findViewById(R.id.tvCartTotal);
+		totalTV.setText("R " + String.format("%.2f", (float) 0));	
 		loadCart();
 		
 		//OrderItem[] myOrder = getOrderList();

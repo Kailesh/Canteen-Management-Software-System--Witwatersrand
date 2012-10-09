@@ -212,9 +212,7 @@ public class CanteenManagerDatabase {
 		totalCursor.close();
 		return -1;
 	}
-	
 
- 
 	private static class DBHelper extends SQLiteOpenHelper {
 
 		/*		

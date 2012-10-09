@@ -32,7 +32,7 @@ public class Items extends Activity implements OnClickListener{
 	final static private String LOGGER_TAG = "WITWATERSRAND"; // Debug Purposes
 	ListView _menuLV;
 	Button goToCartB;
-	public static TextView balanceTV;
+	public static TextView totalTV;
 
 	static final String APPLIATION_DATA_FILENAME = "mySharedPreferences";
 
@@ -44,12 +44,13 @@ public class Items extends Activity implements OnClickListener{
 		_menuLV = (ListView) findViewById(R.id.lvMenuItems);
 		goToCartB = (Button) findViewById(R.id.bPurchase);
 		goToCartB.setOnClickListener(this);
-		balanceTV = (TextView) findViewById(R.id.tvBalance);
+		totalTV = (TextView) findViewById(R.id.tvMenuItemsTotal);
+		totalTV.setText("R " + String.format("%.2f", (float) 0));	
+		
 		
 		SharedPreferences currentPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 		boolean menuUpdated = currentPreferences.getBoolean("menu_updated", false);
 		
-		balanceTV.setText("R " + String.format("%.2f", (float) 0));	
 		
 		if(menuUpdated) {
 			Log.i(LOGGER_TAG, "Items -- onCreate() -- The menu is updated and a request to the server will not be sent");

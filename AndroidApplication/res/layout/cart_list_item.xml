@@ -31,20 +31,20 @@
         android:textSize="12dp" />
 
      <Button
-        android:id="@+id/incerementButton"
+        android:id="@+id/bIncerement"
         android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:text="Add To Cart"
+        android:text="Add"
         android:textSize="15dp" />
 
     <Button
-        android:id="@+id/decerementButton"
+        android:id="@+id/bDecerement"
         android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/incerementButton"
+        android:layout_below="@+id/bIncerement"
         android:text="Remove"
         android:textSize="15dp" />
 
