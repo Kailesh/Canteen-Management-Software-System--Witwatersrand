@@ -12,7 +12,7 @@ import android.widget.ListView;
 public class CurrentOrders extends ListActivity {
 	private static final String LOGGER_TAG = "WITWATERSRAND";
 	private static String orders[];
-	Intent myIntent;
+
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +43,8 @@ public class CurrentOrders extends ListActivity {
 		String selectedOrder = orders[position];
 		int orderNUmber = Integer.parseInt(selectedOrder.replace("Order ", ""));
 		Log.d(LOGGER_TAG, "order number = " + orderNUmber);
-		myIntent = new Intent("com.witwatersrand.androidapplication.ORDERPROGRESS");
-		startActivityForResult(myIntent, orderNUmber);
-	}
+		Intent myIntent = new Intent("com.witwatersrand.androidapplication.ORDERPROGRESS");
+		myIntent.putExtra("Order", selectedOrder.replace("Order ", ""));
+		startActivity(myIntent);
+	}    
 }
