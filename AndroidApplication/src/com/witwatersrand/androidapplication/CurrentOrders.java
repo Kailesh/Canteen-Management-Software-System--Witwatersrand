@@ -18,7 +18,7 @@ public class CurrentOrders extends ListActivity {
         super.onCreate(savedInstanceState);
         Log.i(LOGGER_TAG, "CurrentOrders -- onCreate()");
         
-        final int listSize = ApplicationPreferences.getOrderNumber(this);
+        final int listSize = ApplicationPreferences.getOrderNumber(this) - 1;
         
         orders = new String[listSize];
         
@@ -42,7 +42,7 @@ public class CurrentOrders extends ListActivity {
 		Log.i(LOGGER_TAG, "CurrentOrders -- onListItemClick()");
 		String selectedOrder = orders[position];
 		int orderNUmber = Integer.parseInt(selectedOrder.replace("Order ", ""));
-		Log.d(LOGGER_TAG, "order number = " + orderNUmber);
+		Log.d(LOGGER_TAG, "CurrentOrders -- onListItemClick() -- Order number = " + orderNUmber);
 		Intent myIntent = new Intent("com.witwatersrand.androidapplication.ORDERPROGRESS");
 		myIntent.putExtra("Order", selectedOrder.replace("Order ", ""));
 		startActivity(myIntent);

@@ -22,6 +22,7 @@ import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.util.Log;
 import android.view.Menu;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +33,7 @@ public class OrderProgress extends Activity {
 	private static final String ORDER_NUMBER = "order";
 	TextView orderNameTV;
 	int orderNumber;
+	ListView _orderLV;
 
 	
     @Override
@@ -42,7 +44,7 @@ public class OrderProgress extends Activity {
         orderNameTV = (TextView) findViewById(R.id.tvOrderName);
         orderNumber = Integer.parseInt(getIntent().getExtras().getString(ORDER_KEY));
         orderNameTV.setText("Order " + orderNumber);
-        
+        _orderLV = (ListView) findViewById(R.id.lvProgress);
         RequestProgress task = new RequestProgress();
         task.execute(new String[] {"http://146.141.125.21/yii/index.php/mobile/progress"});
         
@@ -148,14 +150,13 @@ public class OrderProgress extends Activity {
 			
 			CanteenManagerDatabase myDatabase = new CanteenManagerDatabase(OrderProgress.this);
 			myDatabase.open();
-			OrderItem [] currentOrder = myDatabase.getOrder(ApplicationPreferences.getOrderNumber(OrderProgress.this));
+			OrderItem [] currentOrder = myDatabase.getOrder(ApplicationPreferences.getOrderNumber(OrderProgress.this) - 1);
 			myDatabase.close();
 			
 			ProgressParser myParser = new ProgressParser(result,currentOrder);
 			OrderedItems myOrderedzItems = myParser.getOrderList();
-			Log.d(LOGGER_TAG, "item = "+ myOrderedzItems._myOrder[0].getItemName() + " state = " + myOrderedzItems._states[0]);
-			Log.d(LOGGER_TAG, "item = "+ myOrderedzItems._myOrder[1].getItemName() + " state = " + myOrderedzItems._states[1]);
 			
+			_orderLV.setAdapter(new ItemsProgressAdapter(OrderProgress.this, R.layout.progress_list_item, myParser.getOrderedItemList()));
 		}
     }
 }

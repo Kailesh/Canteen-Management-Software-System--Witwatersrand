@@ -13,6 +13,7 @@ public class OrderedItems {
 	final private String LOGGER_TAG = "WITWATERSRAND";
 	OrderItem[] _myOrder;
 	Progress[] _states;
+
 	
 	
 	OrderedItems(OrderItem[] myOrder) {

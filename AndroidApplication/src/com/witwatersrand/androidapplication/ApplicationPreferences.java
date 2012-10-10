@@ -36,11 +36,13 @@ public class ApplicationPreferences {
 	
 	public static int getOrderNumber(Context context) {
 		Log.i(LOGGER_TAG, "ApplicationPreferences -- getOrderNumber()");
+		Log.d(LOGGER_TAG, "ApplicationPreferences -- getOrderNumber() -- Order number = " + getSharedPreferences(context).getInt(ORDER_NUMBER_KEY, 1));
 		return getSharedPreferences(context).getInt(ORDER_NUMBER_KEY, 1);
 	}
 	
 	public static void setOrderNumber(Context context, int orderNumber) {
 		Log.i(LOGGER_TAG, "ApplicationPreferences -- setOrderNumber()");
+		Log.d(LOGGER_TAG, "ApplicationPreferences -- setOrderNumber() -- Order number = " + getSharedPreferences(context).getInt(ORDER_NUMBER_KEY, 1));
 		getSharedPreferences(context).edit().putInt(ORDER_NUMBER_KEY, orderNumber).commit();
 	}
 

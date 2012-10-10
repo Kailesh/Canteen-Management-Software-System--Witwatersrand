@@ -21,6 +21,7 @@ public class StartMenu extends ListActivity {
 			"User Information", "Cart", "Current Orders",
 			"Simulate State At Time", "Exit", "About Us" };
 
+
 	/*
 	 * (non-Javadoc)
 	 * 
