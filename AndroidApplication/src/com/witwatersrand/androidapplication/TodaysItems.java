@@ -78,13 +78,13 @@ public class TodaysItems extends ListActivity {
 		
 		private String sendHTTPRequest(String... urls) {
 			for (String url : urls) {
-				Log.i(LOGGER_TAG, "Items -- DownloadMenuData -- doInBackground()");
+				Log.i(LOGGER_TAG, "TodaysItems -- CheckMenuUpdated -- doInBackground()");
 				try {
 					HttpResponse myResponse = httpRequest(url);
-					Log.i(LOGGER_TAG, "Items -- DownloadMenuData -- HTTP request complete");
+					Log.i(LOGGER_TAG, "TodaysItems -- CheckMenuUpdated -- HTTP request complete");
 
 					if (myResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-						Log.i(LOGGER_TAG, "Items -- DownloadMenuData -- HTTP OK");
+						Log.i(LOGGER_TAG, "TodaysItems -- CheckMenuUpdated -- HTTP OK");
 						String myJsonString = EntityUtils.toString(myResponse
 								.getEntity());
 						Log.d(LOGGER_TAG, myJsonString);
