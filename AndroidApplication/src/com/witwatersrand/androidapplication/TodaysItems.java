@@ -38,7 +38,7 @@ public class TodaysItems extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         CheckMenuUpdated task = new CheckMenuUpdated();
-        task.execute("http://146.141.125.68/yii/index.php/mobile/menuupdate");
+        task.execute("http://146.141.125.96/yii/index.php/mobile/menuupdate");
     }
     
     protected void onListItemClick(ListView l, View v, int position, long id) {

@@ -24,6 +24,7 @@ public class ApplicationPreferences {
 	private static final String USER_ACCOUNT_BALANCE_KEY = "account_balance";
 	private static final String MENU_UPDATED_KEY = "menu_updated";
 	private static final String HAVE_MENU_KEY = "have_menu";
+	private static final String ORDER_STATUS_PENDING_KEY = "order_status_pending";
 	
 	private static SharedPreferences getSharedPreferences(Context context) {
 		Log.i(LOGGER_TAG, "ApplicationPreferences -- getPreferences()");
@@ -113,5 +114,15 @@ public class ApplicationPreferences {
 	public static void setHaveMenu(Context context, boolean haveMenu) {
 		Log.i(LOGGER_TAG, "ApplicationPreferences -- setHaveMenu()");
 		getSharedPreferences(context).edit().putBoolean(HAVE_MENU_KEY, haveMenu).commit();
+	}
+	
+	public static boolean isStatusPending(Context context) {
+		Log.i(LOGGER_TAG, "ApplicationPreferences -- isStatusPending()");
+		return getSharedPreferences(context).getBoolean(ORDER_STATUS_PENDING_KEY, true);
+	}
+	
+	public static void setPendingStatus(Context context, boolean updated) {
+		Log.i(LOGGER_TAG, "ApplicationPreferences -- setOrderNumber()");
+		getSharedPreferences(context).edit().putBoolean(ORDER_STATUS_PENDING_KEY, updated).commit();
 	}
 }

@@ -75,7 +75,7 @@ public class Cart extends Activity implements OnClickListener {
 			Log.i(LOGGER_TAG,
 					"Cart -- Calling another thread for the HTTP POST request");
 			task.execute(new String[]
-					{"http://146.141.125.68/yii/index.php/mobile/placeorders"});
+					{"http://146.141.125.96/yii/index.php/mobile/placeorders"});
 			Button currentB = (Button) findViewById(R.id.bPurchase);
 			currentB.setEnabled(false);
 			break;
@@ -169,10 +169,11 @@ public class Cart extends Activity implements OnClickListener {
 		 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
 		 */
 		@Override
-		protected void onPostExecute(String result) {
-			super.onPostExecute(result);
-			Toast.makeText(Cart.this, "Result = " + result, Toast.LENGTH_LONG).show();
+		protected void onPostExecute(String response) {
+			super.onPostExecute(response);
+			Toast.makeText(Cart.this, "Cart -- UploadOrder -- Response message = " + response, Toast.LENGTH_LONG).show();
+			ApplicationPreferences.setPendingStatus(Cart.this, true);
+			
 		}
 	}
-
 }

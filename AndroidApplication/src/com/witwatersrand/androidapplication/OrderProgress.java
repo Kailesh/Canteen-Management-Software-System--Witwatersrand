@@ -35,19 +35,17 @@ public class OrderProgress extends Activity {
 	int orderNumber;
 	ListView _orderLV;
 
-	
     @Override
     public void onCreate(Bundle savedInstanceState) {
-    
     	super.onCreate(savedInstanceState);
+		Log.i(LOGGER_TAG, "OrderProgress -- onCreate()");
         setContentView(R.layout.activity_order_progress);
         orderNameTV = (TextView) findViewById(R.id.tvOrderName);
         orderNumber = Integer.parseInt(getIntent().getExtras().getString(ORDER_KEY));
         orderNameTV.setText("Order " + orderNumber);
         _orderLV = (ListView) findViewById(R.id.lvProgress);
         RequestProgress task = new RequestProgress();
-        task.execute(new String[] {"http://146.141.125.68/yii/index.php/mobile/queryprogress"});
-        
+        task.execute(new String[] {"http://146.141.125.96/yii/index.php/mobile/queryprogress"});
     }
 
     @Override
@@ -67,6 +65,8 @@ public class OrderProgress extends Activity {
 		}
 		
 		private String sendHTTPRequest(String... urls) {
+			Log.i(LOGGER_TAG, "OrderProgress -- sendHTTPRequest()");
+
 			for (String url : urls) {
 				Log.i(LOGGER_TAG, "OrderProgress -- RequestProgress -- doInBackground()");
 				try {
@@ -91,6 +91,7 @@ public class OrderProgress extends Activity {
 		}
 
 		private HttpResponse httpRequest(String url) throws ClientProtocolException, IOException {
+			Log.i(LOGGER_TAG, "OrderProgress -- RequestProgress -- httpRequest()");
 			int TIMEOUT_MILLISEC = 10000; // = 10 seconds
 			HttpParams httpParams = new BasicHttpParams();
 			HttpConnectionParams.setConnectionTimeout(httpParams, TIMEOUT_MILLISEC);
@@ -154,7 +155,6 @@ public class OrderProgress extends Activity {
 			super.onPostExecute(result);
 			Log.i(LOGGER_TAG, "OrderProgress -- RequestProgress -- onPostExecute()");
 
-			
 			CanteenManagerDatabase myDatabase = new CanteenManagerDatabase(OrderProgress.this);
 			myDatabase.open();
 			OrderItem [] currentOrder = myDatabase.getOrder(ApplicationPreferences.getOrderNumber(OrderProgress.this) - 1);

@@ -100,7 +100,7 @@ public class Authentication extends Activity implements OnClickListener {
 			e.printStackTrace();
 		}
 		AuthenticateUser task = new AuthenticateUser();
-		task.execute(new String[] { "http://146.141.125.68/yii/index.php/mobile/Authenticate" });
+		task.execute(new String[] { "http://146.141.125.96/yii/index.php/mobile/Authenticate" });
 	}
 
 	private class AuthenticateUser extends AsyncTask<String, Void, String> {
@@ -121,7 +121,7 @@ public class Authentication extends Activity implements OnClickListener {
 			for (String url : urls) {
 				Log.d(LOGGER_TAG, "Inside for inside doInBackground()");
 				try {
-					int TIMEOUT_MILLISEC = 60000; // = 10 seconds
+					int TIMEOUT_MILLISEC = 60000; // = 60 seconds
 					HttpParams httpParams = new BasicHttpParams();
 					HttpConnectionParams.setConnectionTimeout(httpParams,
 							TIMEOUT_MILLISEC);
@@ -155,7 +155,6 @@ public class Authentication extends Activity implements OnClickListener {
 				}
 			}
 			Log.d(LOGGER_TAG, "Authentication -- AuthenticateUser -- sendHTTPRequest() -- JSON message not set");
-
 			return NOT_RECEIVED_MESSAGE;
 		}
 

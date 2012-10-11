@@ -32,7 +32,7 @@ public class VideoFeed extends Activity {
 
 			public void onClick(View v) {
 				Retrieve task = new Retrieve();
-				task.execute(new String[] { "http://146.141.125.68/yii/index.php/mobile/VideoFeed" });
+				task.execute(new String[] { "http://146.141.125.96/yii/index.php/mobile/VideoFeed" });
 			}
 		});
 	}
