@@ -46,7 +46,7 @@ public class OrderProgress extends Activity {
         orderNameTV.setText("Order " + orderNumber);
         _orderLV = (ListView) findViewById(R.id.lvProgress);
         RequestProgress task = new RequestProgress();
-        task.execute(new String[] {"http://146.141.125.21/yii/index.php/mobile/progress"});
+        task.execute(new String[] {"http://146.141.125.68/yii/index.php/mobile/queryprogress"});
         
     }
 
@@ -59,11 +59,11 @@ public class OrderProgress extends Activity {
     private class RequestProgress extends AsyncTask<String, Void, String> {
 
 		@Override
-		protected String doInBackground(String... params) {
+		protected String doInBackground(String... urls) {
 			Log.i(LOGGER_TAG, "OrderProgress -- RequestProgress -- doInBackground()");
-			// return sendHTTPRequest(urls);
+			return sendHTTPRequest(urls);
 			// Faking response
-			return "[{\"item\": \"Beef Olives\",\"progressStatus\": \"DONE\"},{\"item\": \"Hake\",\"progressStatus\": \"PLACED\"},]";
+			// return "[{\"item\": \"Beef Olives\",\"progressStatus\": \"DONE\"},{\"item\": \"Hake\",\"progressStatus\": \"PLACED\"},]";
 		}
 		
 		private String sendHTTPRequest(String... urls) {
@@ -109,7 +109,12 @@ public class OrderProgress extends Activity {
 
 			String progressRequestJsonMessage = "Message Not Set";
 			JSONObject myJsonObject = new JSONObject();
-			myJsonObject.put(DEVICE_MAC_ADDRESS, getMacAddress());
+			
+			// Fake address
+			String macAddress = "56:78:3D:E5:8F:N1";
+			// String macAddress = getMacAddress();
+			
+			myJsonObject.put(DEVICE_MAC_ADDRESS, macAddress);
 			myJsonObject.put(ORDER_NUMBER, orderNumber);
 			StringWriter myStringWriter = new StringWriter();
 			try {
@@ -120,6 +125,8 @@ public class OrderProgress extends Activity {
 				Log.i(LOGGER_TAG, e.getMessage());
 				e.printStackTrace();
 			}
+			Log.d(LOGGER_TAG, "OrderProgress -- RequestProgress -- progressRequestJsonMessage = " + progressRequestJsonMessage);
+
 			return progressRequestJsonMessage;
 		}
 		

@@ -24,6 +24,7 @@ public class OrderEncoder {
 	boolean _delivery;
 	String _deliveryLocation;
 	String _deviceID;
+	int _orderNumber;
 
 	final private static String TOTAL_TAG = "total";
 	final private static String DELIVERY_TAG = "deliveryLocation";
@@ -32,15 +33,17 @@ public class OrderEncoder {
 	final private static String STATION_TAG = "station";
 	final private static String PURCHASE_QUANTITY_TAG = "quantity";
 	final private static String DEVICE_ID_TAG = "deviceID";
+	final private static String ORDER_NUMBER_KEY = "orderNumber";
 	
-	public OrderEncoder(OrderItem[] order) {
+	
+	public OrderEncoder(OrderItem[] order, int i) {
 		Log.i(LOGGER_TAG, "OrderEncoder -- Constructor");
 		this._orderList = order;
 		_total = 0;
 		_delivery = false;
 		_deliveryLocation = "Random";
 		_deviceID = "56:78:3D:E5:8F:N1";
-		
+		_orderNumber = i;
 		encodeOrderIntoJson();
 	}
 	
@@ -64,6 +67,8 @@ public class OrderEncoder {
 		myJsonObject.put(DELIVERY_TAG, _deliveryLocation);
 		myJsonObject.put(TOTAL_TAG, _total);
 		myJsonObject.put(DEVICE_ID_TAG, _deviceID);
+		myJsonObject.put(ORDER_NUMBER_KEY, _orderNumber);
+		
 
 		StringWriter myStringWriter = new StringWriter();
 		try {

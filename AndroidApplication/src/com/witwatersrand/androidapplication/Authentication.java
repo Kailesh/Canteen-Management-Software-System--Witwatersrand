@@ -100,7 +100,7 @@ public class Authentication extends Activity implements OnClickListener {
 			e.printStackTrace();
 		}
 		AuthenticateUser task = new AuthenticateUser();
-		task.execute(new String[] { "http://146.141.125.108/yii/index.php/mobile/Authenticate" });
+		task.execute(new String[] { "http://146.141.125.68/yii/index.php/mobile/Authenticate" });
 	}
 
 	private class AuthenticateUser extends AsyncTask<String, Void, String> {
@@ -108,10 +108,10 @@ public class Authentication extends Activity implements OnClickListener {
 		@Override
 		protected String doInBackground(String... urls) {
 			Log.i(LOGGER_TAG, "Authentication -- AuthenticateUser -- doInBackground()");
-			//String jsonAuthenticationString = sendHTTPRequest(urls);
+			String jsonAuthenticationString = sendHTTPRequest(urls);
 			
 			// Faking the HTTP response message	
-			String jsonAuthenticationString = "{\"access\": true,\"reason\": \"RMB-OK\",\"accountBalance\": 2445.45}";
+			// String jsonAuthenticationString = "{\"access\": true,\"reason\": \"RMB-OK\",\"balance\": 2445.45}";
 			return jsonAuthenticationString;
 		}
 

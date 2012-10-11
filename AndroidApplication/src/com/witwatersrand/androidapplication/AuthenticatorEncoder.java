@@ -23,7 +23,7 @@ public class AuthenticatorEncoder {
 
 	final private static String JSON_USERNAME_KEY = "username";
 	final private static String JSON_PASSWORD_KEY = "password";
-	final private static String JSON_DEVICE_MAC_ADDRESS = "deviceMacAddress";
+	final private static String JSON_DEVICE_MAC_ADDRESS = "deviceMACAddress";
 	private String _username;
 	private String _password;
 	private String _deviceMacAddress;

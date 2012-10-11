@@ -19,7 +19,6 @@ import android.util.Log;
 public class MenuParser {
 	
 	final String LOGGER_TAG = "WITWATERSRAND";
-	boolean _updated;
 	MenuItem[] _menu;
 	JSONObject _jsonObject;
 
@@ -31,7 +30,6 @@ public class MenuParser {
 	int _numberOfMenuItems;
 
 	public MenuParser(String jsonMenuMessage) {
-		this._updated = false;
 		Log.i(LOGGER_TAG, "MenuParser -- Constructor");
 		Log.i(LOGGER_TAG, "MenuParser -- JSON message = " + jsonMenuMessage);
 		
@@ -56,21 +54,6 @@ public class MenuParser {
 			e.printStackTrace();
 			Log.d(LOGGER_TAG, "Exception -- " + e.getMessage());
 		}
-	}
-	
-	/**
-	 * @return the _updated
-	 */
-	public boolean isUpdated() {
-		return _updated;
-	}
-
-	/**
-	 * @param _updated the _updated to set
-	 */
-	private void setUpdate(boolean _updated) {
-		Log.i(LOGGER_TAG, "MenuParser -- setUpdate() - Sets whether the menu is the most updated");
-		this._updated = _updated;
 	}
 
 	/**

@@ -18,7 +18,7 @@ public class AuthenticationParser {
 	
 	final private static String JSON_ACCESS_KEY = "access";
 	final private static String JSON_REASON_KEY = "reason";
-	final private static String JSON_ACCOUNT_BALANCE = "accountBalance";
+	final private static String JSON_ACCOUNT_BALANCE = "balance";
 	
 	JSONObject _jsonObject;
 	
@@ -46,8 +46,8 @@ public class AuthenticationParser {
 			_loginSuccess = (Boolean) _jsonObject.get(JSON_ACCESS_KEY);
 			_reason = (String) _jsonObject.get(JSON_REASON_KEY);
 			// TODO Conversion from double to float happens here
-			Double tempDouble = (Double) _jsonObject.get(JSON_ACCOUNT_BALANCE);
-			_accountBalance = tempDouble.floatValue();
+			String tempBalance = (String) _jsonObject.get(JSON_ACCOUNT_BALANCE);
+			_accountBalance = Float.parseFloat(tempBalance);
 			Log.i(LOGGER_TAG, "AuthenticationParser -- parseAuthenticationData() -- Data parsed");
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block

@@ -63,7 +63,7 @@ public class Items extends Activity implements OnClickListener{
 			Log.i(LOGGER_TAG, "Items -- onCreate() -- The menu is not-updated and menu items will requested");
 			DownloadMenuData task = new DownloadMenuData();
 			Log.i(LOGGER_TAG, "Items -- onCreate() -- Calling another thread for the HTTP GET request");
-			task.execute(new String[] {"http://146.141.125.21/yii/index.php/mobile/getmenu"});
+			task.execute(new String[] {"http://146.141.125.68/yii/index.php/mobile/getmenu"});
 		}
 	}
 
@@ -89,8 +89,10 @@ public class Items extends Activity implements OnClickListener{
 		@Override
 		protected String doInBackground(String... urls) {
 			Log.i(LOGGER_TAG, "Items -- DownloadMenuData -- doInBackground()");
-			//String jsonMenuString = sendHTTPRequest(urls);
-			String jsonMenuString = "{ \"updated\": \"false\",\"menu\": [{ \"item\": \"Hake\",\"station\": \"A la Minute Grill\",\"price\": \"16.53\", \"availability\": \"true\"},{\"item\": \"Beef Olives\",\"station\": \"Main Meal\",\"price\": \"28.50\",\"availability\": \"true\"},{\"item\": \"Chicken Lasagne & Veg\",\"station\": \"Frozen Meals\",\"price\": \"28.50\",\"availability\": \"true\"}]}";
+			String jsonMenuString = sendHTTPRequest(urls);
+			
+			// Fake the menu items
+			// String jsonMenuString = "{ \"updated\": \"false\",\"menu\": [{ \"item\": \"Hake\",\"station\": \"A la Minute Grill\",\"price\": \"16.53\", \"availability\": \"true\"},{\"item\": \"Beef Olives\",\"station\": \"Main Meal\",\"price\": \"28.50\",\"availability\": \"true\"},{\"item\": \"Chicken Lasagne & Veg\",\"station\": \"Frozen Meals\",\"price\": \"28.50\",\"availability\": \"true\"}]}";
 			return jsonMenuString;
 		}
 

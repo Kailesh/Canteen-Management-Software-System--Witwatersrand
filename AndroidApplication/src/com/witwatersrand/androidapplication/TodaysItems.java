@@ -38,7 +38,7 @@ public class TodaysItems extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         CheckMenuUpdated task = new CheckMenuUpdated();
-        task.execute("http://146.141.125.21/yii/index.php/mobile/menupdated");
+        task.execute("http://146.141.125.68/yii/index.php/mobile/menuupdate");
     }
     
     protected void onListItemClick(ListView l, View v, int position, long id) {
@@ -71,9 +71,9 @@ public class TodaysItems extends ListActivity {
 		@Override
 		protected String doInBackground(String... urls) {
 			Log.i(LOGGER_TAG, "TodaysItems -- CheckMenuUpdated -- doInBackground()");
-			// return sendHTTPRequest(urls);
+			return sendHTTPRequest(urls);
 			// Faking response
-			return "{\"menuUpdated\" : true}";
+			// return "{\"menuUpdated\" : true}";
 		}
 		
 		private String sendHTTPRequest(String... urls) {

@@ -13,7 +13,7 @@ public class ProgressParser {
 	final String LOGGER_TAG = "WITWATERSRAND";
 	private OrderedItems _orderList;
 	private static final String JSON_ITEM_KEY = "item";
-	private static final String STATE_KEY = "progressStatus";
+	private static final String STATE_KEY = "status";
 	
 	public ProgressParser(String jsonString, OrderItem[] order) {
 		Log.i(LOGGER_TAG, "ProgressParser -- Constructor");
@@ -34,7 +34,7 @@ public class ProgressParser {
 				
 				for(int i = 0; i != _orderList._myOrder.length ; i++) {
 					if (_orderList._myOrder[i].getItemName().equals(currentObject.get(JSON_ITEM_KEY))) {
-						Progress temp = Progress.valueOf((String) currentObject.get(STATE_KEY));
+						Progress temp = Progress.valueOf( ((String) currentObject.get(STATE_KEY)).toUpperCase());
 						Log.d(LOGGER_TAG, "temp = " +temp);
 						_orderList._states[i] = temp;
 						break;

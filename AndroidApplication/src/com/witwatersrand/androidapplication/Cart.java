@@ -67,7 +67,7 @@ public class Cart extends Activity implements OnClickListener {
 			orderNumber++;
 			ApplicationPreferences.setOrderNumber(this, orderNumber);
 			
-			OrderEncoder myOrderEncoder = new OrderEncoder(myOrder);
+			OrderEncoder myOrderEncoder = new OrderEncoder(myOrder, ApplicationPreferences.getOrderNumber(this) -1);
 			_httpPostMessage = myOrderEncoder.getOrderJsonMessage();
 			Log.i(LOGGER_TAG, "Cart -- _httpPostMessage = " + _httpPostMessage);
 
@@ -75,7 +75,7 @@ public class Cart extends Activity implements OnClickListener {
 			Log.i(LOGGER_TAG,
 					"Cart -- Calling another thread for the HTTP POST request");
 			task.execute(new String[]
-					{"http://146.141.125.177/yii/index.php/mobile/PlaceOrders"});
+					{"http://146.141.125.68/yii/index.php/mobile/placeorders"});
 			Button currentB = (Button) findViewById(R.id.bPurchase);
 			currentB.setEnabled(false);
 			break;
@@ -109,11 +109,11 @@ public class Cart extends Activity implements OnClickListener {
 		protected String doInBackground(String... urls) {
 			Log.i(LOGGER_TAG, "Cart -- UploadOrder -- doInBackground()");
 
-			//String responseMessage = sendHTTPRequest(urls);
-			//Log.i(LOGGER_TAG, "Cart -- UploadOrder -- responseMessage = "
-			//		+ responseMessage);
+			String responseMessage = sendHTTPRequest(urls);
+			Log.i(LOGGER_TAG, "Cart -- UploadOrder -- responseMessage = "
+					+ responseMessage);
 
-			String responseMessage  = "bleh";
+//			String responseMessage  = "bleh";
 			return responseMessage;
 		}
 
@@ -139,7 +139,7 @@ public class Cart extends Activity implements OnClickListener {
 
 					Log.i(LOGGER_TAG,
 							"Cart -- UploadOrder -- HTTP request complete");
-
+					Log.i(LOGGER_TAG, "" + myResponse.getStatusLine().getStatusCode());
 					if (myResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 						Log.i(LOGGER_TAG, "Cart -- UploadOrder -- HTTP OK");
 						String myJsonString = EntityUtils.toString(myResponse
@@ -171,7 +171,7 @@ public class Cart extends Activity implements OnClickListener {
 		@Override
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
-			Toast.makeText(Cart.this, "Order Placed :)", Toast.LENGTH_LONG).show();
+			Toast.makeText(Cart.this, "Result = " + result, Toast.LENGTH_LONG).show();
 		}
 	}
 
