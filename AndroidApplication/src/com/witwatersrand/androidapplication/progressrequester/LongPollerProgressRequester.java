@@ -16,6 +16,8 @@ import org.apache.http.util.EntityUtils;
 import org.json.simple.JSONObject;
 
 import com.witwatersrand.androidapplication.ApplicationPreferences;
+import com.witwatersrand.androidapplication.CanteenManagerDatabase;
+import com.witwatersrand.androidapplication.Cart;
 import com.witwatersrand.androidapplication.DeviceIDGenerator;
 
 import android.app.Service;
@@ -62,7 +64,7 @@ public class LongPollerProgressRequester extends Service {
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		Log.d(LOGGER_TAG, "LongPollerProgressRequester -- onStartCommand()");
 		LongPollingRequest task = new LongPollingRequest();
-		task.execute(new String[] { "http://146.141.125.96/yii/index.php/mobile/longpollingprogress" });
+		task.execute(new String[] { "http://146.141.125.64/yii/index.php/mobile/longpollingprogress" });
 		Log.d(LOGGER_TAG, "PollingService -- onStartCommand() -- After calling task.execute()");
 		return super.onStartCommand(intent, flags, startId);
 	}
@@ -77,7 +79,6 @@ public class LongPollerProgressRequester extends Service {
 		Log.d(LOGGER_TAG, "LongPollerProgressRequester -- onDestroy()");
 		super.onDestroy();
 	}
-	
 	
 	private class LongPollingRequest extends AsyncTask<String, Void, String> {
 		int CONNECTION_TIMEOUT = 7200000; // Two hours
@@ -138,7 +139,13 @@ public class LongPollerProgressRequester extends Service {
 		public String getDeviceIDMessage() {
 			Log.d(LOGGER_TAG, "LongPollerProgressRequester -- LongPollingRequest -- getDeviceIDMessage()");
 			JSONObject myJsonObject = new JSONObject();
-			myJsonObject.put(JSON_DEVICE_ID_KEY, DeviceIDGenerator.getMacAddress());
+			
+			//--------------------Fake Mac Address--------------------------
+			
+			// String myMacAddress = DeviceIDGenerator.getWifiMacAddress(LongPollerProgressRequester.this);
+			String myMacAddress = "90:C1:15:BC:97:4F";
+			
+			myJsonObject.put(JSON_DEVICE_ID_KEY, myMacAddress);
 
 			StringWriter myStringWriter = new StringWriter();
 			try {
@@ -148,7 +155,7 @@ public class LongPollerProgressRequester extends Service {
 				Log.i(LOGGER_TAG, "LongPollerProgressRequester -- LongPollingRequest -- getDeviceIDMessage() -- Exception = |" + e.getMessage() + "|");
 				e.printStackTrace();
 			}
-			return DEVICE_ID_UNKNOWN;	
+			return DEVICE_ID_UNKNOWN;
 		}
 
 		/*
@@ -163,13 +170,21 @@ public class LongPollerProgressRequester extends Service {
 			Log.d(LOGGER_TAG, "LongPollerProgressRequester -- LongPollingRequest -- onPostExecute() -- Response message = |" + response + "|");
 			Log.d(LOGGER_TAG, "LongPollerProgressRequester -- LongPollingRequest -- onPostExecute() -- calling this.cancel(true)");
 			
-			response
+			SingleProgressStatusParser myParser = new SingleProgressStatusParser(response);
 			
+			// Update Database
+			CanteenManagerDatabase myDatabase = new CanteenManagerDatabase(LongPollerProgressRequester.this);
+			myDatabase.open();
+			myDatabase.updateItemProgress(myParser.getItemName(), myParser.getOrderNumber(), myParser.getItemProgress());
+			myDatabase.close();
+		
 			this.cancel(true);
 			
 			if (ApplicationPreferences.isStatusPending(LongPollerProgressRequester.this)) {
 				Log.d(LOGGER_TAG, "LongPollerProgressRequester -- LongPollingRequest -- onPostExecute() -- Status orders have not been received yet");
-				new LongPollingRequest().execute(new String[] { "http://146.141.125.96/yii/index.php/mobile/longpollingprogress" });
+				new LongPollingRequest().execute(new String[] { "http://146.141.125.64/yii/index.php/mobile/longpollingprogress" });
+			} else {
+				stopService(Cart.myBackgroundServiceIntent);
 			}
 		}
 	}

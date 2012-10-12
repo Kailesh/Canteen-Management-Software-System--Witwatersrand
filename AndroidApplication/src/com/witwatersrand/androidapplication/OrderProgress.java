@@ -27,10 +27,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class OrderProgress extends Activity {
-	final static private String LOGGER_TAG = "WITWATERSRAND"; 
+	final static private String LOGGER_TAG = "WITWATERSRAND";
 	private static final String ORDER_KEY = "Order";
 	private static final String DEVICE_MAC_ADDRESS = "deviceID";
 	private static final String ORDER_NUMBER = "order";
+	private static final String MESSAGE_UNKNOWN = "Unknown message";
 	TextView orderNameTV;
 	int orderNumber;
 	ListView _orderLV;
@@ -87,7 +88,7 @@ public class OrderProgress extends Activity {
 				}
 			}
 			Log.d(LOGGER_TAG, "OrderProgress -- RequestProgress -- doInBackground() -- Error has occured");
-			return null;
+			return MESSAGE_UNKNOWN;
 		}
 
 		private HttpResponse httpRequest(String url) throws ClientProtocolException, IOException {
@@ -112,8 +113,9 @@ public class OrderProgress extends Activity {
 			JSONObject myJsonObject = new JSONObject();
 			
 			// Fake address
-			String macAddress = "56:78:3D:E5:8F:N1";
-			// String macAddress = getMacAddress();
+			String macAddress = "90:C1:15:BC:97:4F";
+			
+			// String macAddress = DeviceIDGenerator.getMacAddress();
 			
 			myJsonObject.put(DEVICE_MAC_ADDRESS, macAddress);
 			myJsonObject.put(ORDER_NUMBER, orderNumber);
@@ -130,22 +132,6 @@ public class OrderProgress extends Activity {
 
 			return progressRequestJsonMessage;
 		}
-		
-		private String getMacAddress() {
-			Log.i(LOGGER_TAG, "OrderProgress -- RequestProgress -- getMacAddress()");
-			try {
-			BluetoothAdapter btAdapther = BluetoothAdapter.getDefaultAdapter();
-				String deviceMacAddress = btAdapther.getAddress();
-				return deviceMacAddress;
-			} catch (Exception e) {
-				Log.i(LOGGER_TAG,
-						"AuthenticatorEncoder -- Exception -- " + e.toString());
-				e.printStackTrace();
-			}
-			Log.d(LOGGER_TAG,
-					"AuthenticatorEncoder -- getMacAddress() -- Could not retrieve device MAC address");
-			return "Unknown";
-		}
 
 		/* (non-Javadoc)
 		 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
@@ -154,16 +140,29 @@ public class OrderProgress extends Activity {
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
 			Log.i(LOGGER_TAG, "OrderProgress -- RequestProgress -- onPostExecute()");
-
-			CanteenManagerDatabase myDatabase = new CanteenManagerDatabase(OrderProgress.this);
-			myDatabase.open();
-			OrderItem [] currentOrder = myDatabase.getOrder(ApplicationPreferences.getOrderNumber(OrderProgress.this) - 1);
-			myDatabase.close();
-			
-			ProgressParser myParser = new ProgressParser(result,currentOrder);
-			OrderedItems myOrderedzItems = myParser.getOrderList();
-			
-			_orderLV.setAdapter(new ItemsProgressAdapter(OrderProgress.this, R.layout.progress_list_item, myParser.getOrderedItemList()));
+			if(result == MESSAGE_UNKNOWN) {
+				Log.i(LOGGER_TAG, "OrderProgress -- RequestProgress -- onPostExecute() -- Retrieving progress from database and displaying");
+				CanteenManagerDatabase myDatabase = new CanteenManagerDatabase(OrderProgress.this);
+				myDatabase.open();
+				OrderedItem[] currentOrder = myDatabase.getOrderedItemList(orderNumber);
+				myDatabase.close();
+				_orderLV.setAdapter(new ItemsProgressAdapter(OrderProgress.this, R.layout.progress_list_item, currentOrder));
+	
+			} else {
+				Log.i(LOGGER_TAG, "OrderProgress -- RequestProgress -- onPostExecute() -- Updating database with the received progress results and displaying");
+				CanteenManagerDatabase myDatabase = new CanteenManagerDatabase(OrderProgress.this);
+				myDatabase.open();
+				OrderItem [] currentOrder = myDatabase.getOrder(orderNumber);
+				ProgressParser myParser = new ProgressParser(result, currentOrder);
+				OrderedItem[] myOrder = myParser.getOrderedItemList();
+				
+				for(int i = 0; i != myOrder.length; i++) {
+					myDatabase.updateItemProgress(myOrder[i].getItemName(), orderNumber, myOrder[i].getState());
+				}
+				myDatabase.close();
+				
+				_orderLV.setAdapter(new ItemsProgressAdapter(OrderProgress.this, R.layout.progress_list_item, myOrder));
+			}
 		}
-    }
+	}
 }

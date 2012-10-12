@@ -66,26 +66,10 @@ public class SingleProgressStatusParser {
 
 
 	/**
-	 * @param _itemName the _itemName to set
-	 */
-	public void setItemName(String _itemName) {
-		this._itemName = _itemName;
-	}
-
-
-	/**
 	 * @return the _orderNumber
 	 */
 	public int getOrderNumber() {
 		return _orderNumber;
-	}
-
-
-	/**
-	 * @param _orderNumber the _orderNumber to set
-	 */
-	public void setOrderNumber(int _orderNumber) {
-		this._orderNumber = _orderNumber;
 	}
 
 
@@ -95,12 +79,5 @@ public class SingleProgressStatusParser {
 	public Progress getItemProgress() {
 		return _itemProgress;
 	}
-
-
-	/**
-	 * @param _itemProgress the _itemProgress to set
-	 */
-	public void setItemProgress(Progress _itemProgress) {
-		this._itemProgress = _itemProgress;
-	}	
+	
 }

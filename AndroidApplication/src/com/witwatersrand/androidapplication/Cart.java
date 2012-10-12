@@ -13,9 +13,12 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 
+import com.witwatersrand.androidapplication.progressrequester.LongPollerProgressRequester;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -32,6 +35,7 @@ public class Cart extends Activity implements OnClickListener {
 	OrderItem[] _myCart;
 	public static TextView totalTV;
 	Button makePurchaseB;
+	public static Intent myBackgroundServiceIntent;
 
 	static final String APPLIATION_DATA_FILENAME = "mySharedPreferences";
 	private static final String ORDER_NUMBER_KEY = "order";
@@ -67,7 +71,7 @@ public class Cart extends Activity implements OnClickListener {
 			orderNumber++;
 			ApplicationPreferences.setOrderNumber(this, orderNumber);
 			
-			OrderEncoder myOrderEncoder = new OrderEncoder(myOrder, ApplicationPreferences.getOrderNumber(this) -1);
+			OrderEncoder myOrderEncoder = new OrderEncoder(myOrder, ApplicationPreferences.getOrderNumber(this) -1, getBaseContext());
 			_httpPostMessage = myOrderEncoder.getOrderJsonMessage();
 			Log.i(LOGGER_TAG, "Cart -- _httpPostMessage = " + _httpPostMessage);
 
@@ -75,7 +79,7 @@ public class Cart extends Activity implements OnClickListener {
 			Log.i(LOGGER_TAG,
 					"Cart -- Calling another thread for the HTTP POST request");
 			task.execute(new String[]
-					{"http://146.141.125.96/yii/index.php/mobile/placeorders"});
+					{"http://146.141.125.64/yii/index.php/mobile/placeorders"});
 			Button currentB = (Button) findViewById(R.id.bPurchase);
 			currentB.setEnabled(false);
 			break;
@@ -91,8 +95,11 @@ public class Cart extends Activity implements OnClickListener {
 		Log.d(LOGGER_TAG, "orderNumber = " + ApplicationPreferences.getOrderNumber(this));
 		_myCart = myDatabase.getOrder(ApplicationPreferences.getOrderNumber(this));
 		Log.d(LOGGER_TAG, "_myCart.length = " + _myCart.length);
+		
+		float total = myDatabase.getTotalForOrder(ApplicationPreferences.getOrderNumber(this));
 		myDatabase.close();
-
+		totalTV.setText("R " + String.format("%.2f", total));
+		
 		_cartLV.setAdapter(new CartAdapter(this, R.layout.cart_list_item,
 				_myCart));
 	}
@@ -171,9 +178,14 @@ public class Cart extends Activity implements OnClickListener {
 		@Override
 		protected void onPostExecute(String response) {
 			super.onPostExecute(response);
+			Log.i(LOGGER_TAG, "Cart -- UploadOrder -- onPostExecute()");
+
 			Toast.makeText(Cart.this, "Cart -- UploadOrder -- Response message = " + response, Toast.LENGTH_LONG).show();
+			Log.i(LOGGER_TAG, "Cart -- UploadOrder -- onPostExecute() -- Setting pending status to true");
 			ApplicationPreferences.setPendingStatus(Cart.this, true);
-			
+			Log.i(LOGGER_TAG, "Cart -- UploadOrder -- onPostExecute() -- Starting service");
+			// myBackgroundServiceIntent = new Intent(Cart.this, LongPollerProgressRequester.class);
+			// startService(myBackgroundServiceIntent);
 		}
 	}
 }

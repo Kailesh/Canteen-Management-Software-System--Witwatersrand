@@ -38,7 +38,7 @@ public class TodaysItems extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         CheckMenuUpdated task = new CheckMenuUpdated();
-        task.execute("http://146.141.125.96/yii/index.php/mobile/menuupdate");
+        task.execute("http://146.141.125.64/yii/index.php/mobile/menuupdate");
     }
     
     protected void onListItemClick(ListView l, View v, int position, long id) {
@@ -78,7 +78,7 @@ public class TodaysItems extends ListActivity {
 		
 		private String sendHTTPRequest(String... urls) {
 			for (String url : urls) {
-				Log.i(LOGGER_TAG, "TodaysItems -- CheckMenuUpdated -- doInBackground()");
+				Log.i(LOGGER_TAG, "TodaysItems -- CheckMenuUpdated -- sendHTTPRequest()");
 				try {
 					HttpResponse myResponse = httpRequest(url);
 					Log.i(LOGGER_TAG, "TodaysItems -- CheckMenuUpdated -- HTTP request complete");
@@ -101,6 +101,7 @@ public class TodaysItems extends ListActivity {
 		}
 
 		private HttpResponse httpRequest(String url) throws ClientProtocolException, IOException {
+			Log.i(LOGGER_TAG, "TodaysItems -- CheckMenuUpdated -- httpRequest()");
 			int TIMEOUT_MILLISEC = 10000; // = 10 seconds
 			HttpParams httpParams = new BasicHttpParams();
 			HttpConnectionParams.setConnectionTimeout(httpParams, TIMEOUT_MILLISEC);

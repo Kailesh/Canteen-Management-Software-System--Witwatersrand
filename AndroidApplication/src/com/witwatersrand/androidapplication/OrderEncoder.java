@@ -9,6 +9,7 @@ import java.io.StringWriter;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import android.content.Context;
 import android.util.Log;
 
 /**
@@ -36,13 +37,19 @@ public class OrderEncoder {
 	final private static String ORDER_NUMBER_KEY = "orderNumber";
 	
 	
-	public OrderEncoder(OrderItem[] order, int i) {
+	public OrderEncoder(OrderItem[] order, int i, Context context) {
 		Log.i(LOGGER_TAG, "OrderEncoder -- Constructor");
 		this._orderList = order;
 		_total = 0;
 		_delivery = false;
 		_deliveryLocation = "Random";
-		_deviceID = "56:78:3D:E5:8F:N1";
+		
+		
+		//----------------Fake Mac Address---------------
+		_deviceID = "90:C1:15:BC:97:4F";
+		
+		// _deviceID = DeviceIDGenerator.getWifiMacAddress(context);
+		
 		_orderNumber = i;
 		encodeOrderIntoJson();
 	}
