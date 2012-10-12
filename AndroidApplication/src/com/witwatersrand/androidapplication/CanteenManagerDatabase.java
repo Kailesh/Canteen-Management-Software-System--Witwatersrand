@@ -27,6 +27,7 @@ public class CanteenManagerDatabase {
 	private static final String KEY_AVAILABILITY = "availability";
 	private static final String KEY_PURCHASE_QUANTITY = "purchase_quantity";
 	private static final String KEY_ORDER = "order_number";
+	private static final String KEY_ITEM_STATUS = "item_status";
 
 	private static final String DATABASE_NAME = "canteen_manager_database";
 	private static final String DATABASE_TABLE_MENU_ITEMS = "menu_items_table";
@@ -172,7 +173,6 @@ public class CanteenManagerDatabase {
 			stationCursor.close();
 			return true;
 		}
-		
 	}
 	
 	public void removeAllOrderItems() {
@@ -203,6 +203,30 @@ public class CanteenManagerDatabase {
 		orderCursor.close();
 		return orderList;
 	}
+	
+	public OrderedItem[] getOrderedItemList(int orderNumner) {
+		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- getOrderedItemList()");
+		OrderedItem[] orderedList = (OrderedItem[]) getOrder(orderNumner);
+		String[] columns = new String[]{KEY_ITEM_STATUS};
+		Cursor orderCursor = _database.query(DATABASE_TABLE_ORDER, columns, KEY_ORDER + "='" + orderNumner + "'", null, null, null, null);
+		int iStatus = orderCursor.getColumnIndex(KEY_ITEM_STATUS);
+		
+		int i = 0;
+		for (orderCursor.moveToFirst(); !orderCursor.isAfterLast(); orderCursor.moveToNext()) {
+			orderedList[i].setItemName(orderCursor.getString(iStatus));
+			i++;
+		}
+		return orderedList;
+	}
+	
+	public boolean updateItemProgress(String name, int orderNumber, Progress status) {
+		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- updateItemProgress()");
+		ContentValues updateRow =  new ContentValues();
+		updateRow.put(KEY_ITEM_STATUS, "" + status);
+		_database.update(DATABASE_TABLE_ORDER, updateRow, KEY_ITEM_NAME + "='" + name +"' AND " +  KEY_ORDER + "='" + orderNumber + "'", null); // Change the table name here
+		return false;
+	}
+	
 	
 	public float getTotalForOrder(int orderNumber) {
 		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- getTotalForOrder()");
@@ -250,7 +274,8 @@ public class CanteenManagerDatabase {
 					KEY_STATION + " TEXT NOT NULL, " +
 					KEY_PRICE + " REAL NOT NULL DEFAULT 0," +
 					KEY_PURCHASE_QUANTITY + " INTEGER NOT NULL DEFAULT 0," +
-					KEY_ORDER + " INTEGER NOT NULL DEFAULT 0);"
+					KEY_ORDER + " INTEGER NOT NULL DEFAULT 0," +
+					KEY_ITEM_STATUS + " TEXT NOT NULL DEFAULT NONE);"
 					);
 		}
 
