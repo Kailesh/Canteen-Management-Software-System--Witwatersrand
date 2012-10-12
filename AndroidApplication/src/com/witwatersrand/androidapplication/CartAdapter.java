@@ -103,23 +103,30 @@ public class CartAdapter extends ArrayAdapter<OrderItem> {
 			int  itemQuantity = 0;
 			public void onClick(View v) {
 				Log.i(LOGGER_TAG, "CartAdapter -- getView() -- onClick() -- Button pressed for item name: " + _myCart[_selectedPosition].getItemName());
-				itemQuantity = Integer.parseInt(myUniqueQuantityTV.getText().toString());				
-				itemQuantity--;				
-				_myCart[_selectedPosition].setPurchaseQuantity(itemQuantity);
-				
-				myUniqueQuantityTV.setText("" + itemQuantity);
-								
-				CanteenManagerDatabase myDatabase = new CanteenManagerDatabase(_context);
-				myDatabase.open();
-				myDatabase.updatePurchaseQuantity(_myCart[_selectedPosition].getItemName(), itemQuantity, ApplicationPreferences.getOrderNumber(_context));
-				
-				float total = myDatabase.getTotalForOrder(ApplicationPreferences.getOrderNumber(_context));
-				
-				// TODO Not good practice but works
-				Cart.totalTV.setText("R " + String.format("%.2f", total));
+				itemQuantity = Integer.parseInt(myUniqueQuantityTV.getText().toString());
+				if (itemQuantity == 0) {
+					Log.i(LOGGER_TAG, "CartAdapter -- getView() -- onClick() -- itemQuantity = |" + itemQuantity + "|");
+						
+				} else {
+					itemQuantity--;
+					_myCart[_selectedPosition]
+							.setPurchaseQuantity(itemQuantity);
 
-				ApplicationPreferences.setLatestOrderTotal(_context, total);
-				myDatabase.close();
+					myUniqueQuantityTV.setText("" + itemQuantity);
+
+					CanteenManagerDatabase myDatabase = new CanteenManagerDatabase(
+							_context);
+					myDatabase.open();
+					myDatabase.updatePurchaseQuantity(_myCart[_selectedPosition].getItemName(), itemQuantity, ApplicationPreferences.getOrderNumber(_context));
+
+					float total = myDatabase.getTotalForOrder(ApplicationPreferences.getOrderNumber(_context));
+
+					// TODO Not good practice but works
+					Cart.totalTV.setText("R " + String.format("%.2f", total));
+
+					ApplicationPreferences.setLatestOrderTotal(_context, total);
+					myDatabase.close();
+				}
 			}
 		});
 		return rowRootView;

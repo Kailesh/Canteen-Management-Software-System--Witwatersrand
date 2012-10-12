@@ -24,19 +24,26 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class Cart extends Activity implements OnClickListener {
 	final String LOGGER_TAG = "WITWATERSRAND";
 	String _httpPostMessage;
-	ListView _cartLV;
 	OrderItem[] _myCart;
+	
+	ListView _cartLV;
 	public static TextView totalTV;
 	Button makePurchaseB;
+	Spinner _deliveryFloorS, _deliverySideS;
+	CheckBox _deliveryCB;
+	
 	public static Intent myBackgroundServiceIntent;
 
+	
 	static final String APPLIATION_DATA_FILENAME = "mySharedPreferences";
 	private static final String ORDER_NUMBER_KEY = "order";
 
@@ -50,11 +57,20 @@ public class Cart extends Activity implements OnClickListener {
 		_cartLV = (ListView) findViewById(R.id.lvCart);
 		totalTV = (TextView) findViewById(R.id.tvCartTotal);
 		totalTV.setText("R " + String.format("%.2f", (float) 0));
+		_deliveryCB = (CheckBox) findViewById(R.id.cbDelivery);
+		_deliveryFloorS = (Spinner) findViewById(R.id.spFloor);
+		_deliverySideS = (Spinner) findViewById(R.id.spSide);
+		_deliveryCB.setOnClickListener(this);
+		
+		
 		loadCart();
 
 		makePurchaseB = (Button) findViewById(R.id.bPurchase);
 		makePurchaseB.setOnClickListener(this);
 	}
+	
+	
+	
 
 	public void onClick(View v) {
 		Log.i(LOGGER_TAG, "Cart -- onClick()");
@@ -83,7 +99,20 @@ public class Cart extends Activity implements OnClickListener {
 			Button currentB = (Button) findViewById(R.id.bPurchase);
 			currentB.setEnabled(false);
 			break;
+		
+		case R.id.cbDelivery:
+			if (_deliveryCB.isChecked()) {
+				_deliveryFloorS.setEnabled(true);
+				_deliverySideS.setEnabled(true);
+				
+			} else {
+				_deliveryFloorS.setEnabled(false);
+				_deliverySideS.setEnabled(false);
+			}
+			
+			break;
 		}
+		
 	}
 
 	private void loadCart() {
@@ -184,8 +213,8 @@ public class Cart extends Activity implements OnClickListener {
 			Log.i(LOGGER_TAG, "Cart -- UploadOrder -- onPostExecute() -- Setting pending status to true");
 			ApplicationPreferences.setPendingStatus(Cart.this, true);
 			Log.i(LOGGER_TAG, "Cart -- UploadOrder -- onPostExecute() -- Starting service");
-			// myBackgroundServiceIntent = new Intent(Cart.this, LongPollerProgressRequester.class);
-			// startService(myBackgroundServiceIntent);
+//			myBackgroundServiceIntent = new Intent(Cart.this, LongPollerProgressRequester.class);
+//			startService(myBackgroundServiceIntent);
 		}
 	}
 }

@@ -64,7 +64,7 @@ public class LongPollerProgressRequester extends Service {
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		Log.d(LOGGER_TAG, "LongPollerProgressRequester -- onStartCommand()");
 		LongPollingRequest task = new LongPollingRequest();
-		task.execute(new String[] { "http://146.141.125.64/yii/index.php/mobile/longpollingprogress" });
+		task.execute(new String[] { "http://146.141.125.64/yii/index.php/mobile/longpoller" });
 		Log.d(LOGGER_TAG, "PollingService -- onStartCommand() -- After calling task.execute()");
 		return super.onStartCommand(intent, flags, startId);
 	}
@@ -182,7 +182,7 @@ public class LongPollerProgressRequester extends Service {
 			
 			if (ApplicationPreferences.isStatusPending(LongPollerProgressRequester.this)) {
 				Log.d(LOGGER_TAG, "LongPollerProgressRequester -- LongPollingRequest -- onPostExecute() -- Status orders have not been received yet");
-				new LongPollingRequest().execute(new String[] { "http://146.141.125.64/yii/index.php/mobile/longpollingprogress" });
+				new LongPollingRequest().execute(new String[] { "http://146.141.125.64/yii/index.php/mobile/longpoller" });
 			} else {
 				stopService(Cart.myBackgroundServiceIntent);
 			}

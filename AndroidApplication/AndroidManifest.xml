@@ -125,6 +125,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <service android:enabled="true" android:name=".LongPollerProgressRequester" />
     </application>
 
 </manifest>

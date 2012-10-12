@@ -30,12 +30,33 @@
         android:layout_centerHorizontal="true"
         android:text="@string/button_title_place_order" />
 
+    <CheckBox
+        android:id="@+id/cbDelivery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bPurchase"
+        android:layout_centerHorizontal="true"
+        android:text="Delivery" />
+
+    <Spinner
+        android:id="@+id/spFloor"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cbDelivery"
+        android:layout_centerHorizontal="true" />
+
+    <Spinner
+        android:id="@+id/spSide"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/spFloor" />
+
     <ListView
         android:id="@+id/lvCart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/bPurchase" >
+        android:layout_below="@+id/spSide" >
     </ListView>
 
 </RelativeLayout>

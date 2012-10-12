@@ -46,7 +46,7 @@ public class OrderProgress extends Activity {
         orderNameTV.setText("Order " + orderNumber);
         _orderLV = (ListView) findViewById(R.id.lvProgress);
         RequestProgress task = new RequestProgress();
-        task.execute(new String[] {"http://146.141.125.96/yii/index.php/mobile/queryprogress"});
+        task.execute(new String[] {"http://146.141.125.64/yii/index.php/mobile/queryprogress"});
     }
 
     @Override

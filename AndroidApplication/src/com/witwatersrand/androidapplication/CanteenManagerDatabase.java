@@ -150,7 +150,7 @@ public class CanteenManagerDatabase {
 			newRow.put(KEY_PURCHASE_QUANTITY, quantity);
 			newRow.put(KEY_ORDER, orderNumber);
 			_database.insert(DATABASE_TABLE_ORDER, null, newRow);
-			Toast.makeText(_context, menuItemToPurchase.getItemName() + " added to the order list " + orderNumber, Toast.LENGTH_SHORT).show();
+			Toast.makeText(_context, menuItemToPurchase.getItemName() + " added to the cart", Toast.LENGTH_SHORT).show();
 		}
 	}
 	
