@@ -61,7 +61,7 @@ public class Cart extends Activity implements OnClickListener {
 		_deliveryFloorS = (Spinner) findViewById(R.id.spFloor);
 		_deliverySideS = (Spinner) findViewById(R.id.spSide);
 		_deliveryCB.setOnClickListener(this);
-		
+		setDelivery();
 		
 		loadCart();
 
@@ -69,7 +69,16 @@ public class Cart extends Activity implements OnClickListener {
 		makePurchaseB.setOnClickListener(this);
 	}
 	
-	
+	private void setDelivery() {
+		if (_deliveryCB.isChecked()) {
+			_deliveryFloorS.setEnabled(true);
+			_deliverySideS.setEnabled(true);
+			
+		} else {
+			_deliveryFloorS.setEnabled(false);
+			_deliverySideS.setEnabled(false);
+		}
+	}
 	
 
 	public void onClick(View v) {
@@ -101,14 +110,7 @@ public class Cart extends Activity implements OnClickListener {
 			break;
 		
 		case R.id.cbDelivery:
-			if (_deliveryCB.isChecked()) {
-				_deliveryFloorS.setEnabled(true);
-				_deliverySideS.setEnabled(true);
-				
-			} else {
-				_deliveryFloorS.setEnabled(false);
-				_deliverySideS.setEnabled(false);
-			}
+			setDelivery();
 			
 			break;
 		}

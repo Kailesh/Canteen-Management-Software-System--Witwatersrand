@@ -43,14 +43,16 @@
         android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/cbDelivery"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true" 
+        android:entries="@array/delivery_locations"/>
 
     <Spinner
         android:id="@+id/spSide"
         android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/spFloor" />
+        android:layout_below="@+id/spFloor" 
+        android:entries="@array/kitchen_or_not" />
 
     <ListView
         android:id="@+id/lvCart"
