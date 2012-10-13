@@ -217,11 +217,13 @@ public class Cart extends Activity implements OnClickListener {
 			super.onPostExecute(response);
 			Log.i(LOGGER_TAG, "Cart -- UploadOrder -- onPostExecute()");
 
-			Toast.makeText(Cart.this, "Cart -- UploadOrder -- Response message = " + response, Toast.LENGTH_LONG).show();
+			Toast.makeText(Cart.this, "" + response, Toast.LENGTH_LONG).show();
 			Log.i(LOGGER_TAG, "Cart -- UploadOrder -- onPostExecute() -- Setting pending status to true");
 			ApplicationPreferences.setPendingStatus(Cart.this, true);
 			Log.i(LOGGER_TAG, "Cart -- UploadOrder -- onPostExecute() -- Starting service");
 			startService(myBackgroundServiceIntent);
+			Log.i(LOGGER_TAG, "Cart -- UploadOrder -- onPostExecute() -- Closing the Items and Cart activity");
+			Cart.this.finish();
 		}
 	}
 }
