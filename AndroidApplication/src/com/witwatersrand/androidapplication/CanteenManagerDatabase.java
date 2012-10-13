@@ -219,12 +219,19 @@ public class CanteenManagerDatabase {
 		return orderedList;
 	}
 	
-	public boolean updateItemProgress(String name, int orderNumber, Progress status) {
+	public void updateItemProgress(String name, int orderNumber, Progress status) {
 		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- updateItemProgress()");
 		ContentValues updateRow =  new ContentValues();
 		updateRow.put(KEY_ITEM_STATUS, "" + status);
 		_database.update(DATABASE_TABLE_ORDER, updateRow, KEY_ITEM_NAME + "='" + name +"' AND " +  KEY_ORDER + "='" + orderNumber + "'", null); // Change the table name here
-		return false;
+	}
+	
+	public void updateOrderProgress(int orderNumber, Progress status) {
+		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- updateItemProgress()");
+		ContentValues updateRow =  new ContentValues();
+		updateRow.put(KEY_ITEM_STATUS, "" + status);
+		
+		_database.update(DATABASE_TABLE_ORDER, updateRow, KEY_ORDER + "='" + orderNumber + "'", null); // Change the table name here
 	}
 	
 	
@@ -239,6 +246,36 @@ public class CanteenManagerDatabase {
 		return -1;
 	}
 
+	
+	public boolean allStatusReceicved() {
+		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- areAllStatusReceicved()");
+		final String sqlInstructionNumberOfRows = "SELECT COUNT(*) AS my_items FROM " + DATABASE_TABLE_ORDER;
+		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- areAllStatusReceicved() -- sqlInstructionNumberOfRows = |" + sqlInstructionNumberOfRows + "|");
+		final String sqlInstructionNumberOfRowsDoneOrDeliverred = "SELECT COUNT(*) AS my_completed_items FROM " + DATABASE_TABLE_ORDER + " WHERE " + KEY_ITEM_STATUS + " = 'DONE' OR " + KEY_ITEM_STATUS + " = 'DELIVEERED'";
+		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- areAllStatusReceicved() -- sqlInstructionNumberOfRowsDoneOrDeliverred = |" + sqlInstructionNumberOfRowsDoneOrDeliverred + "|");
+		
+		
+		int numberOfItem = -1;
+		Cursor numberOfItemsC = _database.rawQuery(sqlInstructionNumberOfRows, null);
+		if(numberOfItemsC.moveToFirst()) {
+			numberOfItem = numberOfItemsC.getInt(0);
+		}
+		
+		int numberOfItemsDoneOrDelivered = -2;
+		Cursor numberOfItemsDoneOrDeliveredC = _database.rawQuery(sqlInstructionNumberOfRowsDoneOrDeliverred, null);
+		if(numberOfItemsDoneOrDeliveredC.moveToFirst()) {
+			numberOfItemsDoneOrDelivered = numberOfItemsDoneOrDeliveredC.getInt(0);
+		}
+		if (numberOfItem == numberOfItemsDoneOrDelivered) {
+			Log.i(LOGGER_TAG, "CanteenManagerDatabase -- areAllStatusReceicved() -- All status received" );	
+			return true;
+		}
+		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- areAllStatusReceicved() -- Not all status received" );
+		return false;
+	}
+	
+	
+	
 	private static class DBHelper extends SQLiteOpenHelper {
 
 		/*		
@@ -287,4 +324,6 @@ public class CanteenManagerDatabase {
 				onCreate(db);
 		}
 	}
+
+
 }

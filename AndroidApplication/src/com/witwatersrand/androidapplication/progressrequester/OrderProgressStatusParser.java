@@ -15,27 +15,23 @@ import com.witwatersrand.androidapplication.Progress;
  * @author Kailesh
  *
  */
-public class SingleProgressStatusParser {
+public class OrderProgressStatusParser {
 	final private static String LOGGER_TAG = "WITWATERSRAND";
 	
 	private static String _jsonMessage;
 	
-	final private static String JSON_ITEM_NAME_KEY = "item";
 	final private static String JSON_ORDER_NUMBER = "orderNumber";
 	final private static String JOSN_PROGRESS_STATUS_KEY = "status";
 	
-	private String _itemName;
 	private int _orderNumber;
-	private Progress _itemProgress;
+	private Progress _orderProgress;
+
 	
-	private String UNKNOWN = "Unknown";
-	
-	SingleProgressStatusParser (String message) {
+	OrderProgressStatusParser (String message) {
 		Log.i(LOGGER_TAG, "SingleProgressStatusParser -- Constructor");
 		_jsonMessage = message;
-		_itemName = UNKNOWN;
 		_orderNumber = 0;
-		_itemProgress = Progress.NONE;
+		_orderProgress = Progress.NONE;
 		parseMessage();
 	}
 
@@ -45,10 +41,8 @@ public class SingleProgressStatusParser {
 		JSONParser parser = new JSONParser();
 		try {
 			JSONObject jsonObject = (JSONObject) parser.parse(_jsonMessage);
-					
-			_itemName = (String) jsonObject.get(JSON_ITEM_NAME_KEY);
 			_orderNumber = (Integer) jsonObject.get(JSON_ORDER_NUMBER);
-			_itemProgress = Progress.valueOf( ((String) jsonObject.get(JOSN_PROGRESS_STATUS_KEY)).toUpperCase());
+			_orderProgress = Progress.valueOf( ((String) jsonObject.get(JOSN_PROGRESS_STATUS_KEY)).toUpperCase());
 			Log.i(LOGGER_TAG, "SingleProgressStatusParser -- parseMessage() -- Data parsed");
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -56,13 +50,6 @@ public class SingleProgressStatusParser {
 		}	
 	}
 
-
-	/**
-	 * @return the _itemName
-	 */
-	public String getItemName() {
-		return _itemName;
-	}
 
 
 	/**
@@ -77,7 +64,7 @@ public class SingleProgressStatusParser {
 	 * @return the _itemProgress
 	 */
 	public Progress getItemProgress() {
-		return _itemProgress;
+		return _orderProgress;
 	}
 	
 }

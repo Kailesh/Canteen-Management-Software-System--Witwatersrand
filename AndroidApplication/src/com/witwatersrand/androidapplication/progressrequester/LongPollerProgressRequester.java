@@ -29,6 +29,8 @@ import android.util.Log;
 public class LongPollerProgressRequester extends Service {
 	private static final String LOGGER_TAG = "WITWATERSRAND";
 	private static final String JSON_DEVICE_ID_KEY = "deviceID";
+	private static final String JSON_ORDER_NUMBER_KEY = "orderNumber";
+	
 	static final String DEVICE_ID_UNKNOWN = "Device ID Unknown";
 	private static final String UNKNOWN = "Unknown";
 	
@@ -87,14 +89,14 @@ public class LongPollerProgressRequester extends Service {
 		protected String doInBackground(String... urls) {
 			Log.d(LOGGER_TAG, "LongPollerProgressRequester -- LongPollingRequest -- doInBackground()");
 			
-			//---------------------------|Fake delayed response|---------------------------
+			/*//---------------------------|Fake delayed response|---------------------------
 			Log.d(LOGGER_TAG, "LongPollerProgressRequester -- LongPollingRequest -- doInBackground() -- Tring to waist time");
 			for(int i = 0; i <= 1000000000 ; i++) {
 				// waist time
 			}
-			return "{\"item\": \"Pizza\",\"status\": \"Done\",\"orderNumber\": \"3\"}";
-			//-----------------------------------------------------------------------------
-			// return executeHttpRequest(urls);
+			return "{\"order\": \"2\",\"status\": \"Done\"}";
+			*///-----------------------------------------------------------------------------
+			return executeHttpRequest(urls);
 		}
 
 		private String executeHttpRequest(String... urls) {
@@ -102,6 +104,9 @@ public class LongPollerProgressRequester extends Service {
 			for (String url : urls) {
 				try {
 					HttpResponse httpResponse = setupHttpRquest(url);
+					Log.d(LOGGER_TAG, "LongPollerProgressRequester -- LongPollingRequest -- executeHttpRequest() -- Status code = |" + httpResponse.getStatusLine().getStatusCode() + "|");
+
+					
 					if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 						Log.i(LOGGER_TAG, "LongPollerProgressRequester -- LongPollingRequest -- HTTP OK");
 						String myJsonString = EntityUtils.toString(httpResponse.getEntity());
@@ -125,7 +130,7 @@ public class LongPollerProgressRequester extends Service {
 			ConnManagerParams.setTimeout(httpParams, CONNECTION_TIMEOUT);
 			HttpPost myPostRequest = new HttpPost(url);
 			myPostRequest.addHeader("Accept", "application/json");
-			StringEntity message = new StringEntity(getDeviceIDMessage());
+			StringEntity message = new StringEntity(getRequestMessage());
 			Log.d(LOGGER_TAG, "LongPollerProgressRequester -- LongPollingRequest -- message = |" + message + "|");
 			myPostRequest.addHeader("content-type", "applcation/json");
 			myPostRequest.setEntity(message);
@@ -136,16 +141,18 @@ public class LongPollerProgressRequester extends Service {
 		// belongs to the raw type HashMap. References to generic type HashMap<K,V>
 		// should be parameterized
 		@SuppressWarnings("unchecked")
-		public String getDeviceIDMessage() {
-			Log.d(LOGGER_TAG, "LongPollerProgressRequester -- LongPollingRequest -- getDeviceIDMessage()");
+		public String getRequestMessage() {
+			Log.d(LOGGER_TAG, "LongPollerProgressRequester -- LongPollingRequest -- getRequestMessage()");
 			JSONObject myJsonObject = new JSONObject();
 			
-			//--------------------Fake Mac Address--------------------------
-			
-			// String myMacAddress = DeviceIDGenerator.getWifiMacAddress(LongPollerProgressRequester.this);
+			//--------------------Fake Mac Address-----------------------		
 			String myMacAddress = "90:C1:15:BC:97:4F";
+			// String myMacAddress = DeviceIDGenerator.getWifiMacAddress(LongPollerProgressRequester.this);
+			
 			
 			myJsonObject.put(JSON_DEVICE_ID_KEY, myMacAddress);
+			Log.d(LOGGER_TAG, "LongPollerProgressRequester -- LongPollingRequest -- getRequestMessage() - Order number sent to server = |" + (ApplicationPreferences.getOrderNumber(getBaseContext()) - 1) + "|");
+			myJsonObject.put(JSON_ORDER_NUMBER_KEY, ApplicationPreferences.getOrderNumber(getBaseContext()) - 1);
 
 			StringWriter myStringWriter = new StringWriter();
 			try {
@@ -168,24 +175,29 @@ public class LongPollerProgressRequester extends Service {
 			super.onPostExecute(response);
 			Log.d(LOGGER_TAG, "LongPollerProgressRequester -- LongPollingRequest -- onPostExecute()");
 			Log.d(LOGGER_TAG, "LongPollerProgressRequester -- LongPollingRequest -- onPostExecute() -- Response message = |" + response + "|");
-			Log.d(LOGGER_TAG, "LongPollerProgressRequester -- LongPollingRequest -- onPostExecute() -- calling this.cancel(true)");
 			
-			SingleProgressStatusParser myParser = new SingleProgressStatusParser(response);
+			OrderProgressStatusParser myParser = new OrderProgressStatusParser(response);
 			
 			// Update Database
 			CanteenManagerDatabase myDatabase = new CanteenManagerDatabase(LongPollerProgressRequester.this);
 			myDatabase.open();
-			myDatabase.updateItemProgress(myParser.getItemName(), myParser.getOrderNumber(), myParser.getItemProgress());
-			myDatabase.close();
-		
-			this.cancel(true);
+			myDatabase.updateOrderProgress(myParser.getOrderNumber(), myParser.getItemProgress());
 			
-			if (ApplicationPreferences.isStatusPending(LongPollerProgressRequester.this)) {
-				Log.d(LOGGER_TAG, "LongPollerProgressRequester -- LongPollingRequest -- onPostExecute() -- Status orders have not been received yet");
+			ApplicationPreferences.setPendingStatus(getBaseContext(), myDatabase.allStatusReceicved());
+			myDatabase.close();
+			Log.d(LOGGER_TAG, "LongPollerProgressRequester -- LongPollingRequest -- onPostExecute() -- calling this.cancel(true)");
+			
+			this.cancel(true);
+			stopService(Cart.myBackgroundServiceIntent);
+			
+			//------------------|No longer setting up proper long poller|------------------
+			/*if (ApplicationPreferences.isStatusPending(LongPollerProgressRequester.this)) {
+				Log.d(LOGGER_TAG, "LongPollerProgressRequester -- LongPollingRequest -- onPostExecute() -- **Not all are done**");
 				new LongPollingRequest().execute(new String[] { "http://146.141.125.64/yii/index.php/mobile/longpoller" });
 			} else {
-				stopService(Cart.myBackgroundServiceIntent);
-			}
+			stopService(Cart.myBackgroundServiceIntent);
+			}*/
+			//-----------------------------------------------------------------------------
 		}
 	}
 }

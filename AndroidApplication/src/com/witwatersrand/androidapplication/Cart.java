@@ -61,6 +61,9 @@ public class Cart extends Activity implements OnClickListener {
 		_deliveryFloorS = (Spinner) findViewById(R.id.spFloor);
 		_deliverySideS = (Spinner) findViewById(R.id.spSide);
 		_deliveryCB.setOnClickListener(this);
+		
+		myBackgroundServiceIntent = new Intent(this, LongPollerProgressRequester.class);
+
 		setDelivery();
 		
 		loadCart();
@@ -97,6 +100,9 @@ public class Cart extends Activity implements OnClickListener {
 			ApplicationPreferences.setOrderNumber(this, orderNumber);
 			
 			OrderEncoder myOrderEncoder = new OrderEncoder(myOrder, ApplicationPreferences.getOrderNumber(this) -1, getBaseContext());
+			myOrderEncoder.setDelivery(_deliveryCB.isChecked());
+			myOrderEncoder.setDeliveryLocation("Floor " + _deliveryFloorS.getSelectedItem() + " - " + _deliverySideS.getSelectedItem());
+			myOrderEncoder.encodeOrderIntoJson();
 			_httpPostMessage = myOrderEncoder.getOrderJsonMessage();
 			Log.i(LOGGER_TAG, "Cart -- _httpPostMessage = " + _httpPostMessage);
 
@@ -147,11 +153,11 @@ public class Cart extends Activity implements OnClickListener {
 		protected String doInBackground(String... urls) {
 			Log.i(LOGGER_TAG, "Cart -- UploadOrder -- doInBackground()");
 
-			String responseMessage = sendHTTPRequest(urls);
+			 String responseMessage = sendHTTPRequest(urls);
 			Log.i(LOGGER_TAG, "Cart -- UploadOrder -- responseMessage = "
 					+ responseMessage);
 
-//			String responseMessage  = "bleh";
+//			String responseMessage  = "Order Received";
 			return responseMessage;
 		}
 
@@ -215,8 +221,7 @@ public class Cart extends Activity implements OnClickListener {
 			Log.i(LOGGER_TAG, "Cart -- UploadOrder -- onPostExecute() -- Setting pending status to true");
 			ApplicationPreferences.setPendingStatus(Cart.this, true);
 			Log.i(LOGGER_TAG, "Cart -- UploadOrder -- onPostExecute() -- Starting service");
-//			myBackgroundServiceIntent = new Intent(Cart.this, LongPollerProgressRequester.class);
-//			startService(myBackgroundServiceIntent);
+			startService(myBackgroundServiceIntent);
 		}
 	}
 }

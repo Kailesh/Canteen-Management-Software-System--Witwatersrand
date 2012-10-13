@@ -37,12 +37,12 @@ public class OrderEncoder {
 	final private static String ORDER_NUMBER_KEY = "orderNumber";
 	
 	
-	public OrderEncoder(OrderItem[] order, int i, Context context) {
+	public OrderEncoder(OrderItem[] order, int orderNumber, Context context) {
 		Log.i(LOGGER_TAG, "OrderEncoder -- Constructor");
 		this._orderList = order;
 		_total = 0;
 		_delivery = false;
-		_deliveryLocation = "Random";
+		_deliveryLocation = "-";
 		
 		
 		//----------------Fake Mac Address---------------
@@ -50,15 +50,14 @@ public class OrderEncoder {
 		
 		// _deviceID = DeviceIDGenerator.getWifiMacAddress(context);
 		
-		_orderNumber = i;
-		encodeOrderIntoJson();
+		_orderNumber = orderNumber;
 	}
 	
 	// TODO Unchecked conversion - Type safety: The method put(Object, Object) 
 	// belongs to the raw type HashMap. References to generic type HashMap<K,V> 
 	// should be parameterized
 	@SuppressWarnings("unchecked")
-	private void encodeOrderIntoJson() {
+	public void encodeOrderIntoJson() {
 		Log.i(LOGGER_TAG, "OrderEncoder -- encodeOrderIntoJson()");
 		JSONObject myJsonObject = new JSONObject();
 		JSONArray purchaseOrderList = new JSONArray();
@@ -71,6 +70,11 @@ public class OrderEncoder {
 			purchaseOrderList.add(myMenuItem);
 		}
 		myJsonObject.put(BASKET_TAG, purchaseOrderList);
+		if (isToBeDelivered()) {
+			myJsonObject.put(DELIVERY_TAG, _deliveryLocation);
+		} else {
+			myJsonObject.put(DELIVERY_TAG, "-");
+		}
 		myJsonObject.put(DELIVERY_TAG, _deliveryLocation);
 		myJsonObject.put(TOTAL_TAG, _total);
 		myJsonObject.put(DEVICE_ID_TAG, _deviceID);
@@ -149,6 +153,7 @@ public class OrderEncoder {
 	 */
 	public void setDeliveryLocation(String _deliveryLocation) {
 		Log.i(LOGGER_TAG, "OrderEncoder -- setDeliveryLocation()");
+		Log.i(LOGGER_TAG, "OrderEncoder -- _deliveryLocation = |" + _deliveryLocation + "|");
 		this._deliveryLocation = _deliveryLocation;
 	}
 	
