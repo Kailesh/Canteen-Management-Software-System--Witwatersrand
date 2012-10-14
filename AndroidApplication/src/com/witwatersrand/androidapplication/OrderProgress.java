@@ -20,7 +20,6 @@ import android.os.AsyncTask;
 import android.os.AsyncTask.Status;
 import android.os.Bundle;
 import android.app.Activity;
-import android.bluetooth.BluetoothAdapter;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -130,12 +129,7 @@ public class OrderProgress extends Activity implements OnClickListener {
 
 			String progressRequestJsonMessage = "Message Not Set";
 			JSONObject myJsonObject = new JSONObject();
-			
-			// Fake address
-			String macAddress = "90:C1:15:BC:97:4F";
-			
-			// String macAddress = DeviceIDGenerator.getMacAddress();
-			
+			String macAddress = DeviceIDGenerator.getWifiMacAddress(OrderProgress.this);
 			myJsonObject.put(DEVICE_MAC_ADDRESS, macAddress);
 			myJsonObject.put(ORDER_NUMBER, orderNumber);
 			StringWriter myStringWriter = new StringWriter();

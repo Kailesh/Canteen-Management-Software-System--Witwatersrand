@@ -37,12 +37,7 @@ public class AuthenticatorEncoder {
 		_username = username;
 		_password = password;
 		
-		// _deviceMacAddress = DeviceIDGenerator.getWifiMacAddress(context);
-		
-		//--------------------|Fake Mac Address|--------------------
-		_deviceMacAddress = "90:C1:15:BC:97:4F";
-		
-		
+		_deviceMacAddress = DeviceIDGenerator.getWifiMacAddress(context);
 		_context = context;
 		encodeAuthenticatorIntoJson();
 	}

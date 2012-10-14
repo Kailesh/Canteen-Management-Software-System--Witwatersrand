@@ -17,10 +17,8 @@ import org.json.simple.JSONObject;
 
 import com.witwatersrand.androidapplication.ApplicationPreferences;
 import com.witwatersrand.androidapplication.CanteenManagerDatabase;
-import com.witwatersrand.androidapplication.Cart;
 import com.witwatersrand.androidapplication.DeviceIDGenerator;
 
-import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -153,10 +151,8 @@ public class LongPollerProgressRequester extends Service {
 		public String getRequestMessage() {
 			Log.d(LOGGER_TAG, "LongPollerProgressRequester -- LongPollingRequest -- getRequestMessage()");
 			JSONObject myJsonObject = new JSONObject();
-			
-			//--------------------Fake Mac Address-----------------------		
-			String myMacAddress = "90:C1:15:BC:97:4F";
-			// String myMacAddress = DeviceIDGenerator.getWifiMacAddress(LongPollerProgressRequester.this);
+
+			String myMacAddress = DeviceIDGenerator.getWifiMacAddress(LongPollerProgressRequester.this);
 			
 			
 			myJsonObject.put(JSON_DEVICE_ID_KEY, myMacAddress);

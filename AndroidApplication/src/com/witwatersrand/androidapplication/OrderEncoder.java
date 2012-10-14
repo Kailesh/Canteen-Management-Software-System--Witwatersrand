@@ -42,13 +42,8 @@ public class OrderEncoder {
 		this._orderList = order;
 		_total = 0;
 		_delivery = false;
-		_deliveryLocation = "-";
-		
-		
-		//----------------Fake Mac Address---------------
-		_deviceID = "90:C1:15:BC:97:4F";
-		
-		// _deviceID = DeviceIDGenerator.getWifiMacAddress(context);
+		_deliveryLocation = "-";	
+		_deviceID = DeviceIDGenerator.getWifiMacAddress(context);
 		
 		_orderNumber = orderNumber;
 	}
