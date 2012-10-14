@@ -65,7 +65,7 @@ public class Items extends Activity implements OnClickListener{
 			Log.i(LOGGER_TAG, "Items -- onCreate() -- The menu is not-updated and menu items will requested");
 			DownloadMenuData task = new DownloadMenuData();
 			Log.i(LOGGER_TAG, "Items -- onCreate() -- Calling another thread for the HTTP GET request");
-			task.execute(new String[] {"http://146.141.125.64/yii/index.php/mobile/getmenu"});
+			task.execute(new String[] {"http://" + ApplicationPreferences.getServerIPAddress(getBaseContext()) + "/yii/index.php/mobile/getmenu"});
 		}
 	}
 

@@ -73,7 +73,7 @@ public class LongPollerProgressRequester extends Service {
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		Log.d(LOGGER_TAG, "LongPollerProgressRequester -- onStartCommand()");
 		LongPollingRequest task = new LongPollingRequest();
-		task.execute(new String[] { "http://146.141.125.64/yii/index.php/mobile/longpoller" });
+		task.execute(new String[] { "http://" + ApplicationPreferences.getServerIPAddress(getBaseContext()) + "/yii/index.php/mobile/longpoller" });
 		Log.d(LOGGER_TAG, "PollingService -- onStartCommand() -- After calling task.execute()");
 		ORDER_COMPLETION_SERVICE_TAG = intent.getExtras().getString("myService");
 		ORDER_NUMBER = intent.getIntExtra("order_number", 0);

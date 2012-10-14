@@ -55,7 +55,7 @@ public class OrderProgress extends Activity implements OnClickListener {
         _refreshB.setOnClickListener(this);
         
         task = new RequestProgress();
-        task.execute(new String[] {"http://146.141.125.64/yii/index.php/mobile/queryprogress"});
+        task.execute(new String[] {"http://" + ApplicationPreferences.getServerIPAddress(getBaseContext()) + "/yii/index.php/mobile/queryprogress"});
     }
 
     @Override

@@ -100,7 +100,10 @@ public class Authentication extends Activity implements OnClickListener {
 			e.printStackTrace();
 		}
 		AuthenticateUser task = new AuthenticateUser();
-		task.execute(new String[] { "http://146.141.125.64/yii/index.php/mobile/authenticate" });
+		
+		
+		
+		task.execute(new String[] { "http://" + ApplicationPreferences.getServerIPAddress(getBaseContext()) + "/yii/index.php/mobile/authenticate" });
 	}
 
 	private class AuthenticateUser extends AsyncTask<String, Void, String> {

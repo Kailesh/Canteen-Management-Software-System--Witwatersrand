@@ -110,7 +110,7 @@ public class Cart extends Activity implements OnClickListener {
 			Log.i(LOGGER_TAG,
 					"Cart -- Calling another thread for the HTTP POST request");
 			task.execute(new String[]
-					{"http://146.141.125.64/yii/index.php/mobile/placeorders"});
+					{"http://" + ApplicationPreferences.getServerIPAddress(getBaseContext()) + "/yii/index.php/mobile/placeorders"});
 			Button currentB = (Button) findViewById(R.id.bPurchase);
 			currentB.setEnabled(false);
 			break;
