@@ -26,6 +26,7 @@ public class OrderEncoder {
 	String _deliveryLocation;
 	String _deviceID;
 	int _orderNumber;
+	Context _context;
 
 	final private static String TOTAL_TAG = "total";
 	final private static String DELIVERY_TAG = "deliveryLocation";
@@ -35,7 +36,8 @@ public class OrderEncoder {
 	final private static String PURCHASE_QUANTITY_TAG = "quantity";
 	final private static String DEVICE_ID_TAG = "deviceID";
 	final private static String ORDER_NUMBER_KEY = "orderNumber";
-	
+	final private static String BUYER_NAME = "name";
+
 	
 	public OrderEncoder(OrderItem[] order, int orderNumber, Context context) {
 		Log.i(LOGGER_TAG, "OrderEncoder -- Constructor");
@@ -44,7 +46,7 @@ public class OrderEncoder {
 		_delivery = false;
 		_deliveryLocation = "-";	
 		_deviceID = DeviceIDGenerator.getWifiMacAddress(context);
-		
+		_context = context;
 		_orderNumber = orderNumber;
 	}
 	
@@ -74,7 +76,7 @@ public class OrderEncoder {
 		myJsonObject.put(TOTAL_TAG, _total);
 		myJsonObject.put(DEVICE_ID_TAG, _deviceID);
 		myJsonObject.put(ORDER_NUMBER_KEY, _orderNumber);
-		
+		myJsonObject.put(BUYER_NAME, ApplicationPreferences.getUserName(_context));
 
 		StringWriter myStringWriter = new StringWriter();
 		try {
