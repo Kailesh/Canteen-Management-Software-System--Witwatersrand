@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class CartAdapter extends ArrayAdapter<OrderItem> {
 	private final String LOGGER_TAG = "WITWATERSRAND";
@@ -76,23 +77,33 @@ public class CartAdapter extends ArrayAdapter<OrderItem> {
 			public void onClick(View v) {
 				Log.i(LOGGER_TAG, "CartAdapter -- getView() -- onClick() -- Button pressed for item name: " + _myCart[_selectedPosition].getItemName());
 
-				itemQuantity = Integer.parseInt(myUniqueQuantityTV.getText().toString());
-				itemQuantity++;
-				
-				_myCart[_selectedPosition].setPurchaseQuantity(itemQuantity);
-				
-				myUniqueQuantityTV.setText("" + itemQuantity);
-								
-				CanteenManagerDatabase myDatabase = new CanteenManagerDatabase(_context);
-				myDatabase.open();
-				myDatabase.updatePurchaseQuantity(_myCart[_selectedPosition].getItemName(), itemQuantity, ApplicationPreferences.getOrderNumber(_context));
-				
-				float total = myDatabase.getTotalForOrder(ApplicationPreferences.getOrderNumber(_context));				
-				// TODO Not good practice but works
-				Cart.totalTV.setText("R " + String.format("%.2f", total));
+				float newCost = ApplicationPreferences.getLatestOrderTotal(_context) + _myCart[_selectedPosition].getPrice();
+				float balance = ApplicationPreferences.getAccountBalance(_context);
+				if (newCost > balance) { 
+					Toast.makeText(_context, "You do not have suffiecient funds to add more items to the cart", Toast.LENGTH_SHORT).show();
+				} else {
+					itemQuantity = Integer.parseInt(myUniqueQuantityTV.getText().toString());
+					itemQuantity++;
 
-				ApplicationPreferences.setLatestOrderTotal(_context, total);
-				myDatabase.close();
+					_myCart[_selectedPosition].setPurchaseQuantity(itemQuantity);
+
+					myUniqueQuantityTV.setText("" + itemQuantity);
+
+					int orderNumber =  ApplicationPreferences.getOrderNumber(_context);
+					Log.d(LOGGER_TAG, "orderNumber = " + orderNumber );
+					ApplicationPreferences.setOrderNumber(_context, orderNumber);
+
+					CanteenManagerDatabase myDatabase = new CanteenManagerDatabase(_context);
+					myDatabase.open();
+					myDatabase.updatePurchaseQuantity(_myCart[_selectedPosition].getItemName(), itemQuantity, ApplicationPreferences.getOrderNumber(_context));
+
+					float total = myDatabase.getTotalForOrder(ApplicationPreferences.getOrderNumber(_context));				
+					// TODO Not good practice but works
+					Cart.totalTV.setText("R " + String.format("%.2f", total));
+
+					ApplicationPreferences.setLatestOrderTotal(_context, total);
+					myDatabase.close();
+				}
 			}
 		});
 		
@@ -113,6 +124,10 @@ public class CartAdapter extends ArrayAdapter<OrderItem> {
 							.setPurchaseQuantity(itemQuantity);
 
 					myUniqueQuantityTV.setText("" + itemQuantity);
+					
+					int orderNumber =  ApplicationPreferences.getOrderNumber(_context);
+					Log.d(LOGGER_TAG, "orderNumber = " + orderNumber );
+					ApplicationPreferences.setOrderNumber(_context, orderNumber);
 
 					CanteenManagerDatabase myDatabase = new CanteenManagerDatabase(
 							_context);

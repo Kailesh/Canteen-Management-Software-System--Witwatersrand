@@ -19,6 +19,7 @@ import org.json.simple.parser.ParseException;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.util.Log;
@@ -28,9 +29,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class TodaysItems extends ListActivity {
+public class TodaysItems extends Activity {
 	final static private String LOGGER_TAG = "WITWATERSRAND"; // Debug Purposes
-	String mySelection[] = { "Station", "Items" };
+	String mySelection[] = { "Items" };
 	final static private String JSON_UPDATE_KEY =  "menuUpdated";
 	
 
@@ -41,25 +42,7 @@ public class TodaysItems extends ListActivity {
         task.execute("http://" + ApplicationPreferences.getServerIPAddress(getBaseContext()) + "/yii/index.php/mobile/menuupdate");
     }
     
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-		// TODO Auto-generated method stub
-		super.onListItemClick(l, v, position, id);
-		String selectedClass = mySelection[position];
-
-		try {
-			Class<?> myClass;
-
-			myClass = Class.forName("com.witwatersrand.androidapplication."
-					+ selectedClass.replaceAll("\\s", ""));
-
-			Intent myIntent = new Intent(TodaysItems.this, myClass);
-			startActivity(myIntent);
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
+ 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_todays_items, menu);
@@ -130,8 +113,11 @@ public class TodaysItems extends ListActivity {
 			}
 			if (ApplicationPreferences.isMenuUpated(TodaysItems.this)) {
 				Log.i(LOGGER_TAG, "TodaysItems -- CheckMenuUpdated -- onPostExecute() -- Menu available");
-				setListAdapter(new ArrayAdapter<String>(TodaysItems.this,
-						android.R.layout.simple_list_item_1, mySelection));
+//				setListAdapter(new ArrayAdapter<String>(TodaysItems.this,
+//						android.R.layout.simple_list_item_1, mySelection));
+				Intent myIntent = new Intent("com.witwatersrand.androidapplication.ITEMS");
+				startActivity(myIntent);
+				finish();
 			} else {
 				Log.i(LOGGER_TAG, "TodaysItems -- CheckMenuUpdated -- onPostExecute() -- Menu not available");
 				Toast.makeText(TodaysItems.this, "An updated version of the menu is not currently available on the server. Please try again later.", Toast.LENGTH_LONG).show();

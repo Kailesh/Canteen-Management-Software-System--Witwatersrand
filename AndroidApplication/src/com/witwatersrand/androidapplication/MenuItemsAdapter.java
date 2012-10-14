@@ -21,13 +21,13 @@ import android.widget.Toast;
  * 
  */
 public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
-	
+
 	private final String LOGGER_TAG = "WITWATERSRAND";
 	private final Context _context;
 	MenuItem[] _myMenu;
 	int _LAYOUT_RESOURCE_ID;
 	View rowRootView;
-	
+
 	public MenuItemsAdapter(Context context, int textViewResourceId,
 			MenuItem[] menuItems) {
 		super(context, textViewResourceId, menuItems);
@@ -53,64 +53,107 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 				false);
 
 		Log.i(LOGGER_TAG, "MenuItemsAdapter -- getView() --Inflator called");
-	
+
 		// Item name
 		TextView itemNameTV = (TextView) rowRootView
-				.findViewById(R.id.tvItemName);
+				.findViewById(R.id.tvCartItemName);
+
 		int TEXT_WIDTH = (int) TypedValue.applyDimension(
 				TypedValue.COMPLEX_UNIT_DIP, 195, getContext().getResources()
-						.getDisplayMetrics());
+				.getDisplayMetrics());
+
 		itemNameTV.setWidth(TEXT_WIDTH);
-		
+
 		Log.d(LOGGER_TAG, "_myMenu[position].getItemName() = " + _myMenu[position].getItemName());
-		itemNameTV.setText(_myMenu[position].getItemName());
-		
+		itemNameTV.setText("" + _myMenu[position].getItemName());
+
 		// Station name
 		TextView stationNameTV = (TextView) rowRootView
-				.findViewById(R.id.tvStationName);
+				.findViewById(R.id.tvCartStationName);
 		stationNameTV.setWidth(TEXT_WIDTH);
 		stationNameTV.setText(_myMenu[position].getStationName());
-		
+
 		// Price
-		TextView priceTV = (TextView) rowRootView.findViewById(R.id.tvPrice);
+		TextView priceTV = (TextView) rowRootView.findViewById(R.id.tvCartPrice);
 		priceTV.setText("R " + String.format("%.2f", _myMenu[position].getPrice()));
-		
-		// Add to cart button
+
+		// Quantity
+		int puchaseQuantity = 0;
+		TextView quantityTV = (TextView) rowRootView.findViewById(R.id.tvCartQuantity);
+		quantityTV.setWidth(TEXT_WIDTH);
+		quantityTV.setText("" + puchaseQuantity);
+
+		// Add button
 		final int _selectedPosition = position;
-		Button mySelectedButton = (Button) rowRootView.findViewById(R.id.selectedButton);
-		mySelectedButton.setOnClickListener(new View.OnClickListener() {
-		NumberPicker quantityPicker = (NumberPicker) rowRootView.findViewById(R.id.selectedPicker);
+		Button addButton = (Button) rowRootView.findViewById(R.id.bIncerement);
+		addButton.setOnClickListener(new View.OnClickListener() {
+			TextView myUniqueQuantityTV = (TextView) rowRootView.findViewById(R.id.tvCartQuantity);
+			int  itemQuantity = 0;
 			public void onClick(View v) {
-				Log.i(LOGGER_TAG, "Button pressed for item name: " + _myMenu[_selectedPosition].getItemName());
-				int enteredQuantity = quantityPicker.getValue();
-				Log.d(LOGGER_TAG, "enteredQuantity = " + enteredQuantity);
-				if (enteredQuantity == 0) {
-					Log.i(LOGGER_TAG, "MenuItemsAdapter -- getView() -- Attempted to add zero products");
-					Toast.makeText(_context, "Please increase the quantity of the item called " + _myMenu[_selectedPosition].getItemName() + " before adding to cart", Toast.LENGTH_LONG).show();					
-					return;
+				Log.i(LOGGER_TAG, "CartAdapter -- getView() -- onClick() -- Button pressed for item name: " + _myMenu[_selectedPosition].getItemName());
+				float newCost = ApplicationPreferences.getLatestOrderTotal(_context) + _myMenu[_selectedPosition].getPrice();
+				float balance = ApplicationPreferences.getAccountBalance(_context);
+				if (newCost > balance) { 
+					Toast.makeText(_context, "You do not have suffiecient funds to add more items to the cart", Toast.LENGTH_SHORT).show();
 				} else {
-					
+					itemQuantity = Integer.parseInt(myUniqueQuantityTV.getText().toString());
+					itemQuantity++;
+					myUniqueQuantityTV.setText("" + itemQuantity);
 					int orderNumber =  ApplicationPreferences.getOrderNumber(_context);
 					Log.d(LOGGER_TAG, "orderNumber = " + orderNumber );
 					ApplicationPreferences.setOrderNumber(_context, orderNumber);
-					
+
 					CanteenManagerDatabase myDatabase = new CanteenManagerDatabase(_context);
-					
 					myDatabase.open();
-					myDatabase.addPurchaseItemToOrder(_myMenu[_selectedPosition], enteredQuantity, orderNumber);
-					
-					Log.d(LOGGER_TAG, "orderNumber = " + orderNumber);
-					float total = myDatabase.getTotalForOrder(orderNumber);
-					Log.i(LOGGER_TAG, "MenuItemsAdapter -- getView() -- Total = " + total);
-					
+					myDatabase.addPurchaseItemToOrder(_myMenu[_selectedPosition], itemQuantity, ApplicationPreferences.getOrderNumber(_context));
+
+					// Get total
+					float total = myDatabase.getTotalForOrder(ApplicationPreferences.getOrderNumber(_context));				
+					myDatabase.close();
+
 					// TODO Not good practice but works
 					Items.totalTV.setText("R " + String.format("%.2f", total));
-					
 					ApplicationPreferences.setLatestOrderTotal(_context, total);
-					myDatabase.close();
+
 				}
 			}
 		});
+
+		// Remove button
+		Button removeButton = (Button) rowRootView.findViewById(R.id.bDecerement);
+		removeButton.setOnClickListener(new View.OnClickListener() {
+			TextView myUniqueQuantityTV = (TextView) rowRootView.findViewById(R.id.tvCartQuantity);
+			int  itemQuantity = 0;
+			public void onClick(View v) {
+				Log.i(LOGGER_TAG, "CartAdapter -- getView() -- onClick() -- Button pressed for item name: " + _myMenu[_selectedPosition].getItemName());
+				itemQuantity = Integer.parseInt(myUniqueQuantityTV.getText().toString());
+				if (itemQuantity == 0) {
+					Log.i(LOGGER_TAG, "CartAdapter -- getView() -- onClick() -- itemQuantity = |" + itemQuantity + "|");
+
+				} else {
+					itemQuantity--;
+
+					myUniqueQuantityTV.setText("" + itemQuantity);
+
+					int orderNumber =  ApplicationPreferences.getOrderNumber(_context);
+					Log.d(LOGGER_TAG, "orderNumber = " + orderNumber );
+					ApplicationPreferences.setOrderNumber(_context, orderNumber);
+
+					CanteenManagerDatabase myDatabase = new CanteenManagerDatabase(_context);
+					myDatabase.open();
+					myDatabase.addPurchaseItemToOrder(_myMenu[_selectedPosition], itemQuantity, ApplicationPreferences.getOrderNumber(_context));
+
+					// Get total
+					float total = myDatabase.getTotalForOrder(ApplicationPreferences.getOrderNumber(_context));				
+					myDatabase.close();
+
+					// TODO Not good practice but works
+					Items.totalTV.setText("R " + String.format("%.2f", total));
+					ApplicationPreferences.setLatestOrderTotal(_context, total);
+				}
+			}
+		});
+
 		Log.i(LOGGER_TAG, "MenuItemsAdapter getView() complete");
 		return rowRootView;
 	}

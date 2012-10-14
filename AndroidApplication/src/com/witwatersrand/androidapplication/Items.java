@@ -58,7 +58,7 @@ public class Items extends Activity implements OnClickListener{
 			MenuItem[] myMenu = myDatabase.getMenu();
 			myDatabase.close();
 			_menuLV.setAdapter(new MenuItemsAdapter(Items.this,
-					R.layout.purchase_menu_item, myMenu));
+					R.layout.cart_list_item, myMenu));
 		
 		} else {
 
@@ -163,8 +163,9 @@ public class Items extends Activity implements OnClickListener{
 			myDatabase.close();
 			ApplicationPreferences.setHaveMenu(Items.this, true);
 			Log.i(LOGGER_TAG, "Items -- DownloadMenuData -- Calling setListAdapter()");
-			_menuLV.setAdapter(new MenuItemsAdapter(Items.this,
-					R.layout.purchase_menu_item, myMenu));
+			// changed purchase_menu_item to cart_list_item
+//			_menuLV.setAdapter(new MenuItemsAdapter(Items.this,
+//					R.layout.cart_list_item, myMenu)); 
 		}
 	}
 }
