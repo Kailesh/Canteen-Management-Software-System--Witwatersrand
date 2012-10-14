@@ -34,6 +34,8 @@ public class LongPollerProgressRequester extends Service {
 	static final String DEVICE_ID_UNKNOWN = "Device ID Unknown";
 	private static final String UNKNOWN = "Unknown";
 	
+	private String ORDER_COMPLETION_SERVICE_TAG;
+
 	
 	/*
 	 * (non-Javadoc)
@@ -68,6 +70,7 @@ public class LongPollerProgressRequester extends Service {
 		LongPollingRequest task = new LongPollingRequest();
 		task.execute(new String[] { "http://146.141.125.64/yii/index.php/mobile/longpoller" });
 		Log.d(LOGGER_TAG, "PollingService -- onStartCommand() -- After calling task.execute()");
+		ORDER_COMPLETION_SERVICE_TAG = intent.getExtras().getString("myService");
 		return super.onStartCommand(intent, flags, startId);
 	}
 	
@@ -188,7 +191,9 @@ public class LongPollerProgressRequester extends Service {
 			Log.d(LOGGER_TAG, "LongPollerProgressRequester -- LongPollingRequest -- onPostExecute() -- calling this.cancel(true)");
 			
 			this.cancel(true);
-			stopService(Cart.myBackgroundServiceIntent);
+			
+			stopOrderCompletionService();
+			
 			
 			//------------------|No longer setting up proper long poller|------------------
 			/*if (ApplicationPreferences.isStatusPending(LongPollerProgressRequester.this)) {
@@ -198,6 +203,14 @@ public class LongPollerProgressRequester extends Service {
 			stopService(Cart.myBackgroundServiceIntent);
 			}*/
 			//-----------------------------------------------------------------------------
+		}
+
+		private void stopOrderCompletionService() {
+			Log.i(LOGGER_TAG, "LongPollerProgressRequester -- LongPollingRequest -- startOrderCompletionService()");
+			Intent myBackgroundServiceIntent;
+			myBackgroundServiceIntent = new Intent(getApplicationContext(), LongPollerProgressRequester.class);
+			myBackgroundServiceIntent.addCategory(ORDER_COMPLETION_SERVICE_TAG);
+			stopService(myBackgroundServiceIntent);
 		}
 	}
 }

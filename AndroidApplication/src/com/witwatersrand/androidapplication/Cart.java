@@ -41,7 +41,6 @@ public class Cart extends Activity implements OnClickListener {
 	Spinner _deliveryFloorS, _deliverySideS;
 	CheckBox _deliveryCB;
 	
-	public static Intent myBackgroundServiceIntent;
 
 	
 	static final String APPLIATION_DATA_FILENAME = "mySharedPreferences";
@@ -62,7 +61,6 @@ public class Cart extends Activity implements OnClickListener {
 		_deliverySideS = (Spinner) findViewById(R.id.spSide);
 		_deliveryCB.setOnClickListener(this);
 		
-		myBackgroundServiceIntent = new Intent(this, LongPollerProgressRequester.class);
 
 		setDelivery();
 		
@@ -153,11 +151,12 @@ public class Cart extends Activity implements OnClickListener {
 		protected String doInBackground(String... urls) {
 			Log.i(LOGGER_TAG, "Cart -- UploadOrder -- doInBackground()");
 
-			 String responseMessage = sendHTTPRequest(urls);
-			Log.i(LOGGER_TAG, "Cart -- UploadOrder -- responseMessage = "
-					+ responseMessage);
-
-//			String responseMessage  = "Order Received";
+			// String responseMessage = sendHTTPRequest(urls);
+			// Log.i(LOGGER_TAG, "Cart -- UploadOrder -- responseMessage = "
+			// + responseMessage);
+					
+			// Fake response
+			String responseMessage  = "Order Received";
 			return responseMessage;
 		}
 
@@ -220,10 +219,23 @@ public class Cart extends Activity implements OnClickListener {
 			Toast.makeText(Cart.this, "" + response, Toast.LENGTH_LONG).show();
 			Log.i(LOGGER_TAG, "Cart -- UploadOrder -- onPostExecute() -- Setting pending status to true");
 			ApplicationPreferences.setPendingStatus(Cart.this, true);
-			Log.i(LOGGER_TAG, "Cart -- UploadOrder -- onPostExecute() -- Starting service");
-			startService(myBackgroundServiceIntent);
+
+			// startOrderCompletionService();
 			Log.i(LOGGER_TAG, "Cart -- UploadOrder -- onPostExecute() -- Closing the Items and Cart activity");
 			Cart.this.finish();
+		}
+		
+		private void startOrderCompletionService() {
+			Log.i(LOGGER_TAG, "Cart -- UploadOrder -- startOrderCompletionService()");
+			Intent myBackgroundServiceIntent;
+			myBackgroundServiceIntent = new Intent(getApplicationContext(), LongPollerProgressRequester.class);
+			
+			String ORDER_COMPLETION_SERVICE_TAG = "order_completion_requester_service" + (ApplicationPreferences.getOrderNumber(getBaseContext()) - 1);
+			Log.i(LOGGER_TAG, "Cart -- UploadOrder -- startOrderCompletionService() -- ORDER_COMPLETION_SERVICE_TAG = |" + ORDER_COMPLETION_SERVICE_TAG + "|");
+			
+			myBackgroundServiceIntent.putExtra("myService", ORDER_COMPLETION_SERVICE_TAG);
+			myBackgroundServiceIntent.addCategory(ORDER_COMPLETION_SERVICE_TAG);
+			startService(myBackgroundServiceIntent);
 		}
 	}
 }
