@@ -17,16 +17,20 @@ import org.apache.http.util.EntityUtils;
 import org.json.simple.JSONObject;
 
 import android.os.AsyncTask;
+import android.os.AsyncTask.Status;
 import android.os.Bundle;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class OrderProgress extends Activity {
+public class OrderProgress extends Activity implements OnClickListener {
 	final static private String LOGGER_TAG = "WITWATERSRAND";
 	private static final String ORDER_KEY = "Order";
 	private static final String DEVICE_MAC_ADDRESS = "deviceID";
@@ -35,6 +39,8 @@ public class OrderProgress extends Activity {
 	TextView orderNameTV;
 	int orderNumber;
 	ListView _orderLV;
+	Button _refreshB;
+	RequestProgress task;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,7 +51,10 @@ public class OrderProgress extends Activity {
         orderNumber = Integer.parseInt(getIntent().getExtras().getString(ORDER_KEY));
         orderNameTV.setText("Order " + orderNumber);
         _orderLV = (ListView) findViewById(R.id.lvProgress);
-        RequestProgress task = new RequestProgress();
+        _refreshB = (Button) findViewById(R.id.bProgressRefresh);
+        _refreshB.setOnClickListener(this);
+        
+        task = new RequestProgress();
         task.execute(new String[] {"http://146.141.125.64/yii/index.php/mobile/queryprogress"});
     }
 
@@ -54,6 +63,16 @@ public class OrderProgress extends Activity {
         getMenuInflater().inflate(R.menu.activity_order_progress, menu);
         return true;
     }
+    
+	public void onClick(View v) {
+		switch(v.getId()) {
+		case R.id.bProgressRefresh:
+			if(task.getStatus() == Status.FINISHED) {
+				task.execute(new String[] {"http://146.141.125.64/yii/index.php/mobile/queryprogress"});	 
+			}
+			break;
+		}
+	}
     
     private class RequestProgress extends AsyncTask<String, Void, String> {
 
@@ -165,4 +184,5 @@ public class OrderProgress extends Activity {
 			}
 		}
 	}
+
 }

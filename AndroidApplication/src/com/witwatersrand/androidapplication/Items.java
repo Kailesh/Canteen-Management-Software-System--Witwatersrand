@@ -33,7 +33,7 @@ public class Items extends Activity implements OnClickListener{
 	ListView _menuLV;
 	Button goToCartB;
 	public static TextView totalTV;
-	private int CART_ACTIVITY_CODE = -9;
+	private int CART_ACTIVITY_CODE = 0;
 	
 
 	@Override
@@ -81,12 +81,12 @@ public class Items extends Activity implements OnClickListener{
 		}
 	}
 	
-
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
 	 */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		Log.i(LOGGER_TAG, "Items -- onActivityResult()");
 		if(resultCode == RESULT_OK && requestCode == CART_ACTIVITY_CODE) {
 			if(data.hasExtra("close")) {
 				if(data.getExtras().getBoolean("close")) {

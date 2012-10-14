@@ -153,14 +153,13 @@ public class Cart extends Activity implements OnClickListener {
 	 */
 	@Override
 	public void finish() {
+		Log.i(LOGGER_TAG, "Cart -- finish()");
 		// Setup intent to send back
 		Intent returnData = new Intent();
 		returnData.putExtra("close", closeItemsActivity);
 		setResult(RESULT_OK, returnData);
 		super.finish();
 	}
-
-
 
 
 	private class UploadOrder extends AsyncTask<String, Void, String> {
@@ -239,7 +238,7 @@ public class Cart extends Activity implements OnClickListener {
 			ApplicationPreferences.setPendingStatus(Cart.this, true);
 
 			// startOrderCompletionService();
-			Log.i(LOGGER_TAG, "Cart -- UploadOrder -- onPostExecute() -- Closing the Items and Cart activity");
+			Log.i(LOGGER_TAG, "Cart -- UploadOrder -- onPostExecute() -- Closing the Cart activity");
 			Cart.this.finish();
 		}
 		
