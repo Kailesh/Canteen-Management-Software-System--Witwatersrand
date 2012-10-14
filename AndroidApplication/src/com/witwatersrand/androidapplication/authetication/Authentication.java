@@ -25,6 +25,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.LightingColorFilter;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -56,6 +57,7 @@ public class Authentication extends Activity implements OnClickListener {
 	private void setUpViewVariables() {
 		Log.i(LOGGER_TAG, "Authentication -- setUpViewVariables()");
 		Button loginB = (Button) findViewById(R.id.bLogin);
+		loginB.getBackground().setColorFilter(new LightingColorFilter(0xFFFFFFFF, 0xFF006400	));
 		loginB.setOnClickListener(this);
 		usernameET = (EditText) findViewById(R.id.etUsername);
 		passwordET = (EditText) findViewById(R.id.etPassword);

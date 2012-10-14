@@ -4,15 +4,6 @@
     android:layout_height="match_parent" >
 
     <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:text="@string/title_activity_authentication"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -26,7 +17,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignTop="@+id/textView4"
-        android:text="Login to start using Canteen Manager for Rand Merchant Bank. Use your RMB credentials." />
+        android:text="Login to start using Canteen Manager for Rand Merchant Bank. Use your RMB credentials." 
+        android:textColor="#add8e6"/>
 
     <TextView
         android:id="@+id/textView2"
@@ -35,7 +27,8 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/textView4"
         android:layout_marginTop="30dp"
-        android:text="Username" />
+        android:text="Username"
+        android:textColor="#add8e6" />
 
     <EditText
         android:id="@+id/etUsername"
@@ -54,7 +47,8 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/etUsername"
         android:layout_marginTop="22dp"
-        android:text="Password" />
+        android:text="Password"
+        android:textColor="#add8e6" />
 
     <EditText
         android:id="@+id/etPassword"
@@ -76,7 +70,8 @@
         android:layout_below="@+id/etPassword"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="14dp"
-        android:text="Remember Me" />
+        android:text="Remember Me"
+        android:textColor="#add8e6" />
 
     <Button
         android:id="@+id/bLogin"

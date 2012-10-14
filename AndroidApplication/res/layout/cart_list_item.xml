@@ -11,7 +11,9 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:text="Default Name"
-        android:textSize="17dp" />
+        android:textSize="17dp"
+        android:textColor="#add8e6" 
+        />
 
     <TextView
         android:id="@+id/tvCartStationName"
@@ -19,7 +21,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvCartItemName"
         android:text="Default Station"
-        android:textSize="12dp" />
+        android:textSize="12dp" 
+        android:textColor="#add8e6" />
 
     <TextView
         android:id="@+id/tvCartPrice"
@@ -28,7 +31,8 @@
         android:layout_alignLeft="@+id/tvCartStationName"
         android:layout_below="@+id/tvCartStationName"
         android:text="Default Price"
-        android:textSize="12dp" />
+        android:textSize="12dp"
+        android:textColor="#add8e6"  />
 
      <Button
         android:id="@+id/bIncerement"
@@ -55,7 +59,8 @@
         android:layout_alignLeft="@+id/tvCartPrice"
         android:layout_below="@+id/tvCartPrice"
         android:text="Default Quantity"
-        android:textSize="15dp" />
+        android:textSize="18dp" 
+        android:textColor="#add8e6" />
     
     </RelativeLayout>
 

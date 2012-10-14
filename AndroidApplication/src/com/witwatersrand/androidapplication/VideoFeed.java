@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.graphics.LightingColorFilter;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.Menu;
@@ -28,6 +29,7 @@ public class VideoFeed extends Activity {
 		
 		
 		Button refreshB = (Button) findViewById(R.id.bRefresh);
+		refreshB.getBackground().setColorFilter(new LightingColorFilter(0xFFFFFFFF, 0xFF006400	));
 		refreshB.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {

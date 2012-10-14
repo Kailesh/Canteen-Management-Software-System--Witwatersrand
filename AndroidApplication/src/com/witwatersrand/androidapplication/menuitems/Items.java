@@ -9,6 +9,7 @@ import android.preference.PreferenceManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.LightingColorFilter;
 
 import android.util.Log;
 import android.view.Menu;
@@ -51,6 +52,8 @@ public class Items extends Activity implements OnClickListener{
 		setContentView(R.layout.activity_items);
 		_menuLV = (ListView) findViewById(R.id.lvMenuItems);
 		goToCartB = (Button) findViewById(R.id.bPurchase);
+		
+		goToCartB.getBackground().setColorFilter(new LightingColorFilter(0xFFFFFFFF, 0xFF006400	));
 		goToCartB.setOnClickListener(this);
 		totalTV = (TextView) findViewById(R.id.tvMenuItemsTotal);
 		totalTV.setText("R " + String.format("%.2f", (float) 0));	

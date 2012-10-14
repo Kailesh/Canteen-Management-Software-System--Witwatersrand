@@ -7,6 +7,7 @@ import com.witwatersrand.androidapplication.R;
 import com.witwatersrand.androidapplication.R.id;
 
 import android.content.Context;
+import android.graphics.LightingColorFilter;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -77,6 +78,7 @@ public class CartAdapter extends ArrayAdapter<OrderItem> {
 		// Add button
 		final int _selectedPosition = position;
 		Button addButton = (Button) rowRootView.findViewById(R.id.bIncerement);
+		addButton.getBackground().setColorFilter(new LightingColorFilter(0xFFFFFFFF, 0xFF32cd32));
 		addButton.setOnClickListener(new View.OnClickListener() {
 			TextView myUniqueQuantityTV = (TextView) rowRootView.findViewById(R.id.tvCartQuantity);
 			int  itemQuantity = 0;
@@ -115,6 +117,7 @@ public class CartAdapter extends ArrayAdapter<OrderItem> {
 		
 		// Remove button
 		Button removeButton = (Button) rowRootView.findViewById(R.id.bDecerement);
+		removeButton.getBackground().setColorFilter(new LightingColorFilter(0xFFFFFFFF, 0xFF32cd32));
 		removeButton.setOnClickListener(new View.OnClickListener() {
 			TextView myUniqueQuantityTV = (TextView) rowRootView.findViewById(R.id.tvCartQuantity);
 			int  itemQuantity = 0;

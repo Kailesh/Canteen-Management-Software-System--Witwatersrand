@@ -12,6 +12,7 @@ import com.witwatersrand.androidapplication.R.id;
 import net.technologichron.android.control.NumberPicker;
 
 import android.content.Context;
+import android.graphics.LightingColorFilter;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -92,6 +93,7 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 		// Add button
 		final int _selectedPosition = position;
 		Button addButton = (Button) rowRootView.findViewById(R.id.bIncerement);
+		addButton.getBackground().setColorFilter(new LightingColorFilter(0xFFFFFFFF, 0xFF32cd32));
 		addButton.setOnClickListener(new View.OnClickListener() {
 			TextView myUniqueQuantityTV = (TextView) rowRootView.findViewById(R.id.tvCartQuantity);
 			int  itemQuantity = 0;
@@ -127,6 +129,7 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 
 		// Remove button
 		Button removeButton = (Button) rowRootView.findViewById(R.id.bDecerement);
+		removeButton.getBackground().setColorFilter(new LightingColorFilter(0xFFFFFFFF, 0xFF32cd32));
 		removeButton.setOnClickListener(new View.OnClickListener() {
 			TextView myUniqueQuantityTV = (TextView) rowRootView.findViewById(R.id.tvCartQuantity);
 			int  itemQuantity = 0;

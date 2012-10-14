@@ -8,6 +8,8 @@ import com.witwatersrand.androidapplication.R;
 import com.witwatersrand.androidapplication.R.id;
 
 import android.content.Context;
+import android.graphics.LightingColorFilter;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,12 +54,9 @@ public class ItemsProgressAdapter extends ArrayAdapter<OrderedItem> {
 		
 		// Item name
 		TextView itemNameTV = (TextView) rowRootView
-				.findViewById(R.id.tvProgressStatus);
-		
+				.findViewById(R.id.tvProgressItemName);
 		Log.d(LOGGER_TAG, "_myOrderedItems[position].getItemName() = "+ _myOrderedItems[position].getItemName());
-
 		itemNameTV.setText(_myOrderedItems[position].getItemName());
-		
 		
 		// Item quantity
 		TextView quantityTV = (TextView) rowRootView
@@ -66,22 +65,27 @@ public class ItemsProgressAdapter extends ArrayAdapter<OrderedItem> {
 
 		// Item status
 		TextView statusTV = (TextView) rowRootView
-				.findViewById(R.id.tvProgressItemName);
+				.findViewById(R.id.tvProgressStatus);
 		statusTV.setText("" + _myOrderedItems[position].getState());
-
 		ProgressBar myBar = (ProgressBar) rowRootView.findViewById(R.id.progressBar1);
+
+		Drawable drawable = myBar.getProgressDrawable();
+		drawable.setColorFilter(new LightingColorFilter(0xFFFFFFFF, 0xFF006400));
+		
 		Progress myState = _myOrderedItems[position].getState();
+
 		if(myState == Progress.NONE) {
 				myBar.setProgress(0);
 		} else if (myState == Progress.PLACED) {
-			myBar.setProgress(25);
+			myBar.setProgress(30);
 		} else if (myState == Progress.PROCESSING) {
-			myBar.setProgress(50);
+			myBar.setProgress(63);
 		} else if (myState == Progress.DONE) {
-			myBar.setProgress(75);
+			myBar.setProgress(100);
 		} else if (myState == Progress.DELIVERING) {
 			myBar.setProgress(100);
 		}
+		Log.d(LOGGER_TAG, "05");
 		return rowRootView;
 	}
 	

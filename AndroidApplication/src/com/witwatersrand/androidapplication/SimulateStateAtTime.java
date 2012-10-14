@@ -2,6 +2,7 @@ package com.witwatersrand.androidapplication;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.graphics.LightingColorFilter;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,6 +18,7 @@ public class SimulateStateAtTime extends Activity implements OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_simulate_state_at_time);
         sevenAmB = (Button) findViewById(R.id.bSevenAM);
+        sevenAmB.getBackground().setColorFilter(new LightingColorFilter(0xFFFFFFFF, 0xFF006400	));
         sevenAmB.setOnClickListener(this);
     }
 

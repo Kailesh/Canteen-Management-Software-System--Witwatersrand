@@ -26,6 +26,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.LightingColorFilter;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -68,13 +69,15 @@ public class Cart extends Activity implements OnClickListener {
 		_deliveryFloorS = (Spinner) findViewById(R.id.spFloor);
 		_deliverySideS = (Spinner) findViewById(R.id.spSide);
 		_deliveryCB.setOnClickListener(this);
-		
-
+		_deliveryFloorS.getBackground().setColorFilter(new LightingColorFilter(0xFFFFFFFF, 0xFF006400	));
+		_deliverySideS.getBackground().setColorFilter(new LightingColorFilter(0xFFFFFFFF, 0xFF006400	));
 		setDelivery();
 		
 		loadCart();
 
 		makePurchaseB = (Button) findViewById(R.id.bPurchase);
+		makePurchaseB.getBackground().setColorFilter(new LightingColorFilter(0xFFFFFFFF, 0xFF006400	));
+
 		makePurchaseB.setOnClickListener(this);
 	}
 	

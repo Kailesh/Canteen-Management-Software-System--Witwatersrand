@@ -206,14 +206,24 @@ public class CanteenManagerDatabase {
 	
 	public OrderedItem[] getOrderedItemList(int orderNumner) {
 		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- getOrderedItemList()");
-		OrderedItem[] orderedList = (OrderedItem[]) getOrder(orderNumner);
-		String[] columns = new String[]{KEY_ITEM_STATUS};
+				
+		String[] columns = new String[]{KEY_ITEM_NAME, KEY_STATION, KEY_PRICE, KEY_PURCHASE_QUANTITY, KEY_ORDER, KEY_ITEM_STATUS};
 		Cursor orderCursor = _database.query(DATABASE_TABLE_ORDER, columns, KEY_ORDER + "='" + orderNumner + "'", null, null, null, null);
-		int iStatus = orderCursor.getColumnIndex(KEY_ITEM_STATUS);
-		
+		int iName = orderCursor.getColumnIndex(KEY_ITEM_NAME);
+		int iStation = orderCursor.getColumnIndex(KEY_STATION);
+		int iPrice = orderCursor.getColumnIndex(KEY_PRICE);
+		int iQuantity = orderCursor.getColumnIndex(KEY_PURCHASE_QUANTITY);
+		int iProgressStatus = orderCursor.getColumnIndex(KEY_ITEM_STATUS);
+
+		OrderedItem[] orderedList = new OrderedItem[orderCursor.getCount()];
 		int i = 0;
 		for (orderCursor.moveToFirst(); !orderCursor.isAfterLast(); orderCursor.moveToNext()) {
-			orderedList[i].setItemName(orderCursor.getString(iStatus));
+			orderedList[i] = new OrderedItem();
+			orderedList[i].setItemName(orderCursor.getString(iName));
+			orderedList[i].setStationName(orderCursor.getString(iStation));
+			orderedList[i].setPrice(orderCursor.getFloat(iPrice));
+			orderedList[i].setPurchaseQuantity(orderCursor.getInt(iQuantity));
+			orderedList[i].setState(Progress.valueOf(orderCursor.getString(iProgressStatus).toUpperCase()));
 			i++;
 		}
 		orderCursor.close();

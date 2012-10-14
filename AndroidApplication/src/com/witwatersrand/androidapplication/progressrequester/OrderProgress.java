@@ -22,14 +22,14 @@ import com.witwatersrand.androidapplication.DeviceIDGenerator;
 import com.witwatersrand.androidapplication.OrderItem;
 import com.witwatersrand.androidapplication.OrderedItem;
 import com.witwatersrand.androidapplication.R;
-import com.witwatersrand.androidapplication.R.id;
-import com.witwatersrand.androidapplication.R.layout;
-import com.witwatersrand.androidapplication.R.menu;
+
 
 import android.os.AsyncTask;
 import android.os.AsyncTask.Status;
 import android.os.Bundle;
 import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.LightingColorFilter;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -59,10 +59,11 @@ public class OrderProgress extends Activity implements OnClickListener {
         orderNameTV = (TextView) findViewById(R.id.tvOrderName);
         orderNumber = Integer.parseInt(getIntent().getExtras().getString(ORDER_KEY));
         orderNameTV.setText("Order " + orderNumber);
+        orderNameTV.setTextColor(Color.parseColor("#add8e6"));
         _orderLV = (ListView) findViewById(R.id.lvProgress);
         _refreshB = (Button) findViewById(R.id.bProgressRefresh);
         _refreshB.setOnClickListener(this);
-        
+        _refreshB.getBackground().setColorFilter(new LightingColorFilter(0xFFFFFFFF, 0xFF006400	));
         task = new RequestProgress();
         task.execute(new String[] {"http://" + ApplicationPreferences.getServerIPAddress(getBaseContext()) + "/yii/index.php/mobile/queryprogress"});
     }
@@ -94,7 +95,6 @@ public class OrderProgress extends Activity implements OnClickListener {
 		}
 		
 		private String sendHTTPRequest(String... urls) {
-			Log.i(LOGGER_TAG, "OrderProgress -- sendHTTPRequest()");
 
 			for (String url : urls) {
 				Log.i(LOGGER_TAG, "OrderProgress -- RequestProgress -- doInBackground()");
@@ -106,13 +106,13 @@ public class OrderProgress extends Activity implements OnClickListener {
 						Log.i(LOGGER_TAG, "OrderProgress -- RequestProgress -- HTTP OK");
 						String myJsonString = EntityUtils.toString(myResponse
 								.getEntity());
-						Log.d(LOGGER_TAG, myJsonString);
+						Log.d(LOGGER_TAG, "OrderProgress -- RequestProgress -- doInBackground() -- myJsonString = |" + myJsonString + "|");
 						return myJsonString;
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
-					Log.d(LOGGER_TAG, e.getMessage());
-					Toast.makeText(getApplicationContext(), e.getMessage() , Toast.LENGTH_SHORT).show();
+					Log.d(LOGGER_TAG, "OrderProgress -- RequestProgress -- doInBackground -- Exception = |" + e.getMessage() + "|");
+					//Toast.makeText(getApplicationContext(), "" + e.getMessage() , Toast.LENGTH_SHORT).show();
 				}
 			}
 			Log.d(LOGGER_TAG, "OrderProgress -- RequestProgress -- doInBackground() -- Error has occured");
