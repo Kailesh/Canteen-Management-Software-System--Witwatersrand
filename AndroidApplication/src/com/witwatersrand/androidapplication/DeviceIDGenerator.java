@@ -32,9 +32,7 @@ public class DeviceIDGenerator {
 		WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
 		WifiInfo wifiInf = wifiManager.getConnectionInfo();
 		String macAddr = wifiInf.getMacAddress();
-		
-		
-		return macAddr;
+		return macAddr.toUpperCase();
 	}
 	
 }
