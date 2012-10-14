@@ -33,6 +33,8 @@ public class Items extends Activity implements OnClickListener{
 	ListView _menuLV;
 	Button goToCartB;
 	public static TextView totalTV;
+	private int CART_ACTIVITY_CODE = -9;
+	
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -67,17 +69,34 @@ public class Items extends Activity implements OnClickListener{
 		}
 	}
 
+	
 	public void onClick(View arg0) {
 		switch(arg0.getId())
 		{
 		case R.id.bPurchase:
 			Intent cartIntent = new Intent("com.witwatersrand.androidapplication.CART");
-			startActivity(cartIntent);
+			startActivityForResult(cartIntent, CART_ACTIVITY_CODE);
 			break;
 		// More buttons, more cases
 		}
 	}
 	
+
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
+	 */
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if(resultCode == RESULT_OK && requestCode == CART_ACTIVITY_CODE) {
+			if(data.hasExtra("close")) {
+				if(data.getExtras().getBoolean("close")) {
+					finish();
+				}
+			}
+		}
+		super.onActivityResult(requestCode, resultCode, data);
+	}
+
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

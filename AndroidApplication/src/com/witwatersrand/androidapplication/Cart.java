@@ -40,6 +40,7 @@ public class Cart extends Activity implements OnClickListener {
 	Button makePurchaseB;
 	Spinner _deliveryFloorS, _deliverySideS;
 	CheckBox _deliveryCB;
+	boolean closeItemsActivity = false;
 	
 
 	
@@ -86,6 +87,7 @@ public class Cart extends Activity implements OnClickListener {
 		Log.i(LOGGER_TAG, "Cart -- onClick()");
 		switch (v.getId()) {
 		case R.id.bPurchase:
+			closeItemsActivity = true;
 			CanteenManagerDatabase myDatabase = new CanteenManagerDatabase(this);
 			myDatabase.open();
 			
@@ -144,6 +146,22 @@ public class Cart extends Activity implements OnClickListener {
 		getMenuInflater().inflate(R.menu.activity_cart, menu);
 		return true;
 	}
+	
+	
+	/* (non-Javadoc)
+	 * @see android.app.Activity#finish()
+	 */
+	@Override
+	public void finish() {
+		// Setup intent to send back
+		Intent returnData = new Intent();
+		returnData.putExtra("close", closeItemsActivity);
+		setResult(RESULT_OK, returnData);
+		super.finish();
+	}
+
+
+
 
 	private class UploadOrder extends AsyncTask<String, Void, String> {
 
