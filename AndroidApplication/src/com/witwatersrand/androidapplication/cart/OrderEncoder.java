@@ -1,13 +1,17 @@
 /**
  * 
  */
-package com.witwatersrand.androidapplication;
+package com.witwatersrand.androidapplication.cart;
 
 import java.io.IOException;
 import java.io.StringWriter;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+
+import com.witwatersrand.androidapplication.ApplicationPreferences;
+import com.witwatersrand.androidapplication.DeviceIDGenerator;
+import com.witwatersrand.androidapplication.OrderItem;
 
 import android.content.Context;
 import android.util.Log;

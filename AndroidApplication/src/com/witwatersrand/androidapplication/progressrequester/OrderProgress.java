@@ -1,4 +1,4 @@
-package com.witwatersrand.androidapplication;
+package com.witwatersrand.androidapplication.progressrequester;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -15,6 +15,16 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 import org.json.simple.JSONObject;
+
+import com.witwatersrand.androidapplication.ApplicationPreferences;
+import com.witwatersrand.androidapplication.CanteenManagerDatabase;
+import com.witwatersrand.androidapplication.DeviceIDGenerator;
+import com.witwatersrand.androidapplication.OrderItem;
+import com.witwatersrand.androidapplication.OrderedItem;
+import com.witwatersrand.androidapplication.R;
+import com.witwatersrand.androidapplication.R.id;
+import com.witwatersrand.androidapplication.R.layout;
+import com.witwatersrand.androidapplication.R.menu;
 
 import android.os.AsyncTask;
 import android.os.AsyncTask.Status;

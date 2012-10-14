@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.witwatersrand.androidapplication;
+package com.witwatersrand.androidapplication.authetication;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;

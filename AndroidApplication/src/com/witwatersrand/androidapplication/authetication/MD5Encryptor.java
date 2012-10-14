@@ -1,4 +1,4 @@
-package com.witwatersrand.androidapplication;
+package com.witwatersrand.androidapplication.authetication;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;

@@ -3,6 +3,8 @@
  */
 package com.witwatersrand.androidapplication;
 
+import com.witwatersrand.androidapplication.progressrequester.Progress;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;

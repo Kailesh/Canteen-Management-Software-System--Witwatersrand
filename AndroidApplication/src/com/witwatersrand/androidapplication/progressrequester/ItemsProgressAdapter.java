@@ -1,7 +1,11 @@
 /**
  * 
  */
-package com.witwatersrand.androidapplication;
+package com.witwatersrand.androidapplication.progressrequester;
+
+import com.witwatersrand.androidapplication.OrderedItem;
+import com.witwatersrand.androidapplication.R;
+import com.witwatersrand.androidapplication.R.id;
 
 import android.content.Context;
 import android.util.Log;

@@ -1,4 +1,4 @@
-package com.witwatersrand.androidapplication.progressrequester;
+package com.witwatersrand.androidapplication.progressrequester.longpoller;
 
 import java.io.IOException;
 import java.io.StringWriter;

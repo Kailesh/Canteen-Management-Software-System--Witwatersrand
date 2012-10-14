@@ -1,12 +1,14 @@
 /**
  * 
  */
-package com.witwatersrand.androidapplication;
+package com.witwatersrand.androidapplication.authetication;
 
 import java.io.IOException;
 import java.io.StringWriter;
 
 import org.json.simple.JSONObject;
+
+import com.witwatersrand.androidapplication.DeviceIDGenerator;
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;

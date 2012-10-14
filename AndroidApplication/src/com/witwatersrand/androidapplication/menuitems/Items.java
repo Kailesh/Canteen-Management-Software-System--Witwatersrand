@@ -1,4 +1,4 @@
-package com.witwatersrand.androidapplication;
+package com.witwatersrand.androidapplication.menuitems;
 
 import java.io.IOException;
 
@@ -27,6 +27,14 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
+
+import com.witwatersrand.androidapplication.ApplicationPreferences;
+import com.witwatersrand.androidapplication.CanteenManagerDatabase;
+import com.witwatersrand.androidapplication.MenuItem;
+import com.witwatersrand.androidapplication.R;
+import com.witwatersrand.androidapplication.R.id;
+import com.witwatersrand.androidapplication.R.layout;
+import com.witwatersrand.androidapplication.R.menu;
 
 public class Items extends Activity implements OnClickListener{
 	final static private String LOGGER_TAG = "WITWATERSRAND"; // Debug Purposes

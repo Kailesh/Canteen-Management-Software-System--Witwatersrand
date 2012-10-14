@@ -1,4 +1,4 @@
-package com.witwatersrand.androidapplication;
+package com.witwatersrand.androidapplication.menuitems;
 
 import java.io.IOException;
 
@@ -16,17 +16,17 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import com.witwatersrand.androidapplication.ApplicationPreferences;
+import com.witwatersrand.androidapplication.R;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
 
 import android.app.Activity;
-import android.app.ListActivity;
+
 import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Toast;
 
 public class TodaysItems extends Activity {

@@ -35,7 +35,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".TodaysItems"
+            android:name=".menuitems.TodaysItems"
             android:label="@string/title_activity_todays_items" >
             <intent-filter>
                 <action android:name="com.witwatersrand.androidapplication.TODAYSITEMS" />
@@ -62,7 +62,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CurrentOrders"
+            android:name=".progressrequester.CurrentOrders"
             android:label="@string/title_activity_current_orders" >
             <intent-filter>
                 <action android:name="com.witwatersrand.androidapplication.CURRENTORDERS" />
@@ -71,7 +71,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Items"
+            android:name=".menuitems.Items"
             android:label="@string/title_activity_items" >
             <intent-filter>
                 <action android:name="com.witwatersrand.androidapplication.ITEMS" />
@@ -80,7 +80,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Cart"
+            android:name=".cart.Cart"
             android:label="@string/title_activity_cart" >
             <intent-filter>
                 <action android:name="com.witwatersrand.androidapplication.CART" />
@@ -108,7 +108,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Authentication"
+            android:name=".authetication.Authentication"
             android:label="@string/title_activity_authentication" >
             <intent-filter>
                 <action android:name="com.witwatersrand.androidapplication.LOGIN" />
@@ -117,7 +117,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".OrderProgress"
+         	android:name=".progressrequester.OrderProgress"
             android:label="@string/title_activity_order_progress" >
             <intent-filter>
                 <action android:name="com.witwatersrand.androidapplication.ORDERPROGRESS" />
@@ -125,7 +125,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <service android:enabled="true" android:name="com.witwatersrand.androidapplication.progressrequester.LongPollerProgressRequester" />
+        <service android:enabled="true" android:name=".progressrequester.longpoller.LongPollerProgressRequester" />
     </application>
 
 </manifest>

@@ -1,9 +1,11 @@
 package com.witwatersrand.androidapplication;
 
+import com.witwatersrand.androidapplication.progressrequester.Progress;
+
 public class OrderedItem extends OrderItem {
 	Progress state;
 	
-	OrderedItem() {
+	public OrderedItem() {
 		super();
 		state = Progress.NONE;
 	}

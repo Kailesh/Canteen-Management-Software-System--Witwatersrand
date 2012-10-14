@@ -17,7 +17,7 @@ import android.widget.ListView;
  */
 public class StartMenu extends ListActivity {
 	private static final String LOGGER_TAG = "WITWATERSRAND";
-	private static final String menuOptions[] = { "Todays Items", "Video Feed",
+	private static final String menuOptions[] = { "Today's Items", "Video Feed",
 			"User Information", "Cart", "Current Orders",
 			"Simulate State At Time", "Exit", "About Us" };
 
@@ -52,16 +52,10 @@ public class StartMenu extends ListActivity {
 		} else {
 
 			try {
-				Class<?> myClass;
-
-				myClass = Class.forName("com.witwatersrand.androidapplication."
-						+ selectedClass.replaceAll("\\s", ""));
-
-				Intent myIntent = new Intent(StartMenu.this, myClass);
+				Intent myIntent = new Intent("com.witwatersrand.androidapplication." + selectedClass.replaceAll("\\s", "").replace("'", "").toUpperCase());
 				startActivity(myIntent);
-			} catch (ClassNotFoundException e) {
-				Log.d(LOGGER_TAG,
-						"ClassNotFoundException Exception -- " + e.toString());
+			} catch (Exception e) {
+				Log.d(LOGGER_TAG, "Exception -- " + e.toString());
 				e.printStackTrace();
 			}
 		}

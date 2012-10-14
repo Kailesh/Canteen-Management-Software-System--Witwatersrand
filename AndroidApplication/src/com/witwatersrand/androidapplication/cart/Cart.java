@@ -1,4 +1,4 @@
-package com.witwatersrand.androidapplication;
+package com.witwatersrand.androidapplication.cart;
 
 import java.io.IOException;
 
@@ -13,7 +13,14 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 
-import com.witwatersrand.androidapplication.progressrequester.LongPollerProgressRequester;
+import com.witwatersrand.androidapplication.ApplicationPreferences;
+import com.witwatersrand.androidapplication.CanteenManagerDatabase;
+import com.witwatersrand.androidapplication.OrderItem;
+import com.witwatersrand.androidapplication.R;
+import com.witwatersrand.androidapplication.R.id;
+import com.witwatersrand.androidapplication.R.layout;
+import com.witwatersrand.androidapplication.R.menu;
+import com.witwatersrand.androidapplication.progressrequester.longpoller.LongPollerProgressRequester;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
