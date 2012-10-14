@@ -46,5 +46,5 @@ public class CurrentOrders extends ListActivity {
 		Intent myIntent = new Intent("com.witwatersrand.androidapplication.ORDERPROGRESS");
 		myIntent.putExtra("Order", selectedOrder.replace("Order ", ""));
 		startActivity(myIntent);
-	}    
+	}
 }

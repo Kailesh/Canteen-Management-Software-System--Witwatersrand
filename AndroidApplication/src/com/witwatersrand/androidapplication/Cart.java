@@ -251,6 +251,8 @@ public class Cart extends Activity implements OnClickListener {
 			Log.i(LOGGER_TAG, "Cart -- UploadOrder -- startOrderCompletionService() -- ORDER_COMPLETION_SERVICE_TAG = |" + ORDER_COMPLETION_SERVICE_TAG + "|");
 			
 			myBackgroundServiceIntent.putExtra("myService", ORDER_COMPLETION_SERVICE_TAG);
+			myBackgroundServiceIntent.putExtra("order_number", ApplicationPreferences.getOrderNumber(getBaseContext()) - 1);
+			
 			myBackgroundServiceIntent.addCategory(ORDER_COMPLETION_SERVICE_TAG);
 			startService(myBackgroundServiceIntent);
 		}

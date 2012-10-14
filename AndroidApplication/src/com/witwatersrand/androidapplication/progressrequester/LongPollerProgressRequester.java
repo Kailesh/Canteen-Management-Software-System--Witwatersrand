@@ -20,6 +20,10 @@ import com.witwatersrand.androidapplication.CanteenManagerDatabase;
 import com.witwatersrand.androidapplication.Cart;
 import com.witwatersrand.androidapplication.DeviceIDGenerator;
 
+import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -35,6 +39,7 @@ public class LongPollerProgressRequester extends Service {
 	private static final String UNKNOWN = "Unknown";
 	
 	private String ORDER_COMPLETION_SERVICE_TAG;
+	private int ORDER_NUMBER;
 
 	
 	/*
@@ -71,6 +76,7 @@ public class LongPollerProgressRequester extends Service {
 		task.execute(new String[] { "http://146.141.125.64/yii/index.php/mobile/longpoller" });
 		Log.d(LOGGER_TAG, "PollingService -- onStartCommand() -- After calling task.execute()");
 		ORDER_COMPLETION_SERVICE_TAG = intent.getExtras().getString("myService");
+		ORDER_NUMBER = intent.getIntExtra("order_number", 0);
 		return super.onStartCommand(intent, flags, startId);
 	}
 	
@@ -188,6 +194,10 @@ public class LongPollerProgressRequester extends Service {
 			
 			ApplicationPreferences.setPendingStatus(getBaseContext(), myDatabase.allStatusReceicved());
 			myDatabase.close();
+			
+			// Show notification to user
+			showNotification();
+			
 			Log.d(LOGGER_TAG, "LongPollerProgressRequester -- LongPollingRequest -- onPostExecute() -- calling this.cancel(true)");
 			
 			this.cancel(true);
@@ -203,6 +213,25 @@ public class LongPollerProgressRequester extends Service {
 			stopService(Cart.myBackgroundServiceIntent);
 			}*/
 			//-----------------------------------------------------------------------------
+		}
+
+		private void showNotification() {
+			Log.d(LOGGER_TAG, "LongPollerProgressRequester -- LongPollingRequest -- showNotification()");
+			NotificationManager notificationManager = (NotificationManager) 
+					getSystemService(NOTIFICATION_SERVICE);
+			Notification orderCompleteNotification = new Notification(com.witwatersrand.androidapplication.R.drawable.ic_launcher,
+					"Order " + ORDER_NUMBER + " is complete at RMB canteen", System.currentTimeMillis());
+			// Hide the notification after its selected
+			orderCompleteNotification.flags |= Notification.FLAG_AUTO_CANCEL;
+						
+			Intent orderActivityIntent = new Intent("com.witwatersrand.androidapplication.ORDERPROGRESS");
+			orderActivityIntent.putExtra("Order", "" + ORDER_NUMBER);
+
+			PendingIntent orderCompleteActivity = PendingIntent.getActivity(LongPollerProgressRequester.this, 0, orderActivityIntent, 0);
+			orderCompleteNotification.setLatestEventInfo(LongPollerProgressRequester.this, "Canteen Manager",
+					"Order " + ORDER_NUMBER + " is complete at RMB canteen" , orderCompleteActivity);
+			orderCompleteNotification.number += 1;
+			notificationManager.notify(0, orderCompleteNotification);
 		}
 
 		private void stopOrderCompletionService() {
