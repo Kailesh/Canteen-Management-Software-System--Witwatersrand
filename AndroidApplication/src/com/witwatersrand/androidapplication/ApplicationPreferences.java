@@ -103,7 +103,7 @@ public class ApplicationPreferences {
 	}
 	
 	public static void setMenuUpdated(Context context, boolean updated) {
-		Log.i(LOGGER_TAG, "ApplicationPreferences -- setOrderNumber()");
+		Log.i(LOGGER_TAG, "ApplicationPreferences -- setMenuUpdated()");
 		getSharedPreferences(context).edit().putBoolean(MENU_UPDATED_KEY, updated).commit();
 	}
 	
@@ -123,17 +123,17 @@ public class ApplicationPreferences {
 	}
 	
 	public static void setPendingStatus(Context context, boolean updated) {
-		Log.i(LOGGER_TAG, "ApplicationPreferences -- setOrderNumber()");
+		Log.i(LOGGER_TAG, "ApplicationPreferences -- setPendingStatus()");
 		getSharedPreferences(context).edit().putBoolean(ORDER_STATUS_PENDING_KEY, updated).commit();
 	}
 	
 	public static String getServerIPAddress(Context context) {
-		Log.i(LOGGER_TAG, "ApplicationPreferences -- isStatusPending()");
+		Log.i(LOGGER_TAG, "ApplicationPreferences -- getServerIPAddress()");
 		return getPreferences(context).getString(SERVER_IP_ADDRESS_KEY, "NO IP ADDRESS");
 	}
 	
 	public static void setServerIPAddress(Context context, String updated) {
-		Log.i(LOGGER_TAG, "ApplicationPreferences -- setOrderNumber()");
+		Log.i(LOGGER_TAG, "ApplicationPreferences -- setServerIPAddress()");
 		getPreferences(context).edit().putString(SERVER_IP_ADDRESS_KEY, updated).commit();
 	}
 		
