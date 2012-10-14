@@ -25,6 +25,7 @@ public class ApplicationPreferences {
 	private static final String MENU_UPDATED_KEY = "menu_updated";
 	private static final String HAVE_MENU_KEY = "have_menu";
 	private static final String ORDER_STATUS_PENDING_KEY = "order_status_pending";
+	private static final String SERVER_IP_ADDRESS_KEY = "server_ip_address";
 	
 	private static SharedPreferences getSharedPreferences(Context context) {
 		Log.i(LOGGER_TAG, "ApplicationPreferences -- getPreferences()");
@@ -125,4 +126,15 @@ public class ApplicationPreferences {
 		Log.i(LOGGER_TAG, "ApplicationPreferences -- setOrderNumber()");
 		getSharedPreferences(context).edit().putBoolean(ORDER_STATUS_PENDING_KEY, updated).commit();
 	}
+	
+	public static String getServerIPAddress(Context context) {
+		Log.i(LOGGER_TAG, "ApplicationPreferences -- isStatusPending()");
+		return getPreferences(context).getString(SERVER_IP_ADDRESS_KEY, "NO IP ADDRESS");
+	}
+	
+	public static void setServerIPAddress(Context context, String updated) {
+		Log.i(LOGGER_TAG, "ApplicationPreferences -- setOrderNumber()");
+		getPreferences(context).edit().putString(SERVER_IP_ADDRESS_KEY, updated).commit();
+	}
+		
 }
