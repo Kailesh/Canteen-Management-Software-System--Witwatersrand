@@ -25,6 +25,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.LightingColorFilter;
 import android.util.Log;
 import android.view.Menu;
@@ -57,7 +58,7 @@ public class Authentication extends Activity implements OnClickListener {
 	private void setUpViewVariables() {
 		Log.i(LOGGER_TAG, "Authentication -- setUpViewVariables()");
 		Button loginB = (Button) findViewById(R.id.bLogin);
-		loginB.getBackground().setColorFilter(new LightingColorFilter(0xFFFFFFFF, 0xFF006400	));
+		loginB.getBackground().setColorFilter(new LightingColorFilter(0xFFFFFFFF, 0xFF006400));
 		loginB.setOnClickListener(this);
 		usernameET = (EditText) findViewById(R.id.etUsername);
 		passwordET = (EditText) findViewById(R.id.etPassword);
@@ -119,10 +120,10 @@ public class Authentication extends Activity implements OnClickListener {
 		@Override
 		protected String doInBackground(String... urls) {
 			Log.i(LOGGER_TAG, "Authentication -- AuthenticateUser -- doInBackground()");
-			//String jsonAuthenticationString = sendHTTPRequest(urls);
+			String jsonAuthenticationString = sendHTTPRequest(urls);
 			
 			// Faking the HTTP response message	
-			String jsonAuthenticationString = "{\"access\": true,\"reason\": \"RMB-OK\",\"balance\": 2445.45}";
+			//String jsonAuthenticationString = "{\"access\": true,\"reason\": \"RMB-OK\",\"balance\": 2445.45}";
 			return jsonAuthenticationString;
 		}
 

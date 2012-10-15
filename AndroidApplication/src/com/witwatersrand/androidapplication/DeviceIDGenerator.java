@@ -32,10 +32,10 @@ public class DeviceIDGenerator {
 		WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
 		WifiInfo wifiInf = wifiManager.getConnectionInfo();
 		String macAddr = wifiInf.getMacAddress();
-		// return macAddr.toUpperCase();
+		return macAddr.toUpperCase();
 		
 		//--------------------|Fake MAC Address|--------------------
-		return "90:C1:15:BC:97:4F";
+		// return "90:C1:15:BC:97:4F";
 		//----------------------------------------------------------
 	}
 	

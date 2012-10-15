@@ -88,7 +88,7 @@ public class CartAdapter extends ArrayAdapter<OrderItem> {
 				float newCost = ApplicationPreferences.getLatestOrderTotal(_context) + _myCart[_selectedPosition].getPrice();
 				float balance = ApplicationPreferences.getAccountBalance(_context);
 				if (newCost > balance) { 
-					Toast.makeText(_context, "You do not have suffiecient funds to add more items to the cart", Toast.LENGTH_SHORT).show();
+					Toast.makeText(_context, "You do not have sufficient funds to add more items to the cart", Toast.LENGTH_SHORT).show();
 				} else {
 					itemQuantity = Integer.parseInt(myUniqueQuantityTV.getText().toString());
 					itemQuantity++;

@@ -233,7 +233,8 @@ public class CanteenManagerDatabase {
 	public void updateItemProgress(String name, int orderNumber, Progress status) {
 		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- updateItemProgress()");
 		ContentValues updateRow =  new ContentValues();
-		updateRow.put(KEY_ITEM_STATUS, "" + status);
+		Log.d(LOGGER_TAG, "CanteenManagerDatabase -- updateItemProgress() -- status = |" + status.toString() + "|");
+		updateRow.put(KEY_ITEM_STATUS, "" + status.toString());
 		_database.update(DATABASE_TABLE_ORDER, updateRow, KEY_ITEM_NAME + "='" + name +"' AND " +  KEY_ORDER + "='" + orderNumber + "'", null); // Change the table name here
 	}
 	
@@ -262,7 +263,7 @@ public class CanteenManagerDatabase {
 		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- areAllStatusReceicved()");
 		final String sqlInstructionNumberOfRows = "SELECT COUNT(*) AS my_items FROM " + DATABASE_TABLE_ORDER;
 		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- areAllStatusReceicved() -- sqlInstructionNumberOfRows = |" + sqlInstructionNumberOfRows + "|");
-		final String sqlInstructionNumberOfRowsDoneOrDeliverred = "SELECT COUNT(*) AS my_completed_items FROM " + DATABASE_TABLE_ORDER + " WHERE " + KEY_ITEM_STATUS + " = 'DONE' OR " + KEY_ITEM_STATUS + " = 'DELIVEERED'";
+		final String sqlInstructionNumberOfRowsDoneOrDeliverred = "SELECT COUNT(*) AS my_completed_items FROM " + DATABASE_TABLE_ORDER + " WHERE " + KEY_ITEM_STATUS + " = 'DONE' OR " + KEY_ITEM_STATUS + " = 'DELIVERED'";
 		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- areAllStatusReceicved() -- sqlInstructionNumberOfRowsDoneOrDeliverred = |" + sqlInstructionNumberOfRowsDoneOrDeliverred + "|");
 		
 		
@@ -270,12 +271,15 @@ public class CanteenManagerDatabase {
 		Cursor numberOfItemsC = _database.rawQuery(sqlInstructionNumberOfRows, null);
 		if(numberOfItemsC.moveToFirst()) {
 			numberOfItem = numberOfItemsC.getInt(0);
+			Log.i(LOGGER_TAG, "CanteenManagerDatabase -- areAllStatusReceicved() -- numberOfItem = |" + numberOfItem + "|");
+
 		}
 		numberOfItemsC.close();
 		int numberOfItemsDoneOrDelivered = -2;
 		Cursor numberOfItemsDoneOrDeliveredC = _database.rawQuery(sqlInstructionNumberOfRowsDoneOrDeliverred, null);
 		if(numberOfItemsDoneOrDeliveredC.moveToFirst()) {
 			numberOfItemsDoneOrDelivered = numberOfItemsDoneOrDeliveredC.getInt(0);
+			Log.i(LOGGER_TAG, "CanteenManagerDatabase -- areAllStatusReceicved() -- numberOfItem = |" + numberOfItemsDoneOrDelivered + "|");
 		}
 		numberOfItemsDoneOrDeliveredC.close();
 		if (numberOfItem == numberOfItemsDoneOrDelivered) {
@@ -335,6 +339,4 @@ public class CanteenManagerDatabase {
 				onCreate(db);
 		}
 	}
-
-
 }

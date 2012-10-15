@@ -28,7 +28,7 @@ public class OrderProgressStatusParser {
 
 	
 	OrderProgressStatusParser (String message) {
-		Log.i(LOGGER_TAG, "SingleProgressStatusParser -- Constructor");
+		Log.i(LOGGER_TAG, "OrderProgressStatusParser -- Constructor");
 		_jsonMessage = message;
 		_orderNumber = 0;
 		_orderProgress = Progress.NONE;
@@ -37,20 +37,24 @@ public class OrderProgressStatusParser {
 
 
 	private void parseMessage() {
-		Log.i(LOGGER_TAG, "SingleProgressStatusParser -- parseMessage()");
+		Log.i(LOGGER_TAG, "OrderProgressStatusParser -- parseMessage()");
 		JSONParser parser = new JSONParser();
 		try {
+			
 			JSONObject jsonObject = (JSONObject) parser.parse(_jsonMessage);
-			_orderNumber = (Integer) jsonObject.get(JSON_ORDER_NUMBER);
+			Log.d(LOGGER_TAG, "01");
+			long tempOrderNumber = (Long) jsonObject.get(JSON_ORDER_NUMBER);
+			_orderNumber = (int) tempOrderNumber;
+			Log.d(LOGGER_TAG, "02 -- _orderNumber = " + _orderNumber);
 			_orderProgress = Progress.valueOf( ((String) jsonObject.get(JOSN_PROGRESS_STATUS_KEY)).toUpperCase());
-			Log.i(LOGGER_TAG, "SingleProgressStatusParser -- parseMessage() -- Data parsed");
+			Log.d(LOGGER_TAG, "03");
+			
+			Log.i(LOGGER_TAG, "OrderProgressStatusParser -- parseMessage() -- Data parsed");
 		} catch (ParseException e) {
 			e.printStackTrace();
-			Log.d(LOGGER_TAG, "SingleProgressStatusParser -- parseMessage() -- Exception = |" + e.getMessage() + "|");
+			Log.d(LOGGER_TAG, "OrderProgressStatusParser -- parseMessage() -- Exception = |" + e.getMessage() + "|");
 		}	
 	}
-
-
 
 	/**
 	 * @return the _orderNumber

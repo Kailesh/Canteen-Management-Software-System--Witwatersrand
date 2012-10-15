@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignTop="@+id/textView4"
-        android:text="Login to start using Canteen Manager for Rand Merchant Bank. Use your RMB credentials." 
+        android:text="Welcome Canteen Manager for Rand Merchant Bank. You are required to make use of your RMB credentials." 
         android:textColor="#add8e6"/>
 
     <TextView
@@ -54,9 +54,9 @@
         android:id="@+id/etPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/textView3"
+        android:layout_toRightOf="@+id/textView4"
         android:ems="10"
         android:inputType="textPassword" >
 

@@ -69,9 +69,6 @@ public class ItemsProgressAdapter extends ArrayAdapter<OrderedItem> {
 		statusTV.setText("" + _myOrderedItems[position].getState());
 		ProgressBar myBar = (ProgressBar) rowRootView.findViewById(R.id.progressBar1);
 
-		Drawable drawable = myBar.getProgressDrawable();
-		drawable.setColorFilter(new LightingColorFilter(0xFFFFFFFF, 0xFF006400));
-		
 		Progress myState = _myOrderedItems[position].getState();
 
 		if(myState == Progress.NONE) {

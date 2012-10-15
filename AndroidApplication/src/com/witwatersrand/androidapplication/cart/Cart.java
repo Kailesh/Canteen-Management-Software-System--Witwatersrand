@@ -178,12 +178,11 @@ public class Cart extends Activity implements OnClickListener {
 		protected String doInBackground(String... urls) {
 			Log.i(LOGGER_TAG, "Cart -- UploadOrder -- doInBackground()");
 
-			// String responseMessage = sendHTTPRequest(urls);
-			// Log.i(LOGGER_TAG, "Cart -- UploadOrder -- responseMessage = "
-			// + responseMessage);
+			String responseMessage = sendHTTPRequest(urls);
+			Log.i(LOGGER_TAG, "Cart -- UploadOrder -- responseMessage = " + responseMessage);
 					
 			// Fake response
-			String responseMessage  = "Order Received";
+//			String responseMessage  = "Order Received";
 			return responseMessage;
 		}
 
@@ -247,7 +246,7 @@ public class Cart extends Activity implements OnClickListener {
 			Log.i(LOGGER_TAG, "Cart -- UploadOrder -- onPostExecute() -- Setting pending status to true");
 			ApplicationPreferences.setPendingStatus(Cart.this, true);
 
-			// startOrderCompletionService();
+			startOrderCompletionService();
 			Log.i(LOGGER_TAG, "Cart -- UploadOrder -- onPostExecute() -- Closing the Cart activity");
 			Cart.this.finish();
 		}

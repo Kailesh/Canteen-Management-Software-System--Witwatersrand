@@ -38,11 +38,5 @@
         android:title="Remember Password"
         android:summary="Check the box for automatic log-in">
 	</CheckBoxPreference>
-	
-    <EditTextPreference
-        android:key="server_ip_address"
-        android:summary="IP Address of the servers"
-        android:title="IP Address" >
-    </EditTextPreference>
 	    
 </PreferenceScreen>

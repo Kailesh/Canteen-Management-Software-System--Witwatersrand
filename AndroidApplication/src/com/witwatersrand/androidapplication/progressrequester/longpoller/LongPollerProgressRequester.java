@@ -15,6 +15,7 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 import org.json.simple.JSONObject;
 
+import com.witwatersrand.androidapplication.R;
 import com.witwatersrand.androidapplication.ApplicationPreferences;
 import com.witwatersrand.androidapplication.CanteenManagerDatabase;
 import com.witwatersrand.androidapplication.DeviceIDGenerator;
@@ -24,6 +25,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.util.Log;
@@ -136,11 +138,12 @@ public class LongPollerProgressRequester extends Service {
 			HttpConnectionParams.setConnectionTimeout(httpParams, CONNECTION_TIMEOUT);
 			ConnManagerParams.setTimeout(httpParams, CONNECTION_TIMEOUT);
 			HttpPost myPostRequest = new HttpPost(url);
-			myPostRequest.addHeader("Accept", "application/json");
+			
 			StringEntity message = new StringEntity(getRequestMessage());
-			Log.d(LOGGER_TAG, "LongPollerProgressRequester -- LongPollingRequest -- message = |" + message + "|");
+			
 			myPostRequest.addHeader("content-type", "applcation/json");
 			myPostRequest.setEntity(message);
+			
 			return myDefaultHttpClient.execute(myPostRequest);
 		}
 		
@@ -157,12 +160,15 @@ public class LongPollerProgressRequester extends Service {
 			
 			myJsonObject.put(JSON_DEVICE_ID_KEY, myMacAddress);
 			Log.d(LOGGER_TAG, "LongPollerProgressRequester -- LongPollingRequest -- getRequestMessage() - Order number sent to server = |" + (ApplicationPreferences.getOrderNumber(getBaseContext()) - 1) + "|");
-			myJsonObject.put(JSON_ORDER_NUMBER_KEY, ApplicationPreferences.getOrderNumber(getBaseContext()) - 1);
+			myJsonObject.put(JSON_ORDER_NUMBER_KEY, (ApplicationPreferences.getOrderNumber(LongPollerProgressRequester.this) - 1));
 
 			StringWriter myStringWriter = new StringWriter();
 			try {
 				myJsonObject.writeJSONString(myStringWriter);
-				return myStringWriter.toString();
+				String temString = myStringWriter.toString();
+				Log.d(LOGGER_TAG, "LongPollerProgressRequester -- LongPollingRequest -- getRequestMessage() - temString = |" + temString + "|");
+
+				return temString;
 			} catch (IOException e) {
 				Log.i(LOGGER_TAG, "LongPollerProgressRequester -- LongPollingRequest -- getDeviceIDMessage() -- Exception = |" + e.getMessage() + "|");
 				e.printStackTrace();
@@ -188,7 +194,7 @@ public class LongPollerProgressRequester extends Service {
 			myDatabase.open();
 			myDatabase.updateOrderProgress(myParser.getOrderNumber(), myParser.getItemProgress());
 			
-			ApplicationPreferences.setPendingStatus(getBaseContext(), myDatabase.allStatusReceicved());
+			// ApplicationPreferences.setPendingStatus(getBaseContext(), myDatabase.allStatusReceicved());
 			myDatabase.close();
 			
 			// Show notification to user
@@ -218,7 +224,10 @@ public class LongPollerProgressRequester extends Service {
 			Notification orderCompleteNotification = new Notification(com.witwatersrand.androidapplication.R.drawable.ic_launcher,
 					"Order " + ORDER_NUMBER + " is complete at RMB canteen", System.currentTimeMillis());
 			// Hide the notification after its selected
-			orderCompleteNotification.flags |= Notification.FLAG_AUTO_CANCEL;
+			
+			orderCompleteNotification.flags = Notification.FLAG_ONLY_ALERT_ONCE | Notification.FLAG_SHOW_LIGHTS | Notification.FLAG_AUTO_CANCEL;
+			orderCompleteNotification.sound = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.soundsdroplet);
+			orderCompleteNotification.defaults = Notification.DEFAULT_LIGHTS | Notification.DEFAULT_VIBRATE;
 						
 			Intent orderActivityIntent = new Intent("com.witwatersrand.androidapplication.ORDERPROGRESS");
 			orderActivityIntent.putExtra("Order", "" + ORDER_NUMBER);

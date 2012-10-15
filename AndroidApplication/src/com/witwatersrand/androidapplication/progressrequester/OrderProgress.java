@@ -65,7 +65,7 @@ public class OrderProgress extends Activity implements OnClickListener {
         _refreshB.setOnClickListener(this);
         _refreshB.getBackground().setColorFilter(new LightingColorFilter(0xFFFFFFFF, 0xFF006400	));
         task = new RequestProgress();
-        task.execute(new String[] {"http://" + ApplicationPreferences.getServerIPAddress(getBaseContext()) + "/yii/index.php/mobile/queryprogress"});
+        task.execute(new String[] {"http://" + ApplicationPreferences.getServerIPAddress(OrderProgress.this) + "/yii/index.php/mobile/queryprogress"});
     }
 
     @Override
@@ -78,7 +78,8 @@ public class OrderProgress extends Activity implements OnClickListener {
 		switch(v.getId()) {
 		case R.id.bProgressRefresh:
 			if(task.getStatus() == Status.FINISHED) {
-				task.execute(new String[] {"http://146.141.125.64/yii/index.php/mobile/queryprogress"});	 
+				RequestProgress anotherTask = new RequestProgress();
+				anotherTask.execute(new String[] {"http://" + ApplicationPreferences.getServerIPAddress(getBaseContext()) + "/yii/index.php/mobile/queryprogress"});	 
 			}
 			break;
 		}
