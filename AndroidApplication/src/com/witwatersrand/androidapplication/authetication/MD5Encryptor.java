@@ -1,4 +1,4 @@
-package com.witwatersrand.androidapplication;
+package com.witwatersrand.androidapplication.authetication;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -10,7 +10,6 @@ public class MD5Encryptor {
 	final private static String LOGGER_TAG = "WITWATERSRAND";
 
 	final private static String SALT = "28b206548469ce62182048fd9cf91760";
-	
 	public static String createMD5(String text)
 			throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		Log.i(LOGGER_TAG, "MD5Encryptor -- createMD5()");

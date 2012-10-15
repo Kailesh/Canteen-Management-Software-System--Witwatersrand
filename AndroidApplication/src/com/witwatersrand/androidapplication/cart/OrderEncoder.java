@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.witwatersrand.androidapplication;
+package com.witwatersrand.androidapplication.cart;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -9,6 +9,11 @@ import java.io.StringWriter;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import com.witwatersrand.androidapplication.ApplicationPreferences;
+import com.witwatersrand.androidapplication.DeviceIDGenerator;
+import com.witwatersrand.androidapplication.OrderItem;
+
+import android.content.Context;
 import android.util.Log;
 
 /**
@@ -24,6 +29,8 @@ public class OrderEncoder {
 	boolean _delivery;
 	String _deliveryLocation;
 	String _deviceID;
+	int _orderNumber;
+	Context _context;
 
 	final private static String TOTAL_TAG = "total";
 	final private static String DELIVERY_TAG = "deliveryLocation";
@@ -32,23 +39,26 @@ public class OrderEncoder {
 	final private static String STATION_TAG = "station";
 	final private static String PURCHASE_QUANTITY_TAG = "quantity";
 	final private static String DEVICE_ID_TAG = "deviceID";
+	final private static String ORDER_NUMBER_KEY = "orderNumber";
+	final private static String BUYER_NAME = "name";
+
 	
-	public OrderEncoder(OrderItem[] order) {
+	public OrderEncoder(OrderItem[] order, int orderNumber, Context context) {
 		Log.i(LOGGER_TAG, "OrderEncoder -- Constructor");
 		this._orderList = order;
 		_total = 0;
 		_delivery = false;
-		_deliveryLocation = "Random";
-		_deviceID = "56:78:3D:E5:8F:N1";
-		
-		encodeOrderIntoJson();
+		_deliveryLocation = "-";	
+		_deviceID = DeviceIDGenerator.getWifiMacAddress(context);
+		_context = context;
+		_orderNumber = orderNumber;
 	}
 	
 	// TODO Unchecked conversion - Type safety: The method put(Object, Object) 
 	// belongs to the raw type HashMap. References to generic type HashMap<K,V> 
 	// should be parameterized
 	@SuppressWarnings("unchecked")
-	private void encodeOrderIntoJson() {
+	public void encodeOrderIntoJson() {
 		Log.i(LOGGER_TAG, "OrderEncoder -- encodeOrderIntoJson()");
 		JSONObject myJsonObject = new JSONObject();
 		JSONArray purchaseOrderList = new JSONArray();
@@ -61,9 +71,16 @@ public class OrderEncoder {
 			purchaseOrderList.add(myMenuItem);
 		}
 		myJsonObject.put(BASKET_TAG, purchaseOrderList);
+		if (isToBeDelivered()) {
+			myJsonObject.put(DELIVERY_TAG, _deliveryLocation);
+		} else {
+			myJsonObject.put(DELIVERY_TAG, "-");
+		}
 		myJsonObject.put(DELIVERY_TAG, _deliveryLocation);
 		myJsonObject.put(TOTAL_TAG, _total);
 		myJsonObject.put(DEVICE_ID_TAG, _deviceID);
+		myJsonObject.put(ORDER_NUMBER_KEY, _orderNumber);
+		myJsonObject.put(BUYER_NAME, ApplicationPreferences.getUserName(_context));
 
 		StringWriter myStringWriter = new StringWriter();
 		try {
@@ -137,6 +154,7 @@ public class OrderEncoder {
 	 */
 	public void setDeliveryLocation(String _deliveryLocation) {
 		Log.i(LOGGER_TAG, "OrderEncoder -- setDeliveryLocation()");
+		Log.i(LOGGER_TAG, "OrderEncoder -- _deliveryLocation = |" + _deliveryLocation + "|");
 		this._deliveryLocation = _deliveryLocation;
 	}
 	

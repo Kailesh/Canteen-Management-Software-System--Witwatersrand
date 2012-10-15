@@ -15,13 +15,13 @@ public class MenuItem extends CanteenItem {
 	final private String LOGGER_TAG = "WITWATERSRAND";
 	private boolean _availability;
 	
-	MenuItem(String itemName, float price, String station) {
+	public MenuItem(String itemName, float price, String station) {
 		super(itemName, price, station);
 		Log.i(LOGGER_TAG, "MenuItem -- Constructor with parameters");
 		this._availability = true;
 	}
 	
-	MenuItem() {
+	public MenuItem() {
 		super();
 		Log.i(LOGGER_TAG, "MenuItem -- Constructor");
 		this._availability = true;

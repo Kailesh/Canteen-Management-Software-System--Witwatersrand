@@ -1,12 +1,14 @@
 /**
  * 
  */
-package com.witwatersrand.androidapplication;
+package com.witwatersrand.androidapplication.authetication;
 
 import java.io.IOException;
 import java.io.StringWriter;
 
 import org.json.simple.JSONObject;
+
+import com.witwatersrand.androidapplication.DeviceIDGenerator;
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
@@ -20,10 +22,9 @@ import android.util.Log;
 public class AuthenticatorEncoder {
 
 	final private static String LOGGER_TAG = "WITWATERSRAND";
-
 	final private static String JSON_USERNAME_KEY = "username";
 	final private static String JSON_PASSWORD_KEY = "password";
-	final private static String JSON_DEVICE_MAC_ADDRESS = "deviceMacAddress";
+	final private static String JSON_DEVICE_MAC_ADDRESS = "deviceID";
 	private String _username;
 	private String _password;
 	private String _deviceMacAddress;
@@ -37,27 +38,13 @@ public class AuthenticatorEncoder {
 		Log.i(LOGGER_TAG, "AuthenticatorEncoder -- Constructor");
 		_username = username;
 		_password = password;
-		_deviceMacAddress = getMacAddress();
+		
+		_deviceMacAddress = DeviceIDGenerator.getWifiMacAddress(context);
 		_context = context;
 		encodeAuthenticatorIntoJson();
 	}
 
-	private String getMacAddress() {
-		Log.i(LOGGER_TAG, "AuthenticatorEncoder -- getMacAddress()");
-		try {
-			btAdapther = BluetoothAdapter.getDefaultAdapter();
-			String deviceMacAddress = btAdapther.getAddress();
-			return deviceMacAddress;
-		} catch (Exception e) {
-			Log.i(LOGGER_TAG,
-					"AuthenticatorEncoder -- Exception -- " + e.toString());
-			e.printStackTrace();
-		}
-		Log.d(LOGGER_TAG,
-				"AuthenticatorEncoder -- getMacAddress() -- Could not retrieve device MAC address");
-		return "MAC address not retrievd";
-	}
-
+	
 	// TODO Unchecked conversion - Type safety: The method put(Object, Object)
 	// belongs to the raw type HashMap. References to generic type HashMap<K,V>
 	// should be parameterized

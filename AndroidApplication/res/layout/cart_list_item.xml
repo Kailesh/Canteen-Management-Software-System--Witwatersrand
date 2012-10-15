@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="5dp" >
+
+    <TextView
+        android:id="@+id/tvCartItemName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="Default Name"
+        android:textSize="17dp" />
+
+    <TextView
+        android:id="@+id/tvCartStationName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvCartItemName"
+        android:text="Default Station"
+        android:textSize="12dp" />
+
+    <TextView
+        android:id="@+id/tvCartPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvCartStationName"
+        android:layout_below="@+id/tvCartStationName"
+        android:text="Default Price"
+        android:textSize="12dp" />
+
+     <Button
+        android:id="@+id/bIncerement"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="Add"
+        android:textSize="15dp" />
+
+    <Button
+        android:id="@+id/bDecerement"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/bIncerement"
+        android:text="Remove"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/tvCartQuantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvCartPrice"
+        android:layout_below="@+id/tvCartPrice"
+        android:text="Default Quantity"
+        android:textSize="15dp" />
+    
+    </RelativeLayout>
+
+   
+

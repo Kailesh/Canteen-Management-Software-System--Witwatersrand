@@ -3,6 +3,8 @@
  */
 package com.witwatersrand.androidapplication;
 
+import com.witwatersrand.androidapplication.progressrequester.Progress;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -10,6 +12,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.widget.Toast;
 
 /**
  * @author Kailesh
@@ -20,16 +23,18 @@ public class CanteenManagerDatabase {
 	// TODO make sure that this class is not prone to SQL injection attacks
 	private static final String LOGGER_TAG = "WITWATERSRAND";
 	
-	private static final String KEY_ITEM_NAME = "item_name ";
+	private static final String KEY_ITEM_NAME = "item_name";
 	private static final String KEY_STATION = "station";
 	private static final String KEY_PRICE = "price";
 	private static final String KEY_AVAILABILITY = "availability";
 	private static final String KEY_PURCHASE_QUANTITY = "purchase_quantity";
 	private static final String KEY_ORDER = "order_number";
+	private static final String KEY_ITEM_STATUS = "item_status";
 
 	private static final String DATABASE_NAME = "canteen_manager_database";
 	private static final String DATABASE_TABLE_MENU_ITEMS = "menu_items_table";
 	private static final String DATABASE_TABLE_ORDER = "order_table";
+	
 	private static int DATABASE_VERSION = 1;
 
 	private DBHelper _helper;
@@ -72,7 +77,7 @@ public class CanteenManagerDatabase {
 	
 	public MenuItem[] getMenu() throws SQLException {
 		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- getMenu");
-		String[] columns = new String[]{KEY_ITEM_NAME, KEY_STATION, KEY_PRICE, KEY_AVAILABILITY, KEY_PURCHASE_QUANTITY};
+		String[] columns = new String[]{KEY_ITEM_NAME, KEY_STATION, KEY_PRICE, KEY_AVAILABILITY};
 		Cursor myCursor = _database.query(DATABASE_TABLE_MENU_ITEMS, columns, null, null, null, null, null, null);
 		
 		int iName = myCursor.getColumnIndex(KEY_ITEM_NAME);
@@ -83,13 +88,16 @@ public class CanteenManagerDatabase {
 		MenuItem[] menu = new MenuItem[myCursor.getCount()];
 		
 		int i = 0;	
-		for (myCursor.moveToFirst(); !myCursor.isAfterLast(); myCursor.moveToNext()) {
+		for (myCursor.moveToFirst(); !myCursor.isAfterLast(); myCursor.moveToNext()) {			
+			menu[i] = new MenuItem();
 			menu[i].setItemName(myCursor.getString(iName));
 			menu[i].setStationName(myCursor.getString(iStation));
 			menu[i].setPrice(myCursor.getFloat(iPrice));
 			boolean tempAvailability = (myCursor.getInt(iAvailability) == 1);
 			menu[i].setAvailability(tempAvailability);
+			i++;
 		}
+		myCursor.close();
 		return menu;
 	}
 	
@@ -105,12 +113,7 @@ public class CanteenManagerDatabase {
 		_database.update(DATABASE_TABLE_MENU_ITEMS, updateRow, KEY_ITEM_NAME + "=" + name, null);
 	}
 	
-	public void updatePurchaseQuantity(String name, int quantity) throws SQLException {
-		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- updatePurchaseQuantity()");
-		ContentValues updateRow =  new ContentValues();
-		updateRow.put(KEY_PURCHASE_QUANTITY, quantity);
-		_database.update(DATABASE_TABLE_MENU_ITEMS, updateRow, KEY_ITEM_NAME + "=" + name, null); // Change the table name here
-	}
+	
 	
 	public MenuItem[] getStationItems(String station) throws SQLException {
 		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- getStationItems()");
@@ -132,18 +135,44 @@ public class CanteenManagerDatabase {
 			boolean tempAvailability = (stationCursor.getInt(iAvailability) == 1);
 			menu[i].setAvailability(tempAvailability);
 		}
+		stationCursor.close();
 		return menu;
 	}
 	
-	public long addPurchaseItemToOrder(MenuItem menuItemToPurchase, int quantity, int orderNumber) {
+	public void addPurchaseItemToOrder(MenuItem menuItemToPurchase, int quantity, int orderNumber)  throws SQLException {
 		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- addPurchaseItemToOrder()");
 		ContentValues newRow = new ContentValues();
-		newRow.put(KEY_ITEM_NAME, menuItemToPurchase.getItemName());
-		newRow.put(KEY_STATION, menuItemToPurchase.getStationName());
-		newRow.put(KEY_PRICE, menuItemToPurchase.getPrice());
-		newRow.put(KEY_PURCHASE_QUANTITY, quantity);
-		newRow.put(KEY_ORDER, orderNumber);
-		return _database.insert(DATABASE_TABLE_ORDER, null, newRow);
+		if (isInOrderTable(menuItemToPurchase.getItemName(), orderNumber) ) {
+			updatePurchaseQuantity(menuItemToPurchase.getItemName(), quantity, orderNumber); 
+		} else {
+			newRow.put(KEY_ITEM_NAME, menuItemToPurchase.getItemName());
+			newRow.put(KEY_STATION, menuItemToPurchase.getStationName());
+			newRow.put(KEY_PRICE, menuItemToPurchase.getPrice());
+			newRow.put(KEY_PURCHASE_QUANTITY, quantity);
+			newRow.put(KEY_ORDER, orderNumber);
+			_database.insert(DATABASE_TABLE_ORDER, null, newRow);
+		}
+	}
+	
+	public void updatePurchaseQuantity(String name, int quantity, int orderNumber) throws SQLException {
+		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- updatePurchaseQuantity()");
+		ContentValues updateRow =  new ContentValues();
+		updateRow.put(KEY_PURCHASE_QUANTITY, quantity);
+		_database.update(DATABASE_TABLE_ORDER, updateRow, KEY_ITEM_NAME + "='" + name +"' AND " +  KEY_ORDER + "='" + orderNumber + "'", null); // Change the table name here
+	}
+	
+	public boolean isInOrderTable(String itemName, int orderNumber) {
+		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- isInOrderTable()");
+		String[] columns = new String[]{KEY_ITEM_NAME, KEY_STATION, KEY_PRICE, KEY_PURCHASE_QUANTITY, };
+		Cursor stationCursor = _database.query(DATABASE_TABLE_ORDER, columns, KEY_ITEM_NAME + "='" + itemName + "'" + " AND " + KEY_ORDER + "='" + orderNumber + "'", null, null, null, null);
+
+		if (stationCursor.getCount() == 0) {
+			stationCursor.close();
+			return false;
+		} else {
+			stationCursor.close();
+			return true;
+		}
 	}
 	
 	public void removeAllOrderItems() {
@@ -154,26 +183,100 @@ public class CanteenManagerDatabase {
 	public OrderItem[] getOrder(int orderNumner) {
 		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- getOrder()");
 		String[] columns = new String[]{KEY_ITEM_NAME, KEY_STATION, KEY_PRICE, KEY_PURCHASE_QUANTITY, KEY_ORDER};
-		Cursor orderCursor = _database.query(DATABASE_TABLE_ORDER, columns, KEY_ORDER + "=" + orderNumner, null, null, null, null);
+		Cursor orderCursor = _database.query(DATABASE_TABLE_ORDER, columns, KEY_ORDER + "='" + orderNumner + "'", null, null, null, null);
 		int iName = orderCursor.getColumnIndex(KEY_ITEM_NAME);
 		int iStation = orderCursor.getColumnIndex(KEY_STATION);
 		int iPrice = orderCursor.getColumnIndex(KEY_PRICE);
 		int iQuantity = orderCursor.getColumnIndex(KEY_PURCHASE_QUANTITY);
-		
+
 		OrderItem[] orderList = new OrderItem[orderCursor.getCount()];
-		
-		int i = 0;	
+
+		int i = 0;
 		for (orderCursor.moveToFirst(); !orderCursor.isAfterLast(); orderCursor.moveToNext()) {
+			orderList[i] = new OrderItem();
 			orderList[i].setItemName(orderCursor.getString(iName));
 			orderList[i].setStationName(orderCursor.getString(iStation));
 			orderList[i].setPrice(orderCursor.getFloat(iPrice));
 			orderList[i].setPurchaseQuantity(orderCursor.getInt(iQuantity));
 			i++;
 		}
-		
+		orderCursor.close();
 		return orderList;
 	}
- 
+	
+	public OrderedItem[] getOrderedItemList(int orderNumner) {
+		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- getOrderedItemList()");
+		OrderedItem[] orderedList = (OrderedItem[]) getOrder(orderNumner);
+		String[] columns = new String[]{KEY_ITEM_STATUS};
+		Cursor orderCursor = _database.query(DATABASE_TABLE_ORDER, columns, KEY_ORDER + "='" + orderNumner + "'", null, null, null, null);
+		int iStatus = orderCursor.getColumnIndex(KEY_ITEM_STATUS);
+		
+		int i = 0;
+		for (orderCursor.moveToFirst(); !orderCursor.isAfterLast(); orderCursor.moveToNext()) {
+			orderedList[i].setItemName(orderCursor.getString(iStatus));
+			i++;
+		}
+		orderCursor.close();
+		return orderedList;
+	}
+	
+	public void updateItemProgress(String name, int orderNumber, Progress status) {
+		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- updateItemProgress()");
+		ContentValues updateRow =  new ContentValues();
+		updateRow.put(KEY_ITEM_STATUS, "" + status);
+		_database.update(DATABASE_TABLE_ORDER, updateRow, KEY_ITEM_NAME + "='" + name +"' AND " +  KEY_ORDER + "='" + orderNumber + "'", null); // Change the table name here
+	}
+	
+	public void updateOrderProgress(int orderNumber, Progress status) {
+		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- updateItemProgress()");
+		ContentValues updateRow =  new ContentValues();
+		updateRow.put(KEY_ITEM_STATUS, "" + status);
+		
+		_database.update(DATABASE_TABLE_ORDER, updateRow, KEY_ORDER + "='" + orderNumber + "'", null); // Change the table name here
+	}
+	
+	
+	public float getTotalForOrder(int orderNumber) {
+		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- getTotalForOrder()");
+		final String sumOfOrders = "SELECT TOTAL(" + KEY_PURCHASE_QUANTITY + "*" + KEY_PRICE + ") AS my_sum FROM " + DATABASE_TABLE_ORDER + " WHERE " + KEY_ORDER + "='" + orderNumber + "'";
+		Cursor totalCursor = _database.rawQuery(sumOfOrders, null);
+		if(totalCursor.moveToFirst()) {
+		    return totalCursor.getFloat(0);
+		}
+		totalCursor.close();
+		return -1;
+	}
+
+	
+	public boolean allStatusReceicved() {
+		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- areAllStatusReceicved()");
+		final String sqlInstructionNumberOfRows = "SELECT COUNT(*) AS my_items FROM " + DATABASE_TABLE_ORDER;
+		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- areAllStatusReceicved() -- sqlInstructionNumberOfRows = |" + sqlInstructionNumberOfRows + "|");
+		final String sqlInstructionNumberOfRowsDoneOrDeliverred = "SELECT COUNT(*) AS my_completed_items FROM " + DATABASE_TABLE_ORDER + " WHERE " + KEY_ITEM_STATUS + " = 'DONE' OR " + KEY_ITEM_STATUS + " = 'DELIVEERED'";
+		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- areAllStatusReceicved() -- sqlInstructionNumberOfRowsDoneOrDeliverred = |" + sqlInstructionNumberOfRowsDoneOrDeliverred + "|");
+		
+		
+		int numberOfItem = -1;
+		Cursor numberOfItemsC = _database.rawQuery(sqlInstructionNumberOfRows, null);
+		if(numberOfItemsC.moveToFirst()) {
+			numberOfItem = numberOfItemsC.getInt(0);
+		}
+		numberOfItemsC.close();
+		int numberOfItemsDoneOrDelivered = -2;
+		Cursor numberOfItemsDoneOrDeliveredC = _database.rawQuery(sqlInstructionNumberOfRowsDoneOrDeliverred, null);
+		if(numberOfItemsDoneOrDeliveredC.moveToFirst()) {
+			numberOfItemsDoneOrDelivered = numberOfItemsDoneOrDeliveredC.getInt(0);
+		}
+		numberOfItemsDoneOrDeliveredC.close();
+		if (numberOfItem == numberOfItemsDoneOrDelivered) {
+			Log.i(LOGGER_TAG, "CanteenManagerDatabase -- areAllStatusReceicved() -- All status received" );	
+			return true;
+		}
+		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- areAllStatusReceicved() -- Not all status received" );
+		return false;
+	}
+	
+	
 	private static class DBHelper extends SQLiteOpenHelper {
 
 		/*		
@@ -209,7 +312,8 @@ public class CanteenManagerDatabase {
 					KEY_STATION + " TEXT NOT NULL, " +
 					KEY_PRICE + " REAL NOT NULL DEFAULT 0," +
 					KEY_PURCHASE_QUANTITY + " INTEGER NOT NULL DEFAULT 0," +
-					KEY_ORDER + " INTEGER NOT NULL DEFAULT 0);"
+					KEY_ORDER + " INTEGER NOT NULL DEFAULT 0," +
+					KEY_ITEM_STATUS + " TEXT NOT NULL DEFAULT NONE);"
 					);
 		}
 
@@ -221,4 +325,6 @@ public class CanteenManagerDatabase {
 				onCreate(db);
 		}
 	}
+
+
 }

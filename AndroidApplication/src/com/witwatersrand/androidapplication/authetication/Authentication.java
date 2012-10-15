@@ -1,4 +1,4 @@
-package com.witwatersrand.androidapplication;
+package com.witwatersrand.androidapplication.authetication;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -15,12 +15,16 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 
+import com.witwatersrand.androidapplication.ApplicationPreferences;
+import com.witwatersrand.androidapplication.R;
+import com.witwatersrand.androidapplication.R.id;
+import com.witwatersrand.androidapplication.R.layout;
+import com.witwatersrand.androidapplication.R.menu;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -39,13 +43,6 @@ public class Authentication extends Activity implements OnClickListener {
 	private boolean _remember;
 	private static final String NOT_RECEIVED_MESSAGE = "Not received";
 	
-	private static final String NAME_PREFERENCE_KEY = "name";
-	private static final String REMEMBER_ME_PREFERENCE_KEY = "remember_password";
-	
-	private static final String APPLIATION_DATA_FILENAME = "preferencesFilename";
-	private static final String USER_ACCOUNT_BALANCE_KEY = "account_balance";
-	private static final String PASSWORD_KEY = "password";
-	
 	private static final String UNKNOWN = "Unknown";
 	
 	@Override
@@ -63,13 +60,10 @@ public class Authentication extends Activity implements OnClickListener {
 		usernameET = (EditText) findViewById(R.id.etUsername);
 		passwordET = (EditText) findViewById(R.id.etPassword);
 		rememberMeCB = (CheckBox) findViewById(R.id.cbRememberMe);
-		
-		SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-		
-		if (myPreferences.getBoolean(REMEMBER_ME_PREFERENCE_KEY, false)) {
-			_username = myPreferences .getString(NAME_PREFERENCE_KEY, UNKNOWN);			
-			SharedPreferences applicationData = getSharedPreferences(APPLIATION_DATA_FILENAME, 0);
-			_password = applicationData.getString(PASSWORD_KEY, UNKNOWN);
+				
+		if (ApplicationPreferences.isUserRemembered(getBaseContext())) {
+			_username = ApplicationPreferences.getUserName(getBaseContext());			
+			_password = ApplicationPreferences.getPassword(this);
 	
 			sendAuthenticationRequest();
 		} else {
@@ -81,7 +75,6 @@ public class Authentication extends Activity implements OnClickListener {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-
 		getMenuInflater().inflate(R.menu.activity_authentication, menu);
 		return true;
 	}
@@ -113,8 +106,10 @@ public class Authentication extends Activity implements OnClickListener {
 			e.printStackTrace();
 		}
 		AuthenticateUser task = new AuthenticateUser();
-		task.execute(new String[] { "http://146.141.125.108/yii/index.php/mobile/Authenticate" });
 		
+		
+		
+		task.execute(new String[] { "http://" + ApplicationPreferences.getServerIPAddress(getBaseContext()) + "/yii/index.php/mobile/authenticate" });
 	}
 
 	private class AuthenticateUser extends AsyncTask<String, Void, String> {
@@ -123,8 +118,9 @@ public class Authentication extends Activity implements OnClickListener {
 		protected String doInBackground(String... urls) {
 			Log.i(LOGGER_TAG, "Authentication -- AuthenticateUser -- doInBackground()");
 			//String jsonAuthenticationString = sendHTTPRequest(urls);
-
-			String jsonAuthenticationString = "{\"access\": true,\"reason\": \"RMB-OK\",\"accountBalance\": 2445.45}";
+			
+			// Faking the HTTP response message	
+			String jsonAuthenticationString = "{\"access\": true,\"reason\": \"RMB-OK\",\"balance\": 2445.45}";
 			return jsonAuthenticationString;
 		}
 
@@ -134,7 +130,7 @@ public class Authentication extends Activity implements OnClickListener {
 			for (String url : urls) {
 				Log.d(LOGGER_TAG, "Inside for inside doInBackground()");
 				try {
-					int TIMEOUT_MILLISEC = 60000; // = 10 seconds
+					int TIMEOUT_MILLISEC = 60000; // = 60 seconds
 					HttpParams httpParams = new BasicHttpParams();
 					HttpConnectionParams.setConnectionTimeout(httpParams,
 							TIMEOUT_MILLISEC);
@@ -168,7 +164,6 @@ public class Authentication extends Activity implements OnClickListener {
 				}
 			}
 			Log.d(LOGGER_TAG, "Authentication -- AuthenticateUser -- sendHTTPRequest() -- JSON message not set");
-
 			return NOT_RECEIVED_MESSAGE;
 		}
 
@@ -180,29 +175,21 @@ public class Authentication extends Activity implements OnClickListener {
 		@Override
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
-			Log.i(LOGGER_TAG,
-					"Authentication -- AuthenticateUser -- onPostExecute()");
-			Log.i(LOGGER_TAG,
-					"Authentication -- AuthenticateUser -- onPostExecute() -- result = " + result);
+			Log.i(LOGGER_TAG, "Authentication -- AuthenticateUser -- onPostExecute()");
+			Log.i(LOGGER_TAG, "Authentication -- AuthenticateUser -- onPostExecute() -- result = " + result);
+			
 			if (result.equals(NOT_RECEIVED_MESSAGE)) {
 				Toast.makeText(Authentication.this, NOT_RECEIVED_MESSAGE, Toast.LENGTH_SHORT).show();
 			} else {
 				AuthenticationParser myAuthenticationParser;
 				myAuthenticationParser = new AuthenticationParser(result);
 				
-				SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-				SharedPreferences.Editor myEditor =  myPreferences.edit();
-				myEditor.putString(NAME_PREFERENCE_KEY, _username);
-				myEditor.putBoolean(REMEMBER_ME_PREFERENCE_KEY, _remember);
-				myEditor.commit();
-				
-				SharedPreferences applicationData = getSharedPreferences(APPLIATION_DATA_FILENAME, 0);
-				SharedPreferences.Editor mySharedPreferenceEditor =  applicationData.edit();
-				mySharedPreferenceEditor.putFloat(USER_ACCOUNT_BALANCE_KEY , myAuthenticationParser.getAccountBalance());
+				ApplicationPreferences.setUserName(Authentication.this, _username);
+				ApplicationPreferences.setRememberMeStatus(Authentication.this, _remember);
+				ApplicationPreferences.setAccountBalance(Authentication.this, myAuthenticationParser.getAccountBalance());
 				// TODO Need to MD5 hash with salt
-				mySharedPreferenceEditor.putString(PASSWORD_KEY, _password);
-				mySharedPreferenceEditor.commit();
-				
+				ApplicationPreferences.setPassword(Authentication.this, _password);
+
 				if (myAuthenticationParser.isAutheticated()) {
 					Intent startCanteenApplication = new Intent(
 							"com.witwatersrand.androidapplication.STARTMENU");
@@ -212,13 +199,6 @@ public class Authentication extends Activity implements OnClickListener {
 					Toast.makeText(Authentication.this, "Authentication Failure! " + myAuthenticationParser.getReason(), Toast.LENGTH_SHORT).show();
 				}
 			}
-			
-			/*
-			 * Setup preferences 
- 			 * don't some how create the number of purchase
-			 * variable for the first time, don't save the boolean for updated
-			 * menu for the first time
-			 */
 		}
 	}
 }

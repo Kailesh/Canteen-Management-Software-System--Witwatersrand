@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.witwatersrand.androidapplication;
+package com.witwatersrand.androidapplication.menuitems;
 
 import java.util.Iterator;
 
@@ -10,7 +10,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import android.os.AsyncTask;
+import com.witwatersrand.androidapplication.MenuItem;
+
 import android.util.Log;
 
 /**
@@ -20,10 +21,9 @@ import android.util.Log;
 public class MenuParser {
 	
 	final String LOGGER_TAG = "WITWATERSRAND";
-	boolean _updated;
 	MenuItem[] _menu;
 	JSONObject _jsonObject;
-	String JSON_UPDATE_KEY = "updated";
+
 	String JSON_MENU_OBJECT_KEY = "menu";
 	String JSON_ITEM_KEY = "item";
 	String JSON_PRICE_KEY = "price";
@@ -32,7 +32,6 @@ public class MenuParser {
 	int _numberOfMenuItems;
 
 	public MenuParser(String jsonMenuMessage) {
-		this._updated = false;
 		Log.i(LOGGER_TAG, "MenuParser -- Constructor");
 		Log.i(LOGGER_TAG, "MenuParser -- JSON message = " + jsonMenuMessage);
 		
@@ -50,7 +49,6 @@ public class MenuParser {
 			
 			Log.i(LOGGER_TAG, "MenuParser -- parseMenuData() -- _menu.lenght = " + _menu.length);
 				
-			setUpdate(Boolean.parseBoolean((String) _jsonObject.get(JSON_UPDATE_KEY)));
 			setMenuItems();
 			Log.i(LOGGER_TAG, "MenuParser -- parseMenuData() -- Data parsed");
 		} catch (ParseException e) {
@@ -58,21 +56,6 @@ public class MenuParser {
 			e.printStackTrace();
 			Log.d(LOGGER_TAG, "Exception -- " + e.getMessage());
 		}
-	}
-	
-	/**
-	 * @return the _updated
-	 */
-	public boolean isUpdated() {
-		return _updated;
-	}
-
-	/**
-	 * @param _updated the _updated to set
-	 */
-	private void setUpdate(boolean _updated) {
-		Log.i(LOGGER_TAG, "MenuParser -- setUpdate() - Sets whether the menu is the most updated");
-		this._updated = _updated;
 	}
 
 	/**

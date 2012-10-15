@@ -34,7 +34,7 @@ public class CanteenItem {
 	 * @return the _itemame
 	 */
 	public String getItemName() {
-		Log.i(LOGGER_TAG, "CanteenItem -- getItemname()");
+		Log.i(LOGGER_TAG, "CanteenItem -- getItemName()");
 		return _itemName;
 	}
 
