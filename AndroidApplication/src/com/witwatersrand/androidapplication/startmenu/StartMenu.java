@@ -1,8 +1,11 @@
 /**
  * 
  */
-package com.witwatersrand.androidapplication;
+package com.witwatersrand.androidapplication.startmenu;
 
+
+import com.witwatersrand.androidapplication.R;
+import com.witwatersrand.androidapplication.R.layout;
 
 import android.app.ListActivity;
 import android.content.Intent;

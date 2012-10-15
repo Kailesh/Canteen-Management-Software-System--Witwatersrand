@@ -27,7 +27,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".StartMenu"
+            android:name=".startmenu.StartMenu"
             android:label="@string/title_menu_list" >
             <intent-filter>
                 <action android:name="com.witwatersrand.androidapplication.STARTMENU" />

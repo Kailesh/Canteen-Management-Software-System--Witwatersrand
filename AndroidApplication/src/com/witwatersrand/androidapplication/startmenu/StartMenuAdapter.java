@@ -1,9 +1,12 @@
 /**
  * 
  */
-package com.witwatersrand.androidapplication;
+package com.witwatersrand.androidapplication.startmenu;
 
 import java.util.List;
+
+import com.witwatersrand.androidapplication.R;
+import com.witwatersrand.androidapplication.R.id;
 
 import android.app.Activity;
 import android.content.Context;
@@ -60,14 +63,11 @@ public class StartMenuAdapter extends ArrayAdapter<StartMenuItem>  {
 		Log.i(LOGGER_TAG, "StartMenuAdapter -- getView() --Inflator called");
 
 		TextView optionNameTV = (TextView) rowRootView.findViewById(R.id.tvOptionName);
-		Log.d(LOGGER_TAG, "name = |" + _myOptions[position].getOptionName() + "|" );
 		optionNameTV.setText(_myOptions[position].getOptionName());
 		
 		ImageView iconIV = (ImageView) rowRootView.findViewById(R.id.ivIcon);
 		int resourceId = _context.getResources().getIdentifier(_myOptions[position].getImageName(), "drawable", "com.witwatersrand.androidapplication");
 		iconIV.setImageResource(resourceId);
-		
-		
 		
 		Log.i(LOGGER_TAG, "StartMenuAdapter -- onListItemClick()");
 		

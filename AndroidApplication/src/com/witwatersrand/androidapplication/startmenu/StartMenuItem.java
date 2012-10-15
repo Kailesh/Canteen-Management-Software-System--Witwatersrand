@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.witwatersrand.androidapplication;
+package com.witwatersrand.androidapplication.startmenu;
 
 /**
  * @author Kailesh
