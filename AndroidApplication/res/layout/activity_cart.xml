@@ -1,18 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-
 
     <TextView
         android:id="@+id/tvCartTotal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView2"
         android:layout_centerHorizontal="true"
         android:text="@string/default_price"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#add8e6"  />
+        android:textColor="#add8e6" />
 
     <Button
         android:id="@+id/bPurchase"
@@ -28,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/bPurchase"
         android:layout_centerHorizontal="true"
-        android:text="Delivery" 
+        android:text="Delivery"
         android:textColor="#add8e6" />
 
     <Spinner
@@ -36,15 +34,15 @@
         android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/cbDelivery"
-        android:layout_centerHorizontal="true" 
-        android:entries="@array/delivery_locations"/>
+        android:layout_centerHorizontal="true"
+        android:entries="@array/delivery_locations" />
 
     <Spinner
         android:id="@+id/spSide"
         android:layout_width="280dp"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/spFloor"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/spFloor" 
         android:entries="@array/kitchen_or_not" />
 
     <ListView

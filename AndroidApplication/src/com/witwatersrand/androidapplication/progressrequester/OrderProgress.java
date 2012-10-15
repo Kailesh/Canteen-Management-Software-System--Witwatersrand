@@ -90,9 +90,9 @@ public class OrderProgress extends Activity implements OnClickListener {
 		@Override
 		protected String doInBackground(String... urls) {
 			Log.i(LOGGER_TAG, "OrderProgress -- RequestProgress -- doInBackground()");
-			return sendHTTPRequest(urls);
+			// return sendHTTPRequest(urls);
 			// Faking response
-			// return "[{\"item\": \"Beef Olives\",\"progressStatus\": \"DONE\"},{\"item\": \"Hake\",\"progressStatus\": \"PLACED\"},]";
+			return "[{\"item\": \"Beef Olives\",\"progressStatus\": \"DONE\"},{\"item\": \"Hake\",\"progressStatus\": \"PLACED\"},]";
 		}
 		
 		private String sendHTTPRequest(String... urls) {

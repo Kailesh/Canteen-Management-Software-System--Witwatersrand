@@ -17,9 +17,6 @@ import com.witwatersrand.androidapplication.ApplicationPreferences;
 import com.witwatersrand.androidapplication.CanteenManagerDatabase;
 import com.witwatersrand.androidapplication.OrderItem;
 import com.witwatersrand.androidapplication.R;
-import com.witwatersrand.androidapplication.R.id;
-import com.witwatersrand.androidapplication.R.layout;
-import com.witwatersrand.androidapplication.R.menu;
 import com.witwatersrand.androidapplication.progressrequester.longpoller.LongPollerProgressRequester;
 
 import android.os.AsyncTask;
@@ -53,7 +50,6 @@ public class Cart extends Activity implements OnClickListener {
 
 	
 	static final String APPLIATION_DATA_FILENAME = "mySharedPreferences";
-	private static final String ORDER_NUMBER_KEY = "order";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -83,6 +79,7 @@ public class Cart extends Activity implements OnClickListener {
 	
 	private void setDelivery() {
 		if (_deliveryCB.isChecked()) {
+
 			_deliveryFloorS.setEnabled(true);
 			_deliverySideS.setEnabled(true);
 			
@@ -111,7 +108,11 @@ public class Cart extends Activity implements OnClickListener {
 			
 			OrderEncoder myOrderEncoder = new OrderEncoder(myOrder, ApplicationPreferences.getOrderNumber(this) -1, getBaseContext());
 			myOrderEncoder.setDelivery(_deliveryCB.isChecked());
-			myOrderEncoder.setDeliveryLocation("Floor " + _deliveryFloorS.getSelectedItem() + " - " + _deliverySideS.getSelectedItem());
+			if(_deliveryCB.isChecked()) {
+				myOrderEncoder.setDeliveryLocation("Floor " + _deliveryFloorS.getSelectedItem() + " - " + _deliverySideS.getSelectedItem());
+			} else {
+				myOrderEncoder.setDeliveryLocation("-");
+			}
 			myOrderEncoder.encodeOrderIntoJson();
 			_httpPostMessage = myOrderEncoder.getOrderJsonMessage();
 			Log.i(LOGGER_TAG, "Cart -- _httpPostMessage = " + _httpPostMessage);
@@ -178,11 +179,11 @@ public class Cart extends Activity implements OnClickListener {
 		protected String doInBackground(String... urls) {
 			Log.i(LOGGER_TAG, "Cart -- UploadOrder -- doInBackground()");
 
-			String responseMessage = sendHTTPRequest(urls);
-			Log.i(LOGGER_TAG, "Cart -- UploadOrder -- responseMessage = " + responseMessage);
+			//String responseMessage = sendHTTPRequest(urls);
+			// Log.i(LOGGER_TAG, "Cart -- UploadOrder -- responseMessage = " + responseMessage);
 					
 			// Fake response
-//			String responseMessage  = "Order Received";
+			String responseMessage  = "Order Received";
 			return responseMessage;
 		}
 

@@ -120,16 +120,15 @@ public class Authentication extends Activity implements OnClickListener {
 		@Override
 		protected String doInBackground(String... urls) {
 			Log.i(LOGGER_TAG, "Authentication -- AuthenticateUser -- doInBackground()");
-			String jsonAuthenticationString = sendHTTPRequest(urls);
+			// String jsonAuthenticationString = sendHTTPRequest(urls);
 			
 			// Faking the HTTP response message	
-			//String jsonAuthenticationString = "{\"access\": true,\"reason\": \"RMB-OK\",\"balance\": 2445.45}";
+			String jsonAuthenticationString = "{\"access\": true,\"reason\": \"RMB-OK\",\"balance\": 2445.45}";
 			return jsonAuthenticationString;
 		}
 
 		private String sendHTTPRequest(String[] urls) {
-			Log.i(LOGGER_TAG,
-					"Authentication -- AuthenticateUser -- sendHTTPRequest()");
+			Log.i(LOGGER_TAG, "Authentication -- AuthenticateUser -- sendHTTPRequest()");
 			for (String url : urls) {
 				Log.d(LOGGER_TAG, "Inside for inside doInBackground()");
 				try {

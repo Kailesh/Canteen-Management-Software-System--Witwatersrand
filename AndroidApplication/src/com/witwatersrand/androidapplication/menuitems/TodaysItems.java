@@ -114,7 +114,7 @@ public class TodaysItems extends Activity {
 			if (ApplicationPreferences.isMenuUpated(TodaysItems.this)) {
 				Log.i(LOGGER_TAG, "TodaysItems -- CheckMenuUpdated -- onPostExecute() -- Menu available");
 //				setListAdapter(new ArrayAdapter<String>(TodaysItems.this,
-//						android.R.layout.simple_list_item_1, mySelection));
+//				android.R.layout.simple_list_item_1, mySelection));
 				Intent myIntent = new Intent("com.witwatersrand.androidapplication.ITEMS");
 				startActivity(myIntent);
 				finish();

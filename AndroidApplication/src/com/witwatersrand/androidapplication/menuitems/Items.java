@@ -119,16 +119,16 @@ public class Items extends Activity implements OnClickListener{
 		@Override
 		protected String doInBackground(String... urls) {
 			Log.i(LOGGER_TAG, "Items -- DownloadMenuData -- doInBackground()");
-			String jsonMenuString = sendHTTPRequest(urls);
+			//String jsonMenuString = sendHTTPRequest(urls);
 			
 			// Fake the menu items
-//			String jsonMenuString = "{ \"updated\": \"false\",\"menu\": [{ \"item\": \"Hake\",\"station\": \"A la Minute Grill\",\"price\": \"16.53\", \"availability\": \"true\"},{\"item\": \"Beef Olives\",\"station\": \"Main Meal\",\"price\": \"28.50\",\"availability\": \"true\"},{\"item\": \"Chicken Lasagne & Veg\",\"station\": \"Frozen Meals\",\"price\": \"28.50\",\"availability\": \"true\"}]}";
+			String jsonMenuString = "{ \"updated\": \"false\",\"menu\": [{ \"item\": \"Hake\",\"station\": \"A la Minute Grill\",\"price\": \"16.53\", \"availability\": \"true\"},{\"item\": \"Beef Olives\",\"station\": \"Main Meal\",\"price\": \"28.50\",\"availability\": \"true\"},{\"item\": \"Chicken Lasagne & Veg\",\"station\": \"Frozen Meals\",\"price\": \"28.50\",\"availability\": \"true\"}]}";
 			return jsonMenuString;
 		}
 
 		private String sendHTTPRequest(String... urls) {
 			for (String url : urls) {
-				Log.i(LOGGER_TAG, "Items -- DownloadMenuData -- doInBackground()");
+				Log.i(LOGGER_TAG, "Items -- DownloadMenuData -- doInBackground() -- sendHTTPRequest()");
 				try {
 					int TIMEOUT_MILLISEC = 10000; // = 10 seconds
 					HttpParams httpParams = new BasicHttpParams();
@@ -175,8 +175,8 @@ public class Items extends Activity implements OnClickListener{
 			ApplicationPreferences.setHaveMenu(Items.this, true);
 			Log.i(LOGGER_TAG, "Items -- DownloadMenuData -- Calling setListAdapter()");
 			// changed purchase_menu_item to cart_list_item
-//			_menuLV.setAdapter(new MenuItemsAdapter(Items.this,
-//					R.layout.cart_list_item, myMenu)); 
+			_menuLV.setAdapter(new MenuItemsAdapter(Items.this,
+					R.layout.cart_list_item, myMenu));
 		}
 	}
 }
