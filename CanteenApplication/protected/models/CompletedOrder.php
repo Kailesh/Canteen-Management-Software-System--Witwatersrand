@@ -11,7 +11,7 @@ class CompletedOrder extends CFormModel{
 	{
 		$databaseConnection = Yii::app()->db;
 		
-		$sql_select = "SELECT *   FROM orders WHERE status = 'Done' OR status = 'Deliverying' ORDER BY timeplaced DESC";
+		$sql_select = "SELECT *   FROM orders WHERE status = 'Done' OR status = 'Delivering' ORDER BY timeplaced DESC";
 		
 		$command = $databaseConnection->createCommand($sql_select);
 		

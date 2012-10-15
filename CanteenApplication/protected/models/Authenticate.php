@@ -24,19 +24,20 @@ class Authenticate{
 		$result = $command->query();
 		
 		$this->user = $result->read();
+		//var_dump($this->user['credit']);
+		var_dump($this->user['password']);
+		var_dump($decode_details->password);
 		
-		//var_dump($this->user['password']);
-		//var_dump($decode_details->password);
-		
-		if ($decode_details->password===$this->user['password'])
+		if ($decode_details->password===$this->user['password'] & $decode_details->deviceID===$this->user['deviceid'])
 		{
 			$this->access=true;
 			$this->reason='RMB-OK';
 		}
 		else
 		{
-			$this->access=true;
+			$this->access=false;
 			$this->reason='RMB-01';
+			$this->user['credit'] = "0";
 		}
 	}
 	
