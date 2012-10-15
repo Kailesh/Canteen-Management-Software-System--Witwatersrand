@@ -11,6 +11,7 @@ class PlaceOrder
 	{
 		$this->placedOrder = json_decode($placedOrder_Json);
 		var_dump($this->placedOrder);
+		var_dump($this->placedOrder->orderNumber);
 	}
 	
 	public function storeOrderIntoDB()
@@ -21,12 +22,14 @@ class PlaceOrder
 			$order = new Orders;
 		
 			$order->deviceid = $this->placedOrder->deviceID;
+			$order->name = $this->placedOrder->name;
 			$order->delivery_location = $this->placedOrder->deliveryLocation;
 			$order->timeplaced = new CDbExpression('NOW()');
 			$order->status = "placed";
 		
 			$order->item = $item->item;
 			$order->quantity = $item->quantity;
+			$order->orderNo = $this->placedOrder->orderNumber;
 			//$order->station = $item->station;
 			$order->save();
 		}

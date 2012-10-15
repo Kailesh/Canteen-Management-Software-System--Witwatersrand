@@ -67,10 +67,15 @@ class MobileController extends Controller{
 		
 		//retriveal of orders, decode the json and create a sql entry into the 'orders' table in the database
 		$placedOrders_json = http_get_request_body();
-		//$placedOrders_json = json_encode(array("wtf"=>"wtf","shit"=>"shit")); 
+		//$basket = array(array("item"=>"Hake", "station"=>"A la Minute Grill", "quantity"=>2),array("item"=>"Beef Olives", "station"=>"Main Meal", "quantity"=>3));
+	//	$placedOrders_json = json_encode(array("deviceID"=>"90:C1:15:BC:97:4F","name"=>"kailesh","total"=>"60.50","deliveryLocation"=>"Floor 3 - Kitchen Side", "orderNumber"=>1,
+//"basket"=>$basket)); 
+		
+		//var_dump($placedOrders_json);
+		//die;
 		//pass the order in json format to the model
 		$model->decodePlacedOrder($placedOrders_json);
-		var_dump($model->placedOrder);
+		//var_dump($model->placedOrder);
 		//now call the function that will write the order into the database
 		$model->storeOrderIntoDB();		
 		
@@ -86,12 +91,12 @@ class MobileController extends Controller{
 		$model = new Authenticate();
 		
 		$authenticate_json = http_get_request_body();
-		//$json = json_encode(array("username"=>"kailesh","password"=>"1c3dd8b850b055bb7b6fb0fb59a7cd04","deviceMACAddress"=>"random"));
+		//$authenticate_json = json_encode(array("username"=>"kailesh","password"=>"1c3dd8b850b055bb7b6fb0fb59a7cd4","deviceID"=>"90:C1:15:BC:97:4F"));
 		$model->verifyDetails($authenticate_json);
 		
 		$verification = $model->getAccess();
 		$responseMsg = $model->generateJsonResponse();
-		
+		//var_dump($responseMsg);
 		/*HttpResponse::status(200);
 		HttpResponse::setContentType('text/HTML');
 		HttpResponse::setData("Orders Recieved");
@@ -132,25 +137,47 @@ class MobileController extends Controller{
 		$model = new QueryProgress();
 		
 		$request = http_get_request_body();
+		//$request = json_encode(array("deviceID"=>"56:78:3D:E5:8F:N1","order"=>1));
+		
+		//var_dump($request);
 		
 		$model->decodeStatusRequest($request);
 		$model->getStatusOrder();
 		$response = $model->encodeMsg(); 
-		
+		//var_dump($response);
 		HttpResponse::status(200);
 		HttpResponse::setContentType('application/json');
 		HttpResponse::setData($response);
 		HttpResponse::send();
+		
 	}
 	
 	public function actionMenuUpdate()
 	{
 		$model = new MenuUpdate();
-		$encode_response = $model->encodeResponse;
+		$model->getMenuStatus();
+		$encode_response = $model->encodeResponse();
 		
 		HttpResponse::status(200);
 		HttpResponse::setContentType('application/json');
-		HttpResponse::setData($response);
+		HttpResponse::setData($encode_response);
+		HttpResponse::send();
+	}
+	
+	public function actionLongPoller()
+	{
+		$model = new LongPoller();
+		
+		//$request = http_get_request_body();
+		$request = json_encode(array("deviceID"=>"90:C1:15:BC:97:4F","orderNo"=>"1")); 
+		
+		$model->decodeStatusRequest($request);
+		$model->checkStatus();
+		$responseMsg = $model->generateResponse();
+		
+		HttpResponse::status(200);
+		HttpResponse::setContentType('application/json');
+		HttpResponse::setData($responseMsg);
 		HttpResponse::send();
 	}
 	

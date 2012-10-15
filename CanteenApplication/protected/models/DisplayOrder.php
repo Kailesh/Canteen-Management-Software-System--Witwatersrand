@@ -53,8 +53,10 @@ class DisplayOrder extends CFormModel{
 			//looping through each order
 			foreach ($this->result as $eachItem)
 			{
+				
 				//find the primary key of each order
 				$temp = $eachItem['U_id'];
+
 				//Perform check to ignore completed orders else indexing error occurs
 				if ($eachItem['status']==='Processing' or $eachItem['status']==='placed')
 				{			
@@ -70,10 +72,10 @@ class DisplayOrder extends CFormModel{
 						$order->status = "Done";
 						$order->save();
 					}
-					else if ($this->order_status[$temp] === "Deliverying")
+					else if ($this->order_status[$temp] === "Delivering")
 					{
 						$order= Orders::model()->findByPk($temp);
-						$order->status = "Deliverying";
+						$order->status = "Delivering";
 						$order->save();
 					}
 				}

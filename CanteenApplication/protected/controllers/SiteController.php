@@ -112,6 +112,7 @@ class SiteController extends Controller
 		$model = new DisplayOrder();
 		
 		//var_dump($_POST);
+		//die;
 		
 		//Read from the database
 		$model->result = $model->extractOrderFromDb();

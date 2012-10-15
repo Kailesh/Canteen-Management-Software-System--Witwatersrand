@@ -24,6 +24,7 @@ header("Refresh: 15;");
 <table>
 <tr>
 <th>DeviceID</th>
+<th>Name</th>
 <th>Item</th>
 <th> Quantity </th>
 <th> Time Placed </th>
@@ -37,14 +38,15 @@ header("Refresh: 15;");
 <?php //$counter_string= 'item' . (string)$counter;?>
 <tr>
 	<td> <?php echo($order['deviceid'])?> 	 		</td>
+	<td> <?php echo($order['name'])?> 				</td>
     <td> <?php echo($order['item'])?>		 		</td> 
 	<td> <?php echo($order['quantity'])?> 			</td>
 	<td> <?php echo($order['timeplaced'])?> 		</td>
 	<td> <?php echo($order['delivery_location'])?> 	</td>
 	<?php  $status = $order['status'] ?>
 	<td> <?php
-	if ($order["delivery_location"]!="") {
-		echo $form->radioButtonList($model,'order_status['. $order['U_id'].']',array('Processing'=>'Processing','Deliverying'=>'Delivering'),
+	if ($order["delivery_location"]!="-") {
+		echo $form->radioButtonList($model,'order_status['. $order['U_id'].']',array('Processing'=>'Processing','Delivering'=>'Delivering'),
 		array('onchange'=>CHtml::ajax(array('type'=>'POST', 'url'=>'','success'=>'function(data){$("body").html(data);}')),'separator'=>' | ','labelOptions'=>array('style'=>'display:inline')));
 	}
 	else {

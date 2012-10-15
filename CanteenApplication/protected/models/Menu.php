@@ -9,6 +9,8 @@ class Menu{
 	
 	public $dataBaseConnection;
 	public $sqlCommand;
+	public $menuEntries;
+	public $jsonString;
 	
 	public function getMenu()
 	{
@@ -21,10 +23,23 @@ class Menu{
 		//execute the query command
 		$menuData = $sqlCommand->query();
 		//read all the data from the query
-		$menuEntries = $menuData->readAll();
+		$this->menuEntries = $menuData->readAll();
+		$this->createJsonString();
 		//return data to controller
-		return $menuEntries;
+		//return $menuEntries;
 	}
+	
+	public function createJsonString()
+	{
+		$this->jsonString = json_encode(array('menu'=>$this->menuEntries));
+	}
+	
+	public function getJsonString()
+	{
+		return $this->jsonString;
+	}
+	
+	
 }
 
 ?>
