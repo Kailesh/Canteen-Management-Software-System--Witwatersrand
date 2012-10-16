@@ -296,7 +296,6 @@ public class CanteenManagerDatabase {
 		_database.delete(DATABASE_TABLE_ORDER, KEY_ITEM_NAME + " = '" + name + "' AND " + KEY_ORDER + " = " + orderNumber , null);	
 	}
 	
-	
 	private static class DBHelper extends SQLiteOpenHelper {
 
 		/*		

@@ -109,6 +109,7 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 			}
 		});
 		
+		
 		addButton.setOnClickListener(new View.OnClickListener() {
 			TextView myUniqueQuantityTV = (TextView) rowRootView.findViewById(R.id.tvCartQuantity);
 			int  itemQuantity = 0;
@@ -116,8 +117,10 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 				Log.i(LOGGER_TAG, "CartAdapter -- getView() -- onClick() -- Button pressed for item name: " + _myMenu[_selectedPosition].getItemName());
 				float newCost = ApplicationPreferences.getLatestOrderTotal(_context) + _myMenu[_selectedPosition].getPrice();
 				float balance = ApplicationPreferences.getAccountBalance(_context);
-				if (newCost > balance) { 
-					Toast.makeText(_context, "You do not have suffiecient funds to add more items to the cart", Toast.LENGTH_SHORT).show();
+				if (newCost > balance) {
+					
+					Toast.makeText(_context, "Insufficient fund! Your balance is R " + ApplicationPreferences.getAccountBalance(_context), Toast.LENGTH_SHORT).show();
+					
 				} else {
 					itemQuantity = Integer.parseInt(myUniqueQuantityTV.getText().toString());
 					itemQuantity++;
