@@ -180,10 +180,10 @@ public class Cart extends Activity implements OnClickListener {
 			Log.i(LOGGER_TAG, "Cart -- UploadOrder -- doInBackground()");
 
 			String responseMessage = sendHTTPRequest(urls);
-			 Log.i(LOGGER_TAG, "Cart -- UploadOrder -- responseMessage = " + responseMessage);
+			Log.i(LOGGER_TAG, "Cart -- UploadOrder -- responseMessage = " + responseMessage);
 					
 			// Fake response
-			// String responseMessage  = "Order Received";
+			//String responseMessage  = "Order Received";
 			return responseMessage;
 		}
 

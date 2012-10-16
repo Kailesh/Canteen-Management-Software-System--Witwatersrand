@@ -32,7 +32,7 @@ public class StartMenu extends ListActivity  {
 
 		_myOptions = new StartMenuItem[8];
 		
-		_myOptions[0] = new StartMenuItem("Today's Items", "food");
+		_myOptions[0] = new StartMenuItem("Menu", "food");
 		_myOptions[1] = new StartMenuItem("Video Feed", "video");
 		_myOptions[2] = new StartMenuItem("User Information", "user_grey");
 		_myOptions[3] = new StartMenuItem("Cart", "shopping_cart");

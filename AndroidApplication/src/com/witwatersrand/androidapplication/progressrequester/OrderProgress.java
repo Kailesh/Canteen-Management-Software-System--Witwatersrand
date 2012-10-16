@@ -79,7 +79,7 @@ public class OrderProgress extends Activity implements OnClickListener {
 		case R.id.bProgressRefresh:
 			if(task.getStatus() == Status.FINISHED) {
 				RequestProgress anotherTask = new RequestProgress();
-				anotherTask.execute(new String[] {"http://" + ApplicationPreferences.getServerIPAddress(getBaseContext()) + "/yii/index.php/mobile/queryprogress"});	 
+				anotherTask.execute(new String[] {"http://" + ApplicationPreferences.getServerIPAddress(OrderProgress.this) + "/yii/index.php/mobile/queryprogress"});	 
 			}
 			break;
 		}

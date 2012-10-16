@@ -12,6 +12,7 @@ import android.graphics.LightingColorFilter;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -28,8 +29,22 @@ public class VideoFeed extends Activity {
 		videoFeedIV = (ImageView) findViewById(R.id.ivFeed);
 		
 		
-		Button refreshB = (Button) findViewById(R.id.bRefresh);
-		refreshB.getBackground().setColorFilter(new LightingColorFilter(0xFFFFFFFF, 0xFF006400	));
+		final Button refreshB = (Button) findViewById(R.id.bRefresh);
+		refreshB.getBackground().setColorFilter(new LightingColorFilter(0xFFFFFFFF, 0x00000000));	
+		refreshB.setOnTouchListener(new View.OnTouchListener() {
+			public boolean onTouch(View v, MotionEvent event) {
+				switch(event.getAction()) {
+				case MotionEvent.ACTION_DOWN:
+					refreshB.getBackground().setColorFilter(new LightingColorFilter(0xFFFFFF00, 0xFF0064FF));						
+					break;
+				case MotionEvent.ACTION_UP:
+
+					refreshB.getBackground().setColorFilter(new LightingColorFilter(0xFFFFFFFF, 0x00000000));	
+					break;
+				}
+				return false;
+			}
+		});
 		refreshB.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {

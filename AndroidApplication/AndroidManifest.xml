@@ -34,10 +34,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".menuitems.TodaysItems"
+            android:name=".menuitems.Menu"
             android:label="@string/title_activity_todays_items" >
             <intent-filter>
-                <action android:name="com.witwatersrand.androidapplication.TODAYSITEMS" />
+                <action android:name="com.witwatersrand.androidapplication.MENU" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>

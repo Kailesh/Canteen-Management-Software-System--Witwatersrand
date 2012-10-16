@@ -34,23 +34,22 @@
         android:textSize="12dp"
         android:textColor="#add8e6"  />
 
-     <Button
+     <Button 
         android:id="@+id/bIncerement"
-        android:layout_width="130dp"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:text="Add"
-        android:textSize="15dp" />
+        android:background="@drawable/add" 
+        android:padding="5dp"/>
 
     <Button
         android:id="@+id/bDecerement"
-        android:layout_width="130dp"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/bIncerement"
-        android:text="Remove"
-        android:textSize="15dp" />
+        android:background="@drawable/remove" />
 
     <TextView
         android:id="@+id/tvCartQuantity"
@@ -61,6 +60,7 @@
         android:text="Default Quantity"
         android:textSize="18dp" 
         android:textColor="#add8e6" />
+   
     
     </RelativeLayout>
 

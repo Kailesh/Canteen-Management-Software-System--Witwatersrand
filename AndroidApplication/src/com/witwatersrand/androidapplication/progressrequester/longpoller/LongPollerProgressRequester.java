@@ -98,13 +98,13 @@ public class LongPollerProgressRequester extends Service {
 		protected String doInBackground(String... urls) {
 			Log.d(LOGGER_TAG, "LongPollerProgressRequester -- LongPollingRequest -- doInBackground()");
 			
-			/*//---------------------------|Fake delayed response|---------------------------
-			Log.d(LOGGER_TAG, "LongPollerProgressRequester -- LongPollingRequest -- doInBackground() -- Tring to waist time");
-			for(int i = 0; i <= 1000000000 ; i++) {
-				// waist time
-			}
-			return "{\"order\": \"2\",\"status\": \"Done\"}";
-			*///-----------------------------------------------------------------------------
+			//---------------------------|Fake delayed response|---------------------------
+//			Log.d(LOGGER_TAG, "LongPollerProgressRequester -- LongPollingRequest -- doInBackground() -- Tring to waist time");
+//			for(int i = 0; i <= 1000000000 ; i++) {
+//				// waist time
+//			}
+//			//return "{\"orderNumber\": 2,\"status\": \"Done\"}";
+			//-----------------------------------------------------------------------------
 			return executeHttpRequest(urls);
 		}
 

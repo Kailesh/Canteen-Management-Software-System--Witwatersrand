@@ -17,7 +17,6 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import com.witwatersrand.androidapplication.ApplicationPreferences;
-import com.witwatersrand.androidapplication.R;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -26,10 +25,9 @@ import android.app.Activity;
 
 import android.content.Intent;
 import android.util.Log;
-import android.view.Menu;
 import android.widget.Toast;
 
-public class TodaysItems extends Activity {
+public class Menu extends Activity {
 	final static private String LOGGER_TAG = "WITWATERSRAND"; // Debug Purposes
 	String mySelection[] = { "Items" };
 	final static private String JSON_UPDATE_KEY =  "menuUpdated";
@@ -42,21 +40,14 @@ public class TodaysItems extends Activity {
         task.execute("http://" + ApplicationPreferences.getServerIPAddress(getBaseContext()) + "/yii/index.php/mobile/menuupdate");
     }
     
- 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_todays_items, menu);
-        return true;
-    }
-    
     private class CheckMenuUpdated extends AsyncTask<String, Void, String> {
 
 		@Override
 		protected String doInBackground(String... urls) {
 			Log.i(LOGGER_TAG, "TodaysItems -- CheckMenuUpdated -- doInBackground()");
-			return sendHTTPRequest(urls);
+			//return sendHTTPRequest(urls);
 			// Faking response
-			// return "{\"menuUpdated\" : true}";
+			return "{\"menuUpdated\" : true}";
 		}
 		
 		private String sendHTTPRequest(String... urls) {
@@ -105,13 +96,13 @@ public class TodaysItems extends Activity {
 			JSONParser parser = new JSONParser();
 			try {
 				JSONObject jsonObject = (JSONObject) parser.parse(result);
-				ApplicationPreferences.setMenuUpdated(TodaysItems.this, (Boolean) jsonObject.get(JSON_UPDATE_KEY));
+				ApplicationPreferences.setMenuUpdated(Menu.this, (Boolean) jsonObject.get(JSON_UPDATE_KEY));
 			} catch (ParseException e) {
 				e.printStackTrace();
 				Log.d(LOGGER_TAG, e.getMessage());
-				Toast.makeText(TodaysItems.this, e.getMessage() , Toast.LENGTH_SHORT).show();
+				Toast.makeText(Menu.this, e.getMessage() , Toast.LENGTH_SHORT).show();
 			}
-			if (ApplicationPreferences.isMenuUpated(TodaysItems.this)) {
+			if (ApplicationPreferences.isMenuUpated(Menu.this)) {
 				Log.i(LOGGER_TAG, "TodaysItems -- CheckMenuUpdated -- onPostExecute() -- Menu available");
 //				setListAdapter(new ArrayAdapter<String>(TodaysItems.this,
 //				android.R.layout.simple_list_item_1, mySelection));
@@ -120,7 +111,7 @@ public class TodaysItems extends Activity {
 				finish();
 			} else {
 				Log.i(LOGGER_TAG, "TodaysItems -- CheckMenuUpdated -- onPostExecute() -- Menu not available");
-				Toast.makeText(TodaysItems.this, "An updated version of the menu is not currently available on the server. Please try again later.", Toast.LENGTH_LONG).show();
+				Toast.makeText(Menu.this, "An updated version of the menu is not currently available on the server. Please try again later.", Toast.LENGTH_LONG).show();
 				finish();
 			}
 		}

@@ -11,9 +11,11 @@ import android.graphics.LightingColorFilter;
 
 import android.util.Log;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -47,8 +49,8 @@ public class Items extends Activity implements OnClickListener{
 		setContentView(R.layout.activity_items);
 		_menuLV = (ListView) findViewById(R.id.lvMenuItems);
 		goToCartB = (Button) findViewById(R.id.bPurchase);
+		goToCartB.getBackground().setColorFilter(new LightingColorFilter(0xFFFFFFFF, 0x00006400));	
 		
-		goToCartB.getBackground().setColorFilter(new LightingColorFilter(0xFFFFFFFF, 0xFF006400	));
 		goToCartB.setOnClickListener(this);
 		totalTV = (TextView) findViewById(R.id.tvMenuItemsTotal);
 		totalTV.setText("R " + String.format("%.2f", (float) 0));	
@@ -114,7 +116,7 @@ public class Items extends Activity implements OnClickListener{
 			String jsonMenuString = sendHTTPRequest(urls);
 			
 			// Fake the menu items
-			// String jsonMenuString = "{ \"updated\": \"false\",\"menu\": [{ \"item\": \"Hake\",\"station\": \"A la Minute Grill\",\"price\": \"16.53\", \"availability\": \"true\"},{\"item\": \"Beef Olives\",\"station\": \"Main Meal\",\"price\": \"28.50\",\"availability\": \"true\"},{\"item\": \"Chicken Lasagne & Veg\",\"station\": \"Frozen Meals\",\"price\": \"28.50\",\"availability\": \"true\"}]}";
+			 //String jsonMenuString = "{ \"updated\": \"false\",\"menu\": [{ \"item\": \"Hake\",\"station\": \"A la Minute Grill\",\"price\": \"16.53\", \"availability\": \"true\"},{\"item\": \"Beef Olives\",\"station\": \"Main Meal\",\"price\": \"28.50\",\"availability\": \"true\"},{\"item\": \"Chicken Lasagne & Veg\",\"station\": \"Frozen Meals\",\"price\": \"28.50\",\"availability\": \"true\"}]}";
 			return jsonMenuString;
 		}
 

@@ -13,10 +13,13 @@ import android.graphics.LightingColorFilter;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -89,8 +92,23 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 
 		// Add button
 		final int _selectedPosition = position;
-		Button addButton = (Button) rowRootView.findViewById(R.id.bIncerement);
-		addButton.getBackground().setColorFilter(new LightingColorFilter(0xFFFFFFFF, 0xFF32cd32));
+		final Button addButton = (Button) rowRootView.findViewById(R.id.bIncerement);
+		addButton.getBackground().setColorFilter(new LightingColorFilter(0xFFFFFFFF, 0x00000000));	
+		addButton.setOnTouchListener(new View.OnTouchListener() {
+			public boolean onTouch(View v, MotionEvent event) {
+				switch(event.getAction()) {
+				case MotionEvent.ACTION_DOWN:
+					addButton.getBackground().setColorFilter(new LightingColorFilter(0xFFFF0000, 0xFFff0000));						
+					break;
+				case MotionEvent.ACTION_UP:
+
+					addButton.getBackground().setColorFilter(new LightingColorFilter(0xFFFFFFFF, 0x00000000));	
+					break;
+				}
+				return false;
+			}
+		});
+		
 		addButton.setOnClickListener(new View.OnClickListener() {
 			TextView myUniqueQuantityTV = (TextView) rowRootView.findViewById(R.id.tvCartQuantity);
 			int  itemQuantity = 0;
@@ -125,8 +143,23 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 		});
 
 		// Remove button
-		Button removeButton = (Button) rowRootView.findViewById(R.id.bDecerement);
-		removeButton.getBackground().setColorFilter(new LightingColorFilter(0xFFFFFFFF, 0xFF32cd32));
+		final Button removeButton = (Button) rowRootView.findViewById(R.id.bDecerement);
+		removeButton.getBackground().setColorFilter(new LightingColorFilter(0xFFFFFFFF, 0x00000000));	
+		removeButton.setOnTouchListener(new View.OnTouchListener() {
+			public boolean onTouch(View v, MotionEvent event) {
+				switch(event.getAction()) {
+				case MotionEvent.ACTION_DOWN:
+					removeButton.getBackground().setColorFilter(new LightingColorFilter(0xFFFF0000, 0xFFff0000));						
+					break;
+				case MotionEvent.ACTION_UP:
+
+					removeButton.getBackground().setColorFilter(new LightingColorFilter(0xFFFFFFFF, 0x00000000));	
+					break;
+				}
+				return false;
+			}
+		});
+		
 		removeButton.setOnClickListener(new View.OnClickListener() {
 			TextView myUniqueQuantityTV = (TextView) rowRootView.findViewById(R.id.tvCartQuantity);
 			int  itemQuantity = 0;
