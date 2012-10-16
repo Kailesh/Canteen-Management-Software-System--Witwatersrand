@@ -46,7 +46,7 @@ public class OrderProgress extends Activity implements OnClickListener {
 	private static final String ORDER_NUMBER = "order";
 	private static final String MESSAGE_UNKNOWN = "Unknown message";
 	TextView orderNameTV;
-	int orderNumber;
+	int _orderNumber;
 	ListView _orderLV;
 	Button _refreshB;
 	RequestProgress task;
@@ -57,13 +57,25 @@ public class OrderProgress extends Activity implements OnClickListener {
 		Log.i(LOGGER_TAG, "OrderProgress -- onCreate()");
         setContentView(R.layout.activity_order_progress);
         orderNameTV = (TextView) findViewById(R.id.tvOrderName);
-        orderNumber = Integer.parseInt(getIntent().getExtras().getString(ORDER_KEY));
-        orderNameTV.setText("Order " + orderNumber);
+        _orderNumber = Integer.parseInt(getIntent().getExtras().getString(ORDER_KEY));
+        orderNameTV.setText("Order " + _orderNumber);
         orderNameTV.setTextColor(Color.parseColor("#add8e6"));
         _orderLV = (ListView) findViewById(R.id.lvProgress);
-        _refreshB = (Button) findViewById(R.id.bProgressRefresh);
-        _refreshB.setOnClickListener(this);
-        _refreshB.getBackground().setColorFilter(new LightingColorFilter(0xFFFFFFFF, 0xFF006400	));
+        
+        CanteenManagerDatabase myDatabase = new CanteenManagerDatabase(this);
+        myDatabase.open();
+        
+        if (myDatabase.isOrderReceived(_orderNumber)) {
+        	_refreshB.setVisibility(View.GONE);
+        	_refreshB.setEnabled(false);
+        } else {
+        	_refreshB = (Button) findViewById(R.id.bProgressRefresh);
+            _refreshB.setOnClickListener(this);
+            _refreshB.getBackground().setColorFilter(new LightingColorFilter(0xFFFFFFFF, 0xFF00640));
+        }
+        
+        myDatabase.close();
+        
         task = new RequestProgress();
         task.execute(new String[] {"http://" + ApplicationPreferences.getServerIPAddress(OrderProgress.this) + "/yii/index.php/mobile/queryprogress"});
     }
@@ -142,7 +154,7 @@ public class OrderProgress extends Activity implements OnClickListener {
 			JSONObject myJsonObject = new JSONObject();
 			String macAddress = DeviceIDGenerator.getWifiMacAddress(OrderProgress.this);
 			myJsonObject.put(DEVICE_MAC_ADDRESS, macAddress);
-			myJsonObject.put(ORDER_NUMBER, orderNumber);
+			myJsonObject.put(ORDER_NUMBER, _orderNumber);
 			StringWriter myStringWriter = new StringWriter();
 			try {
 				myJsonObject.writeJSONString(myStringWriter);
@@ -168,7 +180,7 @@ public class OrderProgress extends Activity implements OnClickListener {
 				Log.i(LOGGER_TAG, "OrderProgress -- RequestProgress -- onPostExecute() -- Retrieving progress from database and displaying");
 				CanteenManagerDatabase myDatabase = new CanteenManagerDatabase(OrderProgress.this);
 				myDatabase.open();
-				OrderedItem[] currentOrder = myDatabase.getOrderedItemList(orderNumber);
+				OrderedItem[] currentOrder = myDatabase.getOrderedItemList(_orderNumber);
 				myDatabase.close();
 				_orderLV.setAdapter(new ItemsProgressAdapter(OrderProgress.this, R.layout.progress_list_item, currentOrder));
 	
@@ -176,12 +188,12 @@ public class OrderProgress extends Activity implements OnClickListener {
 				Log.i(LOGGER_TAG, "OrderProgress -- RequestProgress -- onPostExecute() -- Updating database with the received progress results and displaying");
 				CanteenManagerDatabase myDatabase = new CanteenManagerDatabase(OrderProgress.this);
 				myDatabase.open();
-				OrderItem [] currentOrder = myDatabase.getOrder(orderNumber);
+				OrderItem [] currentOrder = myDatabase.getOrder(_orderNumber);
 				ProgressParser myParser = new ProgressParser(result, currentOrder);
 				OrderedItem[] myOrder = myParser.getOrderedItemList();
 				
 				for(int i = 0; i != myOrder.length; i++) {
-					myDatabase.updateItemProgress(myOrder[i].getItemName(), orderNumber, myOrder[i].getState());
+					myDatabase.updateItemProgress(myOrder[i].getItemName(), _orderNumber, myOrder[i].getState());
 				}
 				myDatabase.close();
 				

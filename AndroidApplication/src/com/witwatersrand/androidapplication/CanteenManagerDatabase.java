@@ -256,36 +256,40 @@ public class CanteenManagerDatabase {
 		totalCursor.close();
 		return -1;
 	}
-
 	
-	public boolean allStatusReceicved() {
-		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- areAllStatusReceicved()");
-		final String sqlInstructionNumberOfRows = "SELECT COUNT(*) AS my_items FROM " + DATABASE_TABLE_ORDER;
-		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- areAllStatusReceicved() -- sqlInstructionNumberOfRows = |" + sqlInstructionNumberOfRows + "|");
-		final String sqlInstructionNumberOfRowsDoneOrDeliverred = "SELECT COUNT(*) AS my_completed_items FROM " + DATABASE_TABLE_ORDER + " WHERE " + KEY_ITEM_STATUS + " = 'DONE' OR " + KEY_ITEM_STATUS + " = 'DELIVERED'";
-		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- areAllStatusReceicved() -- sqlInstructionNumberOfRowsDoneOrDeliverred = |" + sqlInstructionNumberOfRowsDoneOrDeliverred + "|");
+	
+	
+	public boolean isOrderReceived(int orderNumber) {
+		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- isOrderReceived()");
+
+		final String sqlNumberOfItemsInOrder = "SELECT COUNT(*) AS my_items FROM " + DATABASE_TABLE_ORDER + " WHERE " + KEY_ORDER + " = " + orderNumber;
+		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- isOrderReceived() -- sqlNumberOfItemsInOrder = |" + sqlNumberOfItemsInOrder + "|");
+
+		final String sqlNumberOfItemsInOrderDoneOrDelivered = "SELECT COUNT(*) AS my_completed_items FROM " + DATABASE_TABLE_ORDER + " WHERE (" + KEY_ITEM_STATUS + " = 'DONE' OR " + KEY_ITEM_STATUS + " = 'DELIVERED') AND " + KEY_ORDER +" = " + orderNumber;
+		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- isOrderReceived() -- sqlNumberOfItemsInOrderDoneOrDelivered = |" + sqlNumberOfItemsInOrderDoneOrDelivered + "|");
 		
 		
-		int numberOfItem = -1;
-		Cursor numberOfItemsC = _database.rawQuery(sqlInstructionNumberOfRows, null);
+		int numberOfItems = -1;
+		Cursor numberOfItemsC = _database.rawQuery(sqlNumberOfItemsInOrder, null);
 		if(numberOfItemsC.moveToFirst()) {
-			numberOfItem = numberOfItemsC.getInt(0);
-			Log.i(LOGGER_TAG, "CanteenManagerDatabase -- areAllStatusReceicved() -- numberOfItem = |" + numberOfItem + "|");
+			numberOfItems = numberOfItemsC.getInt(0);
+			Log.i(LOGGER_TAG, "CanteenManagerDatabase -- isOrderReceived() -- numberOfItem = |" + numberOfItems + "|");
 
 		}
 		numberOfItemsC.close();
+		
 		int numberOfItemsDoneOrDelivered = -2;
-		Cursor numberOfItemsDoneOrDeliveredC = _database.rawQuery(sqlInstructionNumberOfRowsDoneOrDeliverred, null);
+		Cursor numberOfItemsDoneOrDeliveredC = _database.rawQuery(sqlNumberOfItemsInOrderDoneOrDelivered, null);
 		if(numberOfItemsDoneOrDeliveredC.moveToFirst()) {
 			numberOfItemsDoneOrDelivered = numberOfItemsDoneOrDeliveredC.getInt(0);
-			Log.i(LOGGER_TAG, "CanteenManagerDatabase -- areAllStatusReceicved() -- numberOfItem = |" + numberOfItemsDoneOrDelivered + "|");
+			Log.i(LOGGER_TAG, "CanteenManagerDatabase -- isOrderReceived() -- numberOfItem = |" + numberOfItemsDoneOrDelivered + "|");
 		}
 		numberOfItemsDoneOrDeliveredC.close();
-		if (numberOfItem == numberOfItemsDoneOrDelivered) {
-			Log.i(LOGGER_TAG, "CanteenManagerDatabase -- areAllStatusReceicved() -- All status received" );	
+		if (numberOfItems == numberOfItemsDoneOrDelivered) {
+			Log.i(LOGGER_TAG, "CanteenManagerDatabase -- isOrderReceived() -- All status received" );	
 			return true;
 		}
-		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- areAllStatusReceicved() -- Not all status received" );
+		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- isOrderReceived() -- Not all status received" );
 		return false;
 	}
 	
