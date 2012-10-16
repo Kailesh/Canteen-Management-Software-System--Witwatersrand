@@ -157,7 +157,10 @@ public class CartAdapter extends ArrayAdapter<OrderItem> {
 				itemQuantity = Integer.parseInt(myUniqueQuantityTV.getText().toString());
 				if (itemQuantity == 0) {
 					Log.i(LOGGER_TAG, "CartAdapter -- getView() -- onClick() -- itemQuantity = |" + itemQuantity + "|");
-						
+					CanteenManagerDatabase myDatabase = new CanteenManagerDatabase(_context);
+					myDatabase.open();
+					myDatabase.removeItemFromOrderList(_myCart[_selectedPosition].getItemName(), ApplicationPreferences.getOrderNumber(_context));
+					myDatabase.close();
 				} else {
 					itemQuantity--;
 					_myCart[_selectedPosition]

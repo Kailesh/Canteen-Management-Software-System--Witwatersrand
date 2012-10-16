@@ -258,7 +258,6 @@ public class CanteenManagerDatabase {
 	}
 	
 	
-	
 	public boolean isOrderReceived(int orderNumber) {
 		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- isOrderReceived()");
 
@@ -291,6 +290,10 @@ public class CanteenManagerDatabase {
 		}
 		Log.i(LOGGER_TAG, "CanteenManagerDatabase -- isOrderReceived() -- Not all status received" );
 		return false;
+	}
+	
+	public void removeItemFromOrderList(String name, int orderNumber) {
+		_database.delete(DATABASE_TABLE_ORDER, KEY_ITEM_NAME + " = '" + name + "' AND " + KEY_ORDER + " = " + orderNumber , null);	
 	}
 	
 	

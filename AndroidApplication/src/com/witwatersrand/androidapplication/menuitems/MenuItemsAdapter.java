@@ -169,6 +169,10 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 				if (itemQuantity == 0) {
 					Log.i(LOGGER_TAG, "CartAdapter -- getView() -- onClick() -- itemQuantity = |" + itemQuantity + "|");
 
+					CanteenManagerDatabase myDatabase = new CanteenManagerDatabase(_context);
+					myDatabase.open();
+					myDatabase.removeItemFromOrderList(_myMenu[_selectedPosition].getItemName(), ApplicationPreferences.getOrderNumber(_context));
+					myDatabase.close();
 				} else {
 					itemQuantity--;
 
