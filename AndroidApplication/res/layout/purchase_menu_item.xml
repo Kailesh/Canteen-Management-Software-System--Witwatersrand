@@ -10,7 +10,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:text="Default Name"
         android:textSize="17dp" />
 
     <TextView
@@ -18,7 +17,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvItemName"
-        android:text="Default Station"
         android:textSize="12dp" />
 
     <Button
@@ -27,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:text="Add To Cart"
+        android:text="@string/add_to_cart"
        	android:textSize="17dp" />
 
     <TextView
@@ -36,7 +34,6 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/tvStationName"
         android:layout_below="@+id/tvStationName"
-        android:text="Default Price"
         android:textSize="12dp" />
 
     <net.technologichron.android.control.NumberPicker

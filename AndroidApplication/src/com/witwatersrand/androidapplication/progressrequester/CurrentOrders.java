@@ -2,7 +2,6 @@ package com.witwatersrand.androidapplication.progressrequester;
 
 import com.witwatersrand.androidapplication.ApplicationPreferences;
 import com.witwatersrand.androidapplication.R;
-import com.witwatersrand.androidapplication.R.menu;
 
 import android.os.Bundle;
 import android.app.ListActivity;

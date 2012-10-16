@@ -7,9 +7,6 @@ import com.witwatersrand.androidapplication.ApplicationPreferences;
 import com.witwatersrand.androidapplication.CanteenManagerDatabase;
 import com.witwatersrand.androidapplication.MenuItem;
 import com.witwatersrand.androidapplication.R;
-import com.witwatersrand.androidapplication.R.id;
-
-import net.technologichron.android.control.NumberPicker;
 
 import android.content.Context;
 import android.graphics.LightingColorFilter;

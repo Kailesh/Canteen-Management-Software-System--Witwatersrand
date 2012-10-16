@@ -4,11 +4,9 @@ import java.io.IOException;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.LightingColorFilter;
 
 import android.util.Log;
@@ -33,9 +31,6 @@ import com.witwatersrand.androidapplication.ApplicationPreferences;
 import com.witwatersrand.androidapplication.CanteenManagerDatabase;
 import com.witwatersrand.androidapplication.MenuItem;
 import com.witwatersrand.androidapplication.R;
-import com.witwatersrand.androidapplication.R.id;
-import com.witwatersrand.androidapplication.R.layout;
-import com.witwatersrand.androidapplication.R.menu;
 
 public class Items extends Activity implements OnClickListener{
 	final static private String LOGGER_TAG = "WITWATERSRAND"; // Debug Purposes
@@ -57,9 +52,6 @@ public class Items extends Activity implements OnClickListener{
 		goToCartB.setOnClickListener(this);
 		totalTV = (TextView) findViewById(R.id.tvMenuItemsTotal);
 		totalTV.setText("R " + String.format("%.2f", (float) 0));	
-		
-		SharedPreferences currentPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-		boolean menuUpdated = currentPreferences.getBoolean("menu_updated", false);
 		
 		if(ApplicationPreferences.haveMenu(Items.this)) {
 			Log.i(LOGGER_TAG, "Items -- onCreate() -- The menu is updated and menu items will be displayed from the database");
@@ -119,10 +111,10 @@ public class Items extends Activity implements OnClickListener{
 		@Override
 		protected String doInBackground(String... urls) {
 			Log.i(LOGGER_TAG, "Items -- DownloadMenuData -- doInBackground()");
-			//String jsonMenuString = sendHTTPRequest(urls);
+			String jsonMenuString = sendHTTPRequest(urls);
 			
 			// Fake the menu items
-			String jsonMenuString = "{ \"updated\": \"false\",\"menu\": [{ \"item\": \"Hake\",\"station\": \"A la Minute Grill\",\"price\": \"16.53\", \"availability\": \"true\"},{\"item\": \"Beef Olives\",\"station\": \"Main Meal\",\"price\": \"28.50\",\"availability\": \"true\"},{\"item\": \"Chicken Lasagne & Veg\",\"station\": \"Frozen Meals\",\"price\": \"28.50\",\"availability\": \"true\"}]}";
+			// String jsonMenuString = "{ \"updated\": \"false\",\"menu\": [{ \"item\": \"Hake\",\"station\": \"A la Minute Grill\",\"price\": \"16.53\", \"availability\": \"true\"},{\"item\": \"Beef Olives\",\"station\": \"Main Meal\",\"price\": \"28.50\",\"availability\": \"true\"},{\"item\": \"Chicken Lasagne & Veg\",\"station\": \"Frozen Meals\",\"price\": \"28.50\",\"availability\": \"true\"}]}";
 			return jsonMenuString;
 		}
 

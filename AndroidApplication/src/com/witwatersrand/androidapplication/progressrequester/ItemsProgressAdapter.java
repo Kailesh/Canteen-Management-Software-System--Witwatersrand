@@ -5,11 +5,8 @@ package com.witwatersrand.androidapplication.progressrequester;
 
 import com.witwatersrand.androidapplication.OrderedItem;
 import com.witwatersrand.androidapplication.R;
-import com.witwatersrand.androidapplication.R.id;
 
 import android.content.Context;
-import android.graphics.LightingColorFilter;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;

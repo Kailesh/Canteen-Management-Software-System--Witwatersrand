@@ -10,7 +10,6 @@ import org.json.simple.JSONObject;
 
 import com.witwatersrand.androidapplication.DeviceIDGenerator;
 
-import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.util.Log;
 
@@ -30,8 +29,6 @@ public class AuthenticatorEncoder {
 	private String _deviceMacAddress;
 	Context _context;
 	
-	private BluetoothAdapter btAdapther; 
-
 	private String _authenticatorJsonMessage;
 
 	public AuthenticatorEncoder(String username, String password, Context context) {

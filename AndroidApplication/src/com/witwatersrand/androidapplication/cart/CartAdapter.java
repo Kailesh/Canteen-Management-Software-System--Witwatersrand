@@ -4,7 +4,6 @@ import com.witwatersrand.androidapplication.ApplicationPreferences;
 import com.witwatersrand.androidapplication.CanteenManagerDatabase;
 import com.witwatersrand.androidapplication.OrderItem;
 import com.witwatersrand.androidapplication.R;
-import com.witwatersrand.androidapplication.R.id;
 
 import android.content.Context;
 import android.graphics.LightingColorFilter;

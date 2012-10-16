@@ -48,7 +48,6 @@ public class VideoFeed extends Activity {
 	private class Retrieve extends AsyncTask<String, Void, Drawable> {
 		@Override
 		protected Drawable doInBackground(String... urls) {
-			Log.d(LOGGER_TAG, "0122");
 			return sendHTTPRequest(urls);
 		}
 

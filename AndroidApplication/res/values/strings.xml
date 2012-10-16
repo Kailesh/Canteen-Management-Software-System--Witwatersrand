@@ -25,5 +25,7 @@
     <string name="title_activity_authentication">Login</string>
     <string name="title_activity_current_orders">Current Order/s</string>
     <string name="title_activity_order_progress">Order Progress</string>
+    <string name="list_item">List Item</string>
+    <string name="add_to_cart">Add To Cart</string>
 
 </resources>

@@ -179,11 +179,11 @@ public class Cart extends Activity implements OnClickListener {
 		protected String doInBackground(String... urls) {
 			Log.i(LOGGER_TAG, "Cart -- UploadOrder -- doInBackground()");
 
-			//String responseMessage = sendHTTPRequest(urls);
-			// Log.i(LOGGER_TAG, "Cart -- UploadOrder -- responseMessage = " + responseMessage);
+			String responseMessage = sendHTTPRequest(urls);
+			 Log.i(LOGGER_TAG, "Cart -- UploadOrder -- responseMessage = " + responseMessage);
 					
 			// Fake response
-			String responseMessage  = "Order Received";
+			// String responseMessage  = "Order Received";
 			return responseMessage;
 		}
 

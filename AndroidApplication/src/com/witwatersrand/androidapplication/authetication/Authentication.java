@@ -17,15 +17,12 @@ import org.apache.http.util.EntityUtils;
 
 import com.witwatersrand.androidapplication.ApplicationPreferences;
 import com.witwatersrand.androidapplication.R;
-import com.witwatersrand.androidapplication.R.id;
-import com.witwatersrand.androidapplication.R.layout;
-import com.witwatersrand.androidapplication.R.menu;
+
 
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.LightingColorFilter;
 import android.util.Log;
 import android.view.Menu;
@@ -120,10 +117,10 @@ public class Authentication extends Activity implements OnClickListener {
 		@Override
 		protected String doInBackground(String... urls) {
 			Log.i(LOGGER_TAG, "Authentication -- AuthenticateUser -- doInBackground()");
-			// String jsonAuthenticationString = sendHTTPRequest(urls);
+			String jsonAuthenticationString = sendHTTPRequest(urls);
 			
 			// Faking the HTTP response message	
-			String jsonAuthenticationString = "{\"access\": true,\"reason\": \"RMB-OK\",\"balance\": 2445.45}";
+			//String jsonAuthenticationString = "{\"access\": true,\"reason\": \"RMB-OK\",\"balance\": 2445.45}";
 			return jsonAuthenticationString;
 		}
 
@@ -193,6 +190,8 @@ public class Authentication extends Activity implements OnClickListener {
 				ApplicationPreferences.setPassword(Authentication.this, _password);
 
 				if (myAuthenticationParser.isAutheticated()) {
+					Toast.makeText(Authentication.this, "Success!", Toast.LENGTH_SHORT).show();
+
 					Intent startCanteenApplication = new Intent(
 							"com.witwatersrand.androidapplication.STARTMENU");
 					startActivity(startCanteenApplication);

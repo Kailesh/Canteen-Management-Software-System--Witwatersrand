@@ -6,10 +6,12 @@
 
     <ImageView
         android:id="@+id/ivIcon"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true" />
+        android:layout_alignParentTop="true"
+        android:padding="5dp"
+        android:contentDescription="@string/list_item"/>
 
     <TextView
         android:id="@+id/tvOptionName"
@@ -17,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/ivIcon"
-        android:text="List item"
+        android:text="@string/list_item"
         android:padding="10dp"
 		android:textSize="22dp"	/>
 
