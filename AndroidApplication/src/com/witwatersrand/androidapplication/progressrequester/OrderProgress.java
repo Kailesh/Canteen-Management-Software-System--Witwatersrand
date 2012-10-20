@@ -62,22 +62,26 @@ public class OrderProgress extends Activity implements OnClickListener {
         orderNameTV.setTextColor(Color.parseColor("#add8e6"));
         _orderLV = (ListView) findViewById(R.id.lvProgress);
         
-        CanteenManagerDatabase myDatabase = new CanteenManagerDatabase(this);
-        myDatabase.open();
+//        CanteenManagerDatabase myDatabase = new CanteenManagerDatabase(this);
+//        myDatabase.open();
+//        
+    	_refreshB = (Button) findViewById(R.id.bProgressRefresh);
+        _refreshB.getBackground().setColorFilter(new LightingColorFilter(0xFFFFFFFF, 0xFF00640));
         
-        if (myDatabase.isOrderReceived(_orderNumber)) {
-        	_refreshB.setVisibility(View.GONE);
-        	_refreshB.setEnabled(false);
-        } else {
-        	_refreshB = (Button) findViewById(R.id.bProgressRefresh);
+//        if (myDatabase.isOrderReceived(_orderNumber)) {
+//        	myDatabase.close();
+//        	_refreshB.setVisibility(View.GONE);
+// 
+//        } else {
+//        	myDatabase.close();
+            
+
+            task = new RequestProgress();
+            task.execute(new String[] {"http://" + ApplicationPreferences.getServerIPAddress(OrderProgress.this) + "/yii/index.php/mobile/queryprogress"});
+//        }
             _refreshB.setOnClickListener(this);
-            _refreshB.getBackground().setColorFilter(new LightingColorFilter(0xFFFFFFFF, 0xFF00640));
-        }
         
-        myDatabase.close();
-        
-        task = new RequestProgress();
-        task.execute(new String[] {"http://" + ApplicationPreferences.getServerIPAddress(OrderProgress.this) + "/yii/index.php/mobile/queryprogress"});
+      
     }
 
     @Override
@@ -87,11 +91,17 @@ public class OrderProgress extends Activity implements OnClickListener {
     }
     
 	public void onClick(View v) {
+		Log.i(LOGGER_TAG, "OrderProgress -- onClick() -- Button Pressed");
 		switch(v.getId()) {
 		case R.id.bProgressRefresh:
+			Log.i(LOGGER_TAG, "OrderProgress -- onClick() -- bProgressRefresh Pressed");
+				
 			if(task.getStatus() == Status.FINISHED) {
+				Log.i(LOGGER_TAG, "OrderProgress -- onClick() -- Finished retrieving the status");
 				RequestProgress anotherTask = new RequestProgress();
 				anotherTask.execute(new String[] {"http://" + ApplicationPreferences.getServerIPAddress(OrderProgress.this) + "/yii/index.php/mobile/queryprogress"});	 
+			} else {
+				Log.i(LOGGER_TAG, "OrderProgress -- onClick() -- Not finished retrieving the status");
 			}
 			break;
 		}
@@ -113,6 +123,7 @@ public class OrderProgress extends Activity implements OnClickListener {
 				Log.i(LOGGER_TAG, "OrderProgress -- RequestProgress -- doInBackground()");
 				try {
 					HttpResponse myResponse = httpRequest(url);
+					Log.d(LOGGER_TAG, "Receiving response now");
 					Log.i(LOGGER_TAG, "OrderProgress -- RequestProgress -- HTTP request complete");
 
 					if (myResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
@@ -143,6 +154,7 @@ public class OrderProgress extends Activity implements OnClickListener {
 			StringEntity message = new StringEntity(generatePostMessage());
 			myPostRequest.addHeader("content-type", "applcation/json");
 			myPostRequest.setEntity(message);
+			Log.d(LOGGER_TAG, "Sending request now");
 			return client.execute(myPostRequest);
 		}
 

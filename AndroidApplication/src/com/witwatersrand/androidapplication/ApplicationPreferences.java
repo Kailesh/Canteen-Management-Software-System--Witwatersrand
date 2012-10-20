@@ -129,8 +129,8 @@ public class ApplicationPreferences {
 	
 	public static String getServerIPAddress(Context context) {
 		Log.i(LOGGER_TAG, "ApplicationPreferences -- getServerIPAddress()");
-		// return getPreferences(context).getString(SERVER_IP_ADDRESS_KEY, "NO IP ADDRESS");
-		return "146.141.125.100";
+		//return getPreferences(context).getString(SERVER_IP_ADDRESS_KEY, "NO IP ADDRESS");
+		return "146.141.125.82";
 	}
 	
 	public static void setServerIPAddress(Context context, String updated) {

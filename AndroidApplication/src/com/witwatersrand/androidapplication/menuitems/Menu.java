@@ -45,9 +45,9 @@ public class Menu extends Activity {
 		@Override
 		protected String doInBackground(String... urls) {
 			Log.i(LOGGER_TAG, "TodaysItems -- CheckMenuUpdated -- doInBackground()");
-			//return sendHTTPRequest(urls);
+			return sendHTTPRequest(urls);
 			// Faking response
-			return "{\"menuUpdated\" : true}";
+			// return "{\"menuUpdated\" : true}";
 		}
 		
 		private String sendHTTPRequest(String... urls) {
