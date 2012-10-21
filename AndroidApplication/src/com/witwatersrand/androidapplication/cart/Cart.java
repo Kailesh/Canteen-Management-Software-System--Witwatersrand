@@ -1,22 +1,10 @@
 package com.witwatersrand.androidapplication.cart;
 
-import java.io.IOException;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
-import org.apache.http.util.EntityUtils;
-
 import com.witwatersrand.androidapplication.ApplicationPreferences;
 import com.witwatersrand.androidapplication.CanteenManagerDatabase;
 import com.witwatersrand.androidapplication.OrderItem;
 import com.witwatersrand.androidapplication.R;
+import com.witwatersrand.androidapplication.httprequests.HttpPostRequester;
 import com.witwatersrand.androidapplication.progressrequester.longpoller.LongPollerProgressRequester;
 
 import android.os.AsyncTask;
@@ -178,61 +166,16 @@ public class Cart extends Activity implements OnClickListener {
 		@Override
 		protected String doInBackground(String... urls) {
 			Log.i(LOGGER_TAG, "Cart -- UploadOrder -- doInBackground()");
-
-			String responseMessage = sendHTTPRequest(urls);
-			Log.i(LOGGER_TAG, "Cart -- UploadOrder -- responseMessage = " + responseMessage);
-					
+			
+			HttpPostRequester requester = new HttpPostRequester(urls[0]);
+			requester.setPostMessage(_httpPostMessage);
+			return requester.receiveResponse();
+								
 			// Fake response
-			//String responseMessage  = "Order Received";
-			return responseMessage;
+			// return "Order received";
 		}
-
-		private String sendHTTPRequest(String[] urls) {
-			for (String url : urls) {
-				Log.i(LOGGER_TAG, "Cart -- UploadOrder -- sendHTTPRequest()");
-				int TIMEOUT_MILLISEC = 10000; // = 10 seconds
-
-				HttpParams httpParams = new BasicHttpParams();
-				HttpConnectionParams.setConnectionTimeout(httpParams,
-						TIMEOUT_MILLISEC);
-				HttpConnectionParams.setSoTimeout(httpParams, TIMEOUT_MILLISEC);
-				HttpClient client = new DefaultHttpClient(httpParams);
-
-				try {
-					HttpPost myPostRequest = new HttpPost(url);
-					Log.i(LOGGER_TAG, "_httpPostMessage = " + _httpPostMessage);
-
-					StringEntity message = new StringEntity(_httpPostMessage);
-					myPostRequest.addHeader("content-type", "applcation/json");
-					myPostRequest.setEntity(message);
-					HttpResponse myResponse = client.execute(myPostRequest);
-
-					Log.i(LOGGER_TAG,
-							"Cart -- UploadOrder -- HTTP request complete");
-					Log.i(LOGGER_TAG, "" + myResponse.getStatusLine().getStatusCode());
-					if (myResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-						Log.i(LOGGER_TAG, "Cart -- UploadOrder -- HTTP OK");
-						String myJsonString = EntityUtils.toString(myResponse
-								.getEntity());
-						Log.d(LOGGER_TAG, myJsonString);
-						return myJsonString;
-					}
-				} catch (IOException e) {
-					e.printStackTrace();
-					Log.d(LOGGER_TAG, "Cart -- Exception e -- " + e.toString()
-							+ " -- " + e.getMessage());
-				} catch (Exception b) {
-					b.printStackTrace();
-					Log.d(LOGGER_TAG, "Cart -- Exception b -- " + b.toString()
-							+ " -- " + b.getMessage());
-				} finally {
-					client.getConnectionManager().shutdown();
-				}
-			}
-			// TODO Throw Exception
-			return null;
-		}
-
+		
+		
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -244,9 +187,8 @@ public class Cart extends Activity implements OnClickListener {
 			Log.i(LOGGER_TAG, "Cart -- UploadOrder -- onPostExecute()");
 
 			Toast.makeText(Cart.this, "" + response, Toast.LENGTH_LONG).show();
-			Log.i(LOGGER_TAG, "Cart -- UploadOrder -- onPostExecute() -- Setting pending status to true");
+			Log.i(LOGGER_TAG, "Cart -- UploadOrder -- onPostExecute() -- Setting pending status to true for this order");
 			ApplicationPreferences.setPendingStatus(Cart.this, true);
-
 			startOrderCompletionService();
 			Log.i(LOGGER_TAG, "Cart -- UploadOrder -- onPostExecute() -- Closing the Cart activity");
 			Cart.this.finish();

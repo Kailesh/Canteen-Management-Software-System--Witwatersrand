@@ -31,9 +31,9 @@ public abstract class HttpRequester {
 	 * @param uri 
 	 * 
 	 */
-	public HttpRequester(URI uri) {
+	public HttpRequester(String uri) {
 		Log.i(LOGGER_TAG, "HttpRequester -- Constructor");
-		_uri = uri;
+		setUri(uri);
 		setTimeout(TIMEOUT_MILLISEC);
 	}
 	
@@ -84,5 +84,14 @@ public abstract class HttpRequester {
 
 	abstract String receiveResponse();
 	
+	public void setUri(String uriAsString) {
+		Log.i(LOGGER_TAG, "HttpRequester -- setUri()");		
+		try {
+			_uri = new URI(uriAsString);
+		} catch (Exception e) {
+			e.printStackTrace();
+			Log.i(LOGGER_TAG, "HttpRequester -- setUri() -- Exception = |" + e.getMessage() + "|");
+		}
+	}
 	
 }

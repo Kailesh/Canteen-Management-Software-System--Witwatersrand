@@ -3,22 +3,14 @@ package com.witwatersrand.androidapplication.progressrequester.longpoller;
 import java.io.IOException;
 import java.io.StringWriter;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.conn.params.ConnManagerParams;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
-import org.apache.http.util.EntityUtils;
 import org.json.simple.JSONObject;
 
 import com.witwatersrand.androidapplication.R;
 import com.witwatersrand.androidapplication.ApplicationPreferences;
 import com.witwatersrand.androidapplication.CanteenManagerDatabase;
 import com.witwatersrand.androidapplication.DeviceIDGenerator;
+import com.witwatersrand.androidapplication.httprequests.HttpPostRequester;
+import com.witwatersrand.androidapplication.httprequests.HttpRequester;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -29,6 +21,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.Toast;
 
 public class LongPollerProgressRequester extends Service {
 	private static final String LOGGER_TAG = "WITWATERSRAND";
@@ -36,7 +29,6 @@ public class LongPollerProgressRequester extends Service {
 	private static final String JSON_ORDER_NUMBER_KEY = "orderNumber";
 	
 	static final String DEVICE_ID_UNKNOWN = "Device ID Unknown";
-	private static final String UNKNOWN = "Unknown";
 	
 	private String ORDER_COMPLETION_SERVICE_TAG;
 	private int ORDER_NUMBER;
@@ -92,61 +84,25 @@ public class LongPollerProgressRequester extends Service {
 	}
 	
 	private class LongPollingRequest extends AsyncTask<String, Void, String> {
-		int CONNECTION_TIMEOUT = 7200000; // Two hours
 
 		@Override
 		protected String doInBackground(String... urls) {
 			Log.d(LOGGER_TAG, "LongPollerProgressRequester -- LongPollingRequest -- doInBackground()");
 			
-			//---------------------------|Fake delayed response|---------------------------
+			HttpPostRequester requester = new HttpPostRequester(urls[0]);
+			requester.setTimeout(7200000); // Two hours
+			requester.setPostMessage(getRequestMessage());
+			return requester.receiveResponse();
+			
+//			//---------------------------|Fake delayed response|---------------------------
 //			Log.d(LOGGER_TAG, "LongPollerProgressRequester -- LongPollingRequest -- doInBackground() -- Tring to waist time");
 //			for(int i = 0; i <= 1000000000 ; i++) {
 //				// waist time
 //			}
 //			//return "{\"orderNumber\": 2,\"status\": \"Done\"}";
-			//-----------------------------------------------------------------------------
-			return executeHttpRequest(urls);
+//			//-----------------------------------------------------------------------------
 		}
 
-		private String executeHttpRequest(String... urls) {
-			Log.d(LOGGER_TAG, "LongPollerProgressRequester -- LongPollingRequest -- executeHttpRequest()");
-			for (String url : urls) {
-				try {
-					HttpResponse httpResponse = setupHttpRquest(url);
-					Log.d(LOGGER_TAG, "LongPollerProgressRequester -- LongPollingRequest -- executeHttpRequest() -- Status code = |" + httpResponse.getStatusLine().getStatusCode() + "|");
-
-					
-					if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-						Log.i(LOGGER_TAG, "LongPollerProgressRequester -- LongPollingRequest -- HTTP OK");
-						String myJsonString = EntityUtils.toString(httpResponse.getEntity());
-						Log.d(LOGGER_TAG, "LongPollerProgressRequester -- LongPollingRequest -- sendHTTPRequest() -- Received message = |" + myJsonString + "|");
-						return myJsonString;
-					}
-				} catch (Exception e) {
-					Log.e(LOGGER_TAG, "LongPollerProgressRequester -- LongPollingRequest -- executeHttpRequest() -- Exception = " + e.getMessage());
-					e.printStackTrace();
-				}
-			}
-			Log.e(LOGGER_TAG, "LongPollerProgressRequester -- LongPollingRequest -- executeHttpRequest() -- Fatal Error");
-			return UNKNOWN;
-		}
-
-		private HttpResponse setupHttpRquest(String url) throws ClientProtocolException, IOException {
-			Log.d(LOGGER_TAG, "LongPollerProgressRequester -- LongPollingRequest -- setupHttpRquest()");
-			DefaultHttpClient myDefaultHttpClient = new DefaultHttpClient();
-			HttpParams httpParams = myDefaultHttpClient.getParams();
-			HttpConnectionParams.setConnectionTimeout(httpParams, CONNECTION_TIMEOUT);
-			ConnManagerParams.setTimeout(httpParams, CONNECTION_TIMEOUT);
-			HttpPost myPostRequest = new HttpPost(url);
-			
-			StringEntity message = new StringEntity(getRequestMessage());
-			
-			myPostRequest.addHeader("content-type", "applcation/json");
-			myPostRequest.setEntity(message);
-			
-			return myDefaultHttpClient.execute(myPostRequest);
-		}
-		
 		// TODO Unchecked conversion - Type safety: The method put(Object, Object)
 		// belongs to the raw type HashMap. References to generic type HashMap<K,V>
 		// should be parameterized
@@ -187,6 +143,18 @@ public class LongPollerProgressRequester extends Service {
 			Log.d(LOGGER_TAG, "LongPollerProgressRequester -- LongPollingRequest -- onPostExecute()");
 			Log.d(LOGGER_TAG, "LongPollerProgressRequester -- LongPollingRequest -- onPostExecute() -- Response message = |" + response + "|");
 			
+			if (response.equals(HttpRequester.getResponseNotOkMessage())) {
+				Log.i(LOGGER_TAG, "OrderProgress -- RequestProgress -- onPostExecute() -- Http not OK");
+				Toast.makeText(getApplicationContext(), HttpRequester.getResponseNotOkMessage(), Toast.LENGTH_SHORT).show();
+				return;
+			}
+			
+			if (response.equals(HttpRequester.getExceptionThrownMessage())) {
+				Log.i(LOGGER_TAG, "OrderProgress -- RequestProgress -- onPostExecute() -- Exception thrown when  attempting to receive response");
+				Toast.makeText(getApplicationContext(), HttpRequester.getExceptionThrownMessage(), Toast.LENGTH_SHORT).show();
+				return;
+			} 
+			
 			OrderProgressStatusParser myParser = new OrderProgressStatusParser(response);
 			
 			// Update Database
@@ -201,20 +169,9 @@ public class LongPollerProgressRequester extends Service {
 			showNotification();
 			
 			Log.d(LOGGER_TAG, "LongPollerProgressRequester -- LongPollingRequest -- onPostExecute() -- calling this.cancel(true)");
-			
 			this.cancel(true);
 			
 			stopOrderCompletionService();
-			
-			
-			//------------------|No longer setting up proper long poller|------------------
-			/*if (ApplicationPreferences.isStatusPending(LongPollerProgressRequester.this)) {
-				Log.d(LOGGER_TAG, "LongPollerProgressRequester -- LongPollingRequest -- onPostExecute() -- **Not all are done**");
-				new LongPollingRequest().execute(new String[] { "http://146.141.125.64/yii/index.php/mobile/longpoller" });
-			} else {
-			stopService(Cart.myBackgroundServiceIntent);
-			}*/
-			//-----------------------------------------------------------------------------
 		}
 
 		private void showNotification() {

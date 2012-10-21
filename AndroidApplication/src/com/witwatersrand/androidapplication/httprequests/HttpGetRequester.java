@@ -3,8 +3,6 @@
  */
 package com.witwatersrand.androidapplication.httprequests;
 
-import java.net.URI;
-
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpGet;
@@ -21,7 +19,7 @@ public class HttpGetRequester extends HttpRequester {
 	
 	private HttpGet _getRequest;
 	
-	public HttpGetRequester(URI uri) {
+	public HttpGetRequester(String uri) {
 		super(uri);
 		Log.i(LOGGER_TAG, "HttpGetRequester -- Constructor");
 		_getRequest = new HttpGet(uri);

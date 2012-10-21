@@ -1,7 +1,5 @@
 package com.witwatersrand.androidapplication.httprequests;
 
-import java.net.URI;
-
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpPost;
@@ -23,7 +21,7 @@ public class HttpPostRequester extends HttpRequester {
 	/**
 	 * 
 	 */
-	public HttpPostRequester(URI uri) {
+	public HttpPostRequester(String uri) {
 		super(uri);
 		Log.i(LOGGER_TAG, "HttpPostRequester -- Constructor");
 		_postRequest = new HttpPost(uri);

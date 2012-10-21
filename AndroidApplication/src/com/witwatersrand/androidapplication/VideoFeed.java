@@ -1,6 +1,5 @@
 package com.witwatersrand.androidapplication;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
@@ -48,8 +47,8 @@ public class VideoFeed extends Activity {
 		refreshB.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
-				Retrieve task = new Retrieve();
-				task.execute(new String[] { "http://" + ApplicationPreferences.getServerIPAddress(getBaseContext()) + "/yii/index.php/mobile/VideoFeed" });
+				RetrieveFeed task = new RetrieveFeed();
+				task.execute(new String[] { "http://" + ApplicationPreferences.getServerIPAddress(getBaseContext()) + "/yii/index.php/mobile/videofeed" });
 			}
 		});
 	}
@@ -60,7 +59,7 @@ public class VideoFeed extends Activity {
 		return true;
 	}
 
-	private class Retrieve extends AsyncTask<String, Void, Drawable> {
+	private class RetrieveFeed extends AsyncTask<String, Void, Drawable> {
 		@Override
 		protected Drawable doInBackground(String... urls) {
 			return sendHTTPRequest(urls);
@@ -68,18 +67,15 @@ public class VideoFeed extends Activity {
 
 		private Drawable sendHTTPRequest(String[] urls) {
 			for (String url : urls) {
-				Log.d(LOGGER_TAG, "Inside for inside doInBackground()");
+				Log.i(LOGGER_TAG, "VideoFeed -- RetrieveFeed -- doInBackground()");
 				try {
 					InputStream is = (InputStream) new URL(url).getContent();
 					Drawable d = Drawable.createFromStream(is, "live_feed");
 					return d;
 
-				} catch (IOException e) {
+				} catch (Exception e) {
 					e.printStackTrace();
-					Log.d(LOGGER_TAG, e.getMessage());
-				} catch (Exception b) {
-					b.printStackTrace();
-					Log.d(LOGGER_TAG, b.getMessage());
+					Log.i(LOGGER_TAG, "VideoFeed -- RetrieveFeed -- doInBackground() -- Exception = |" + e.getMessage() + "|");
 				}
 			}
 			return null;
@@ -93,11 +89,8 @@ public class VideoFeed extends Activity {
 		@Override
 		protected void onPostExecute(Drawable result) {
 			super.onPostExecute(result);
-			Log.d(LOGGER_TAG, "01");
-			Log.d(LOGGER_TAG, "result = " + result.toString());
-			Log.d(LOGGER_TAG, "result min heigtht = " + result.getMinimumHeight());
+			Log.i(LOGGER_TAG, "VideoFeed -- RetrieveFeed -- onPostExecute()");
 			videoFeedIV.setImageDrawable(result);
-			Log.d(LOGGER_TAG, "02");
 		}
 	}
 }

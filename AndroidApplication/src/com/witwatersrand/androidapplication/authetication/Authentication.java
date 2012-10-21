@@ -1,9 +1,5 @@
 package com.witwatersrand.androidapplication.authetication;
 
-
-
-import java.net.URI;
-
 import com.witwatersrand.androidapplication.ApplicationPreferences;
 import com.witwatersrand.androidapplication.R;
 import com.witwatersrand.androidapplication.httprequests.HttpPostRequester;
@@ -33,29 +29,16 @@ public class Authentication extends Activity implements OnClickListener {
 	private boolean _remember;
 	
 	private static final String UNKNOWN = "Unknown";
-	private URI[] _uri = new URI[1];
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Log.i(LOGGER_TAG, "Authentication -- onCreate()");
 		setContentView(R.layout.activity_authentication);
-		
 		setUpViewVariables();
+		sendRequestIfRemembered();
 	}
 
-	private void setUri() {
-		Log.i(LOGGER_TAG, "Authentication -- setUri()");
-		_uri = new URI[1];
-		
-		try {
-			_uri[0] = new URI("http://" + ApplicationPreferences.getServerIPAddress(getBaseContext()) + "/yii/index.php/mobile/authenticate");
-		} catch (Exception e) {
-			e.printStackTrace();
-			Log.i(LOGGER_TAG, "Authentication -- setUri() -- Exception = |" + e.getMessage() + "|");
-		}
-		
-	}
 
 	private void setUpViewVariables() {
 		Log.i(LOGGER_TAG, "Authentication -- setUpViewVariables()");
@@ -65,8 +48,10 @@ public class Authentication extends Activity implements OnClickListener {
 		usernameET = (EditText) findViewById(R.id.etUsername);
 		passwordET = (EditText) findViewById(R.id.etPassword);
 		rememberMeCB = (CheckBox) findViewById(R.id.cbRememberMe);
-		setUri();
-		
+	}
+	
+	
+	private void sendRequestIfRemembered() {
 		if (ApplicationPreferences.isUserRemembered(getBaseContext())) {
 			_username = ApplicationPreferences.getUserName(getBaseContext());			
 			_password = ApplicationPreferences.getPassword(this);
@@ -107,24 +92,23 @@ public class Authentication extends Activity implements OnClickListener {
 		} catch (Exception e) {
 			e.printStackTrace();
 			Log.i(LOGGER_TAG, "Authentication -- onClick() -- Exception = |" + e.getMessage() + "|");
-		} 
+		}
 		AuthenticateUser task = new AuthenticateUser();
-		task.execute(_uri);
+		task.execute("http://" + ApplicationPreferences.getServerIPAddress(getBaseContext()) + "/yii/index.php/mobile/authenticate");
 	}
 
-	private class AuthenticateUser extends AsyncTask<URI, Void, String> {
+	private class AuthenticateUser extends AsyncTask<String, Void, String> {
 
 		@Override
-		protected String doInBackground(URI... urls) {
+		protected String doInBackground(String... uris) {
 			Log.i(LOGGER_TAG, "Authentication -- AuthenticateUser -- doInBackground()");
 			
-			HttpPostRequester requester = new HttpPostRequester(urls[0]);
+			HttpPostRequester requester = new HttpPostRequester(uris[0]);
 			requester.setPostMessage(_httpPostMessage);
-			String jsonAuthenticationString = requester.receiveResponse();
+			return requester.receiveResponse();
 			
 			// Faking the HTTP response message	
-			// String jsonAuthenticationString = "{\"access\": true,\"reason\": \"RMB-OK\",\"balance\": 2445.45}";
-			return jsonAuthenticationString;
+			// return "{\"access\": true,\"reason\": \"RMB-OK\",\"balance\": 2445.45}";
 		}
 		
 
@@ -142,29 +126,33 @@ public class Authentication extends Activity implements OnClickListener {
 			if (result.equals(HttpRequester.getResponseNotOkMessage())) {
 				Log.i(LOGGER_TAG, "Authentication -- AuthenticateUser -- onPostExecute() -- Http not OK");
 				Toast.makeText(Authentication.this, HttpRequester.getResponseNotOkMessage(), Toast.LENGTH_SHORT).show();
-			} else if (result.equals(HttpRequester.getExceptionThrownMessage())) {
+				return;
+			} 
+			
+			if (result.equals(HttpRequester.getExceptionThrownMessage())) {
 				Log.i(LOGGER_TAG, "Authentication -- AuthenticateUser -- onPostExecute() -- Exception thrown when  attempting to receive response");
 				Toast.makeText(Authentication.this, HttpRequester.getExceptionThrownMessage(), Toast.LENGTH_SHORT).show();
+				return;
+			} 
+
+			AuthenticationParser myAuthenticationParser;
+			myAuthenticationParser = new AuthenticationParser(result);
+
+			ApplicationPreferences.setUserName(Authentication.this, _username);
+			ApplicationPreferences.setRememberMeStatus(Authentication.this, _remember);
+			ApplicationPreferences.setAccountBalance(Authentication.this, myAuthenticationParser.getAccountBalance());
+
+			// TODO Need to MD5 hash with salt
+			ApplicationPreferences.setPassword(Authentication.this, _password);
+
+			if (myAuthenticationParser.isAutheticated()) {
+				Toast.makeText(Authentication.this, "Login Success!", Toast.LENGTH_SHORT).show();
+
+				Intent startCanteenApplication = new Intent("com.witwatersrand.androidapplication.STARTMENU");
+				startActivity(startCanteenApplication);
+				finish();
 			} else {
-				AuthenticationParser myAuthenticationParser;
-				myAuthenticationParser = new AuthenticationParser(result);
-				
-				ApplicationPreferences.setUserName(Authentication.this, _username);
-				ApplicationPreferences.setRememberMeStatus(Authentication.this, _remember);
-				ApplicationPreferences.setAccountBalance(Authentication.this, myAuthenticationParser.getAccountBalance());
-				
-				// TODO Need to MD5 hash with salt
-				ApplicationPreferences.setPassword(Authentication.this, _password);
-
-				if (myAuthenticationParser.isAutheticated()) {
-					Toast.makeText(Authentication.this, "Login Success!", Toast.LENGTH_SHORT).show();
-
-					Intent startCanteenApplication = new Intent("com.witwatersrand.androidapplication.STARTMENU");
-					startActivity(startCanteenApplication);
-					finish();
-				} else {
-					Toast.makeText(Authentication.this, "Authentication Failure! " + myAuthenticationParser.getReason(), Toast.LENGTH_SHORT).show();
-				}
+				Toast.makeText(Authentication.this, "Authentication Failure! " + myAuthenticationParser.getReason(), Toast.LENGTH_SHORT).show();
 			}
 		}
 	}
