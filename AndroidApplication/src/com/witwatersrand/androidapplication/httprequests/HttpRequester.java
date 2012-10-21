@@ -45,7 +45,6 @@ public abstract class HttpRequester {
 		return TIMEOUT_MILLISEC;
 	}
 
-
 	/**
 	 * @param timeoutMiliseconds the timeout to set
 	 */

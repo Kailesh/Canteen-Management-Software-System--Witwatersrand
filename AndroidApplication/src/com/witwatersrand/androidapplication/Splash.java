@@ -23,6 +23,11 @@ public class Splash extends Activity {
 		super.onCreate(savedInstanceState);
 		Log.i(LOGGER_TAG, "Splash -- onCreate()");
 		setContentView(R.layout.splash);
+		
+		// setup scheduler
+		
+		
+		
 		Thread timerThread = new Thread() {
 
 			/*
@@ -44,6 +49,7 @@ public class Splash extends Activity {
 				
 			}
 		};
+		
 		timerThread.start();
 	}
 
