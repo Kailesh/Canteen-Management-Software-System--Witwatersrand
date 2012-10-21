@@ -188,7 +188,6 @@ public class Cart extends Activity implements OnClickListener {
 
 			Toast.makeText(Cart.this, "" + response, Toast.LENGTH_LONG).show();
 			Log.i(LOGGER_TAG, "Cart -- UploadOrder -- onPostExecute() -- Setting pending status to true for this order");
-			ApplicationPreferences.setPendingStatus(Cart.this, true);
 			startOrderCompletionService();
 			Log.i(LOGGER_TAG, "Cart -- UploadOrder -- onPostExecute() -- Closing the Cart activity");
 			Cart.this.finish();

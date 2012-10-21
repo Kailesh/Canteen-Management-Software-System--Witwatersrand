@@ -1,28 +1,38 @@
 /**
- * 
+ * @author Kailesh Ramjee
  */
 package com.witwatersrand.androidapplication;
 
 import android.util.Log;
 
 /**
- * @author Kailesh
- *
+ *  A class that describes a canteen item
  */
 public class CanteenItem {
-	final private String LOGGER_TAG = "WITWATERSRAND";
 	
+	final private String LOGGER_TAG = "WITWATERSRAND";
 	private String _itemName;
 	private float _price;
 	private String _stationName;
 	
-	CanteenItem(String itemName, float price, String station) {
+	
+	/**
+     * A constructor.
+     * @param itemName the name of the canteen
+     * @param price the price of the canteen item
+     * @param station the station that the canteen item belongs to
+     * @throws InvalidPriceException
+     */
+	CanteenItem(String itemName, float price, String station) throws InvalidPriceException {
 		Log.i(LOGGER_TAG, "CanteenItem -- Constructor with parameters");
 		this._itemName = itemName;
-		this._price = price;
+		this.setPrice(price);
 		this._stationName = station;
 	}
 	
+	/**
+     * A constructor.
+     */
 	CanteenItem() {
 		Log.i(LOGGER_TAG, "CanteenItem -- Constructor");
 		this._itemName = "Name Not Assigned";
@@ -31,7 +41,7 @@ public class CanteenItem {
 	}
 	
 	/**
-	 * @return the _itemame
+	 * @return the canteen item name
 	 */
 	public String getItemName() {
 		Log.i(LOGGER_TAG, "CanteenItem -- getItemName()");
@@ -39,12 +49,11 @@ public class CanteenItem {
 	}
 
 	/**
-	 * @param _itemame
-	 *            the _itemame to set
+	 * @param itemame the canteen item name
 	 */
-	public void setItemName(String _itemame) {
+	public void setItemName(String itemame) {
 		Log.i(LOGGER_TAG, "CanteenItem -- setItemName()");
-		this._itemName = _itemame;
+		this._itemName = itemame;
 	}
 
 	/**
@@ -56,16 +65,19 @@ public class CanteenItem {
 	}
 
 	/**
-	 * @param _price
-	 *            the _price to set
+	 * @param price the item price
+	 * @throws InvalidPriceException 
 	 */
-	public void setPrice(float _price) {
+	public void setPrice(float price) throws InvalidPriceException {
 		Log.i(LOGGER_TAG, "CanteenItem -- setPrice()");
-		this._price = _price;
+		if(price < 0) {
+			throw new InvalidPriceException("The parameter price is negative");
+		}
+		this._price = price;
 	}
 
 	/**
-	 * @return the _stationName
+	 * @return the stationName
 	 */
 	public String getStationName() {
 		Log.i(LOGGER_TAG, "CanteenItem -- getStationName()");
@@ -73,11 +85,10 @@ public class CanteenItem {
 	}
 
 	/**
-	 * @param _stationName
-	 *            the _stationName to set
+	 * @param stationName the station name of the canteen item
 	 */
 	public void setStationName(String stationName) {
 		Log.i(LOGGER_TAG, "CanteenItem -- setStationName()");
 		this._stationName = stationName;
-	}			
+	}
 }

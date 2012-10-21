@@ -10,7 +10,7 @@ public class OrderItem extends CanteenItem {
 	final private String LOGGER_TAG = "WITWATERSRAND";
 	private int _purchaseQuantity;
 
-	OrderItem(String itemName, float price, String station) {
+	OrderItem(String itemName, float price, String station) throws InvalidPriceException {
 		super(itemName, price, station);
 		Log.i(LOGGER_TAG, "OrderItem -- constructor with parameters");
 		this._purchaseQuantity = 0;

@@ -25,5 +25,12 @@
     <string name="title_activity_order_progress">Order Progress</string>
     <string name="list_item">List Item</string>
     <string name="add_to_cart">Add To Cart</string>
-
+    <string name="authentication_instructions">Welcome Canteen Manager for Rand Merchant Bank. You are required to make use of your RMB credentials.</string>
+	<string name="username">Username</string>
+	<string name="password">Password</string>
+	<string name="remember_me">Remember Me</string>
+	<string name="purchase">Purchase</string>
+	<string name="delivery">Delivery</string>
+	<string name="go_to">Go To</string>
+    
 </resources>

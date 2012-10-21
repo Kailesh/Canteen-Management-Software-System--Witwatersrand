@@ -7,6 +7,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import com.witwatersrand.androidapplication.InvalidPriceException;
 import com.witwatersrand.androidapplication.OrderItem;
 import com.witwatersrand.androidapplication.OrderedItem;
 import com.witwatersrand.androidapplication.OrderedItems;
@@ -68,7 +69,11 @@ public class ProgressParser {
 			myList[i] = new OrderedItem();
 			myList[i].setItemName(_orderList.getOrder()[i].getItemName());
 			myList[i].setStationName(_orderList.getOrder()[i].getStationName());
-			myList[i].setPrice(_orderList.getOrder()[i].getPrice());
+			try {
+				myList[i].setPrice(_orderList.getOrder()[i].getPrice());
+			} catch (InvalidPriceException e) {
+				e.printStackTrace();
+			}
 			myList[i].setPurchaseQuantity(_orderList.getOrder()[i].getPurchaseQuantity());
 			myList[i].setState(_orderList.getProgressStates()[i]);
 		}

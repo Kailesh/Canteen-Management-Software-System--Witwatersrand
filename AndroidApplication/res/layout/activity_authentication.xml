@@ -14,7 +14,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:text="Welcome Canteen Manager for Rand Merchant Bank. You are required to make use of your RMB credentials."
+            android:text="@string/authentication_instructions"
             android:textColor="#add8e6" />
 
         <TextView
@@ -24,7 +24,7 @@
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/textView5"
             android:layout_marginTop="30dp"
-            android:text="Username"
+            android:text="@string/username"
             android:textColor="#add8e6" />
 
         <EditText
@@ -44,7 +44,7 @@
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/etUsername"
             android:layout_marginTop="22dp"
-            android:text="Password"
+            android:text="@string/password"
             android:textColor="#add8e6" />
 
         <EditText
@@ -67,7 +67,7 @@
             android:layout_below="@+id/etPassword"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="14dp"
-            android:text="Remember Me"
+            android:text="@string/remember_me"
             android:textColor="#add8e6" />
 
         <Button
@@ -77,7 +77,7 @@
             android:layout_below="@+id/cbRememberMe"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="18dp"
-            android:text="Login" />
+            android:text="@string/title_activity_authentication" />
     </RelativeLayout>
 
 </ScrollView>

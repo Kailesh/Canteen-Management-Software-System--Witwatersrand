@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvCartTotal"
         android:layout_centerHorizontal="true"
-        android:text="Purhcase"
+        android:text="@string/purchase"
 />
 
     <CheckBox
@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/bPurchase"
         android:layout_centerHorizontal="true"
-        android:text="Delivery"
+        android:text="@string/delivery"
         android:textColor="#add8e6" />
 
     <Spinner

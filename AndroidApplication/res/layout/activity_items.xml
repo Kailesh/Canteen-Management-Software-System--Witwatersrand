@@ -38,6 +38,6 @@
         android:layout_alignBaseline="@+id/bPurchase"
         android:layout_alignBottom="@+id/bPurchase"
         android:layout_toLeftOf="@+id/bPurchase"
-        android:text="Go To" />
+        android:text="@string/go_to" />
 
 </RelativeLayout>

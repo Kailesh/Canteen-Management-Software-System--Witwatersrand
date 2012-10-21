@@ -10,6 +10,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import com.witwatersrand.androidapplication.InvalidPriceException;
 import com.witwatersrand.androidapplication.MenuItem;
 
 import android.util.Log;
@@ -31,7 +32,7 @@ public class MenuParser {
 	String JSON_AVAILABILITY_KEY = "availability";
 	int _numberOfMenuItems;
 
-	public MenuParser(String jsonMenuMessage) {
+	public MenuParser(String jsonMenuMessage) throws NumberFormatException {
 		Log.i(LOGGER_TAG, "MenuParser -- Constructor");
 		Log.i(LOGGER_TAG, "MenuParser -- JSON message = " + jsonMenuMessage);
 		
@@ -67,9 +68,11 @@ public class MenuParser {
 	}
 
 	/**
+	 * @throws InvalidPriceException 
+	 * @throws NumberFormatException 
 	 *
 	 */
-	private void setMenuItems() {
+	private void setMenuItems() throws NumberFormatException {
 		Log.i(LOGGER_TAG, "MenuParser -- setMenuItems()");
 		JSONArray jsonArrayMenu = (JSONArray) _jsonObject.get(JSON_MENU_OBJECT_KEY);
 		Iterator<?> menuArrayIterator = jsonArrayMenu.iterator(); // Infer a generic type and cast the returns of the iterator methods in the loop. Cannot cast menuIterator to Iterator<JSONObject> here
@@ -82,12 +85,18 @@ public class MenuParser {
 			//  Place items in a MenuItem[]
 			_menu[i] = new MenuItem();
 			_menu[i].setItemName((String) currentObject.get(JSON_ITEM_KEY));
-			_menu[i].setPrice((Float.valueOf((String) currentObject.get(JSON_PRICE_KEY))).floatValue());
+			try {
+				_menu[i].setPrice((Float.valueOf((String) currentObject.get(JSON_PRICE_KEY))).floatValue());
+			} catch (InvalidPriceException e) {
+				e.printStackTrace();
+				Log.i(LOGGER_TAG, "MenuParser -- setMenuItems() -- Should never reach here");
+			}
 			_menu[i].setStationName((String) currentObject.get(JSON_STATION_KEY));
 			_menu[i].setAvailability(Boolean.parseBoolean((String) currentObject.get(JSON_AVAILABILITY_KEY)));
 			++i;
 		}
 	}
+	
 	private int numberOfMenuItems() {
 		Log.i(LOGGER_TAG, "MenuParser -- numberOfMenuItems()");
 		int menuSize = ((JSONArray) _jsonObject.get(JSON_MENU_OBJECT_KEY)).size();
