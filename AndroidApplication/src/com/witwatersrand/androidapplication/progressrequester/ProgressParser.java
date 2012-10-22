@@ -14,6 +14,11 @@ import com.witwatersrand.androidapplication.OrderedItemsAdapter;
 
 import android.util.Log;
 
+/**
+ * Parser that parses the progress HTTP response message
+ * @author Kailesh Ramjee - University of Witwatersrand - School of Electrical & Information Engineering
+ *
+ */
 public class ProgressParser {
 	final String LOGGER_TAG = "WITWATERSRAND";
 	private OrderedItemsAdapter _orderList;
@@ -54,7 +59,7 @@ public class ProgressParser {
 	}
 
 	/**
-	 * @return the orderList
+	 * @return the order list
 	 */
 	public OrderedItemsAdapter getOrderList() {
 		return _orderList;

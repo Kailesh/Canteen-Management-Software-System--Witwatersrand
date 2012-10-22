@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.witwatersrand.androidapplication.progressrequester;
 
 import com.witwatersrand.androidapplication.OrderedItem;
@@ -16,8 +13,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 /**
- * @author Kailesh
- * 
+ * An adapter to a ArrayAdapter for a ListView for the options. Encapsulates the display of an order item progresses
+ * @author Kailesh Ramjee - University of Witwatersrand - School of Electrical & Information Engineering
+ *
  */
 public class ItemsProgressAdapter extends ArrayAdapter<OrderedItem> {
 	private final String LOGGER_TAG = "WITWATERSRAND";
@@ -34,8 +32,10 @@ public class ItemsProgressAdapter extends ArrayAdapter<OrderedItem> {
 		this._LAYOUT_RESOURCE_ID = textViewResourceId;
 	}
 
-	/* (non-Javadoc)
-	 * @see android.widget.ArrayAdapter#getView(int, android.view.View, android.view.ViewGroup)
+	/**
+	 * Represents an activity for each order item progress
+	 * @see android.widget.ArrayAdapter#getView(int, android.view.View,
+	 * android.view.ViewGroup)
 	 */
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {

@@ -1,21 +1,25 @@
 package com.witwatersrand.androidapplication.progressrequester;
 
 import com.witwatersrand.androidapplication.ApplicationPreferences;
-import com.witwatersrand.androidapplication.R;
 
 import android.os.Bundle;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+/**
+ * A list activity that displays todays orders
+ * @author Kailesh Ramjee - University of Witwatersrand - School of Electrical & Information Engineering
+ *
+ */
 public class CurrentOrders extends ListActivity {
 	private static final String LOGGER_TAG = "WITWATERSRAND";
 	private static String orders[];
 
+	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,12 +38,9 @@ public class CurrentOrders extends ListActivity {
 				android.R.layout.simple_list_item_1, orders));
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_current_orders, menu);
-        return true;
-    }
-    
+    /**
+     * Calls another activty that displays the progress of the chosen order
+     */
     protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 		Log.i(LOGGER_TAG, "CurrentOrders -- onListItemClick()");

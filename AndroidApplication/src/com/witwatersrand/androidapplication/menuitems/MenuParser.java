@@ -16,7 +16,8 @@ import com.witwatersrand.androidapplication.MenuItem;
 import android.util.Log;
 
 /**
- * @author Kailesh
+ * Parser that parses the menu items
+ * @author Kailesh Ramjee - University of Witwatersrand - School of Electrical & Information Engineering
  *
  */
 public class MenuParser {
@@ -60,7 +61,7 @@ public class MenuParser {
 	}
 
 	/**
-	 * @return the _menu
+	 * @return the menu
 	 */
 	public MenuItem[] getMenu() {
 		Log.i(LOGGER_TAG, "MenuParser -- getMenu()");

@@ -29,7 +29,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
+/**
+ * An activity that retrieves and displays the the prgress of each item of an order
+ * @author Kailesh Ramjee - University of Witwatersrand - School of Electrical & Information Engineering
+ *
+ */
 public class OrderProgress extends Activity implements OnClickListener {
 	final static private String LOGGER_TAG = "WITWATERSRAND";
 	private static final String ORDER_KEY = "Order";
@@ -40,7 +44,12 @@ public class OrderProgress extends Activity implements OnClickListener {
 	ListView _orderLV;
 	Button _refreshB;
 	RequestProgress task;
-
+	
+	
+	/**
+	 * Setting up the activity
+	 * @see android.app.Activity#onCreate(android.os.Bundle)
+	 */
     @Override
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
@@ -51,7 +60,6 @@ public class OrderProgress extends Activity implements OnClickListener {
         _orderNameTV.setText("Order " + _orderNumber);
         _orderNameTV.setTextColor(Color.parseColor("#add8e6"));
         _orderLV = (ListView) findViewById(R.id.lvProgress);
-        
         _refreshB = (Button) findViewById(R.id.bProgressRefresh);
         _refreshB.getBackground().setColorFilter(new LightingColorFilter(0xFFFFFFFF, 0xFF00640));
         _refreshB.setOnClickListener(this);
@@ -60,8 +68,10 @@ public class OrderProgress extends Activity implements OnClickListener {
         task.execute(new String[] {"http://" + ApplicationPreferences.getServerIPAddress(OrderProgress.this) + "/yii/index.php/mobile/queryprogress"});
     }
     
-    
-    private void removeButtonIfRequired() {
+    /**
+     * Removes the refresh button if all items of a order have progress DONE or DELIVERED
+     */
+    private void removeRefreshButtonIfRequired() {
     	CanteenManagerDatabase myDatabase = new CanteenManagerDatabase(this);
         myDatabase.open();        
         if (myDatabase.isOrderReceived(_orderNumber)) {
@@ -71,7 +81,9 @@ public class OrderProgress extends Activity implements OnClickListener {
         myDatabase.close();
     }
     
-    
+    /**
+	 * Implementation of business logic for a button press
+	 */
 	public void onClick(View v) {
 		Log.i(LOGGER_TAG, "OrderProgress -- onClick() -- Button Pressed");
 		switch(v.getId()) {
@@ -88,6 +100,9 @@ public class OrderProgress extends Activity implements OnClickListener {
 		}
 	}
 	
+	/**
+	 * Display the progress from the local database
+	 */
 	public void displayLocalProgress() {
 		Log.i(LOGGER_TAG, "OrderProgress -- displayLocalProgress()");
 		Log.i(LOGGER_TAG, "OrderProgress -- displayLocalProgress() -- Retrieving progress from database and displaying");
@@ -98,8 +113,17 @@ public class OrderProgress extends Activity implements OnClickListener {
 		_orderLV.setAdapter(new ItemsProgressAdapter(OrderProgress.this, R.layout.progress_list_item, currentOrder));	
 	}
     
+	/**
+	 * A class which handles running the HTTP request on another thread
+	 * @author Kailesh Ramjee - University of Witwatersrand - School of Electrical & Information Engineering
+	 *
+	 */
     private class RequestProgress extends AsyncTask<String, Void, String> {
 
+    	/**
+		 * Calls a HTTP requester and makes the request
+		 * @see android.os.AsyncTask#doInBackground(Params[])
+		 */
 		@Override
 		protected String doInBackground(String... urls) {
 			Log.i(LOGGER_TAG, "OrderProgress -- RequestProgress -- doInBackground()");
@@ -136,7 +160,9 @@ public class OrderProgress extends Activity implements OnClickListener {
 			return progressRequestJsonMessage;
 		}
 
-		/* (non-Javadoc)
+		/**
+		 * Executed after the HTTP response has been received or failed. Parses,
+		 * stores and displays the progress of each item of the order.
 		 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
 		 */
 		@Override
@@ -170,7 +196,7 @@ public class OrderProgress extends Activity implements OnClickListener {
 				myDatabase.updateItemProgress(myOrder[i].getItemName(), _orderNumber, myOrder[i].getState());
 			}
 			myDatabase.close();
-			removeButtonIfRequired();
+			removeRefreshButtonIfRequired();
 			_orderLV.setAdapter(new ItemsProgressAdapter(OrderProgress.this, R.layout.progress_list_item, myOrder));
 		}
 	}
