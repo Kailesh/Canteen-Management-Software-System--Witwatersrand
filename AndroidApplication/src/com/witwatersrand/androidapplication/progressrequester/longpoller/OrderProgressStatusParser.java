@@ -12,7 +12,8 @@ import android.util.Log;
 import com.witwatersrand.androidapplication.progressrequester.Progress;
 
 /**
- * @author Kailesh
+ * Parser that parses the long poller order completion response
+ * @author Kailesh Ramjee - University of Witwatersrand - School of Electrical & Information Engineering
  *
  */
 public class OrderProgressStatusParser {
@@ -35,7 +36,9 @@ public class OrderProgressStatusParser {
 		parseMessage();
 	}
 
-
+	/**
+	 * Parses the order completion message
+	 */
 	private void parseMessage() {
 		Log.i(LOGGER_TAG, "OrderProgressStatusParser -- parseMessage()");
 		JSONParser parser = new JSONParser();
@@ -57,7 +60,7 @@ public class OrderProgressStatusParser {
 	}
 
 	/**
-	 * @return the _orderNumber
+	 * @return the order number
 	 */
 	public int getOrderNumber() {
 		return _orderNumber;
@@ -65,7 +68,7 @@ public class OrderProgressStatusParser {
 
 
 	/**
-	 * @return the _itemProgress
+	 * @return the item progress
 	 */
 	public Progress getItemProgress() {
 		return _orderProgress;

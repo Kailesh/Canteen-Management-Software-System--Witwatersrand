@@ -13,11 +13,19 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
+/**
+ * An activity that validates whether the current menu at the server is updated
+ * @author Kailesh Ramjee - University of Witwatersrand - School of Electrical & Information Engineering
+ *
+ */
 public class Menu extends Activity {
 	final static private String LOGGER_TAG = "WITWATERSRAND";
 	final private String JSON_UPDATE_KEY =  "menuUpdated";
 	
-
+	/**
+	 * Sends an HTTP request to the server requesting the status of the menu (updated or not)
+	 * @see android.app.Activity#onCreate(android.os.Bundle)
+	 */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,7 +34,11 @@ public class Menu extends Activity {
         task.execute("http://" + ApplicationPreferences.getServerIPAddress(getBaseContext()) + "/yii/index.php/mobile/menuupdate");
     }
     
-    
+    /**
+	 * A class which handles running the HTTP request on another thread
+     * @author Kailesh Ramjee - University of Witwatersrand - School of Electrical & Information Engineering
+     *
+     */
     private class CheckMenuUpdated extends AsyncTask<String, Void, String> {
 
 		@Override
@@ -40,7 +52,9 @@ public class Menu extends Activity {
 			// return "{\"menuUpdated\" : true}";
 		}
 		
-		/* (non-Javadoc)
+		/**
+		 * Executed after the HTTP response has been received or failed. Handles
+		 * whether the Items activity should be called or not 
 		 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
 		 */
 		@Override

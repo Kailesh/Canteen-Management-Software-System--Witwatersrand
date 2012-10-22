@@ -17,7 +17,8 @@ import android.content.Context;
 import android.util.Log;
 
 /**
- * @author Kailesh
+ * Encodes a order message to be sent to the server
+ * @author Kailesh Ramjee - University of Witwatersrand - School of Electrical & Information Engineering
  *
  */
 public class OrderEncoder {
@@ -57,6 +58,9 @@ public class OrderEncoder {
 	// TODO Unchecked conversion - Type safety: The method put(Object, Object) 
 	// belongs to the raw type HashMap. References to generic type HashMap<K,V> 
 	// should be parameterized
+	/**
+	 * Encodes order items and order number into a JSON message
+	 */
 	@SuppressWarnings("unchecked")
 	public void encodeOrderIntoJson() {
 		Log.i(LOGGER_TAG, "OrderEncoder -- encodeOrderIntoJson()");
@@ -102,7 +106,7 @@ public class OrderEncoder {
 	}
 
 	/**
-	 * @param orderJsonMessage the orderJsonMessage to set
+	 * @param orderJsonMessage the message to set
 	 */
 	public void setOrderJsonMessage(String orderJsonMessage) {
 		Log.i(LOGGER_TAG, "OrderEncoder -- setOrderJsonMessage()");
@@ -126,7 +130,7 @@ public class OrderEncoder {
 	}
 
 	/**
-	 * @return the delivery
+	 * @return true f the order is to be delivered
 	 */
 	public boolean isToBeDelivered() {
 		Log.i(LOGGER_TAG, "OrderEncoder -- isToBeDelivered()");
@@ -134,7 +138,7 @@ public class OrderEncoder {
 	}
 
 	/**
-	 * @param delivery the delivery to set
+	 * @param delivery the delivery status to set
 	 */
 	public void setDelivery(boolean delivery) {
 		Log.i(LOGGER_TAG, "OrderEncoder -- setDelivery()");
@@ -142,7 +146,7 @@ public class OrderEncoder {
 	}
 	
 	/**
-	 * @return the _deliveryLocation
+	 * @return the delivery location
 	 */
 	public String getDeliveryLocation() {
 		Log.i(LOGGER_TAG, "OrderEncoder -- getDeliveryLocation()");
@@ -150,24 +154,28 @@ public class OrderEncoder {
 	}
 
 	/**
-	 * @param _deliveryLocation the _deliveryLocation to set
+	 * @param deliveryLocation the delivery location to set
 	 */
-	public void setDeliveryLocation(String _deliveryLocation) {
+	public void setDeliveryLocation(String deliveryLocation) {
 		Log.i(LOGGER_TAG, "OrderEncoder -- setDeliveryLocation()");
 		Log.i(LOGGER_TAG, "OrderEncoder -- _deliveryLocation = |" + _deliveryLocation + "|");
-		this._deliveryLocation = _deliveryLocation;
+		this._deliveryLocation = deliveryLocation;
 	}
 	
+	/**
+	 * 
+	 * @return the device ID
+	 */
 	public String getDeviceID() {
 		Log.i(LOGGER_TAG, "OrderEncoder -- setDeliveryLocation()");
 		return _deviceID;
 	}
 
 	/**
-	 * @param _deviceID the _deviceID to set
+	 * @param deviceID the device ID to set
 	 */
-	public void setDeviceID(String _deviceID) {
+	public void setDeviceID(String deviceID) {
 		Log.i(LOGGER_TAG, "OrderEncoder -- setDeviceID()");
-		this._deviceID = _deviceID;
+		this._deviceID = deviceID;
 	}
 }

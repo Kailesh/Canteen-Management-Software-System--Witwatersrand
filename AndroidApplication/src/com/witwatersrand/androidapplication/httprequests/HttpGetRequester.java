@@ -11,13 +11,14 @@ import org.apache.http.util.EntityUtils;
 import android.util.Log;
 
 /**
- * @author Kailesh
+ * An HTTP GET request class
+ * @author Kailesh Ramjee - University of Witwatersrand - School of Electrical & Information Engineering
  *
  */
 public class HttpGetRequester extends HttpRequester {
 	final private String LOGGER_TAG = "WITWATERSRAND";
-	
 	private HttpGet _getRequest;
+	
 	
 	public HttpGetRequester(String uri) {
 		super(uri);
@@ -25,7 +26,10 @@ public class HttpGetRequester extends HttpRequester {
 		_getRequest = new HttpGet(uri);
 	}
 	
-	
+	/**
+	 * Executes the HTTP GET request
+	 * @return the response message
+	 */
 	public String receiveResponse() {
 		Log.i(LOGGER_TAG, "HttpGetRequester -- receiveResponse()");
 		
@@ -49,5 +53,4 @@ public class HttpGetRequester extends HttpRequester {
 			return EXCEPTION_THROWN;
 		}
 	}
-	
 }

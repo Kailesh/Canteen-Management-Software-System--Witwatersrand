@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.witwatersrand.androidapplication.authetication;
 
 import java.io.IOException;
@@ -13,10 +10,10 @@ import com.witwatersrand.androidapplication.DeviceIDGenerator;
 import android.content.Context;
 import android.util.Log;
 
-
 /**
- * @author Kailesh
- * 
+ * Encodes a authetication message to be sent to the server
+ * @author Kailesh Ramjee - University of Witwatersrand - School of Electrical & Information Engineering
+ *
  */
 public class AuthenticatorEncoder {
 
@@ -28,23 +25,24 @@ public class AuthenticatorEncoder {
 	private String _password;
 	private String _deviceMacAddress;
 	Context _context;
-	
 	private String _authenticatorJsonMessage;
 
+	
 	public AuthenticatorEncoder(String username, String password, Context context) {
 		Log.i(LOGGER_TAG, "AuthenticatorEncoder -- Constructor");
 		_username = username;
-		_password = password;
-		
+		_password = password;	
 		_deviceMacAddress = DeviceIDGenerator.getWifiMacAddress(context);
 		_context = context;
 		encodeAuthenticatorIntoJson();
 	}
 
-	
 	// TODO Unchecked conversion - Type safety: The method put(Object, Object)
 	// belongs to the raw type HashMap. References to generic type HashMap<K,V>
 	// should be parameterized
+	/**
+	 * Encodes username, encrypted password and device MAC address into a JSON message
+	 */
 	@SuppressWarnings("unchecked")
 	private void encodeAuthenticatorIntoJson() {
 		Log.i(LOGGER_TAG,
@@ -68,10 +66,10 @@ public class AuthenticatorEncoder {
 	}
 
 	/**
-	 * @return the _authenticatorJsonMessage
+	 * Get the JSON message
+	 * @return the JSON suthentication message
 	 */
 	public String getAuthenticatorJsonMessage() {
 		return _authenticatorJsonMessage;
 	}
-
 }

@@ -12,14 +12,13 @@ import android.content.Context;
 import android.content.Intent;
 
 /**
- * @author Kailesh
- * 
+ * A daily scheduler
+ * @author Kailesh Ramjee - University of Witwatersrand - School of Electrical & Information Engineering
+ *
  */
 public class DailyScheduler {
 
-	/**
-	 * 
-	 */
+
 	public DailyScheduler(Context context) {
 		Calendar updateTime = Calendar.getInstance();
 		updateTime.setTimeZone(TimeZone.getTimeZone("GMT"));

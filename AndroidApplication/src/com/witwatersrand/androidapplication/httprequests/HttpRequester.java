@@ -14,7 +14,8 @@ import org.apache.http.params.HttpParams;
 import android.util.Log;
 
 /**
- * @author Kailesh
+ * Abstract class that defines aspects of a HTTP request
+ * @author Kailesh Ramjee - University of Witwatersrand - School of Electrical & Information Engineering
  *
  */
 public abstract class HttpRequester {
@@ -28,6 +29,7 @@ public abstract class HttpRequester {
 	String responseMessage;
 	
 	/**
+	 * Constructor
 	 * @param uri 
 	 * 
 	 */
@@ -38,7 +40,7 @@ public abstract class HttpRequester {
 	}
 	
 	/**
-	 * @return the timeout
+	 * @return the time-out
 	 */
 	public int getTimeout() {
 		Log.i(LOGGER_TAG, "HttpRequester -- getTimeout()");
@@ -46,7 +48,7 @@ public abstract class HttpRequester {
 	}
 
 	/**
-	 * @param timeoutMiliseconds the timeout to set
+	 * @param timeoutMiliseconds the time-out to set
 	 */
 	public void setTimeout(int timeoutMiliseconds) {
 		Log.i(LOGGER_TAG, "HttpRequester -- setTimeout()");
@@ -58,7 +60,7 @@ public abstract class HttpRequester {
 	}
 	
 	/**
-	 * @return the responseMessage
+	 * @return the response message
 	 */
 	public String getResponseMessage() {
 		Log.i(LOGGER_TAG, "HttpRequester -- getResponseMessage()");
@@ -66,23 +68,30 @@ public abstract class HttpRequester {
 	}
 	
 	
-	
 	/**
-	 * @return the responseNotOk
+	 * @return the response not OK string
 	 */
 	public static String getResponseNotOkMessage() {
 		return RESPONSE_NOT_OK;
 	}
 
 	/**
-	 * @return the eXCEPTION_THROWN
+	 * @return the exception thrown string
 	 */
 	public static String getExceptionThrownMessage() {
 		return EXCEPTION_THROWN;
 	}
 
+	/**
+	 * The derived classes are to implement receiveResponse()
+	 * @return the response message
+	 */
 	abstract String receiveResponse();
 	
+	/**
+	 * Set the URI
+	 * @param uriAsString the URI string for the HTTP request
+	 */
 	public void setUri(String uriAsString) {
 		Log.i(LOGGER_TAG, "HttpRequester -- setUri()");		
 		try {

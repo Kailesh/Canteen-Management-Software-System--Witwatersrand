@@ -9,7 +9,8 @@ import org.apache.http.util.EntityUtils;
 import android.util.Log;
 
 /**
- * @author Kailesh
+ * An HTTP POST request class
+ * @author Kailesh Ramjee - University of Witwatersrand - School of Electrical & Information Engineering
  *
  */
 public class HttpPostRequester extends HttpRequester {
@@ -27,18 +28,17 @@ public class HttpPostRequester extends HttpRequester {
 		_postRequest = new HttpPost(uri);
 		_postMessage = POST_MESSAGE_NOT_SET;
 	}
-
 	
 	/**
-	 * @return the _postMessage
+	 * @return the post message
 	 */
 	public String getPostMessage() {
 		return _postMessage;
 	}
-
 	
 	/**
-	 * @param _postMessage the _postMessage to set
+	 * Set the POST message
+	 * @param postMessage the post message to set
 	 */
 	public void setPostMessage(String postMessage) {
 		_postMessage = postMessage;
@@ -54,6 +54,10 @@ public class HttpPostRequester extends HttpRequester {
 		}
 	}
 
+	/**
+	 * Executes the HTTP POST request
+	 * @return the response message
+	 */
 	public String receiveResponse() {
 		Log.i(LOGGER_TAG, "HttpPostRequester -- receiveResponse()");
 		
@@ -77,5 +81,4 @@ public class HttpPostRequester extends HttpRequester {
 			return EXCEPTION_THROWN;
 		}
 	}
-
 }

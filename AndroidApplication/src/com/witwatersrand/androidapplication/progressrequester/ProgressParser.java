@@ -10,20 +10,20 @@ import org.json.simple.parser.ParseException;
 import com.witwatersrand.androidapplication.InvalidPriceException;
 import com.witwatersrand.androidapplication.OrderItem;
 import com.witwatersrand.androidapplication.OrderedItem;
-import com.witwatersrand.androidapplication.OrderedItems;
+import com.witwatersrand.androidapplication.OrderedItemsAdapter;
 
 import android.util.Log;
 
 public class ProgressParser {
 	final String LOGGER_TAG = "WITWATERSRAND";
-	private OrderedItems _orderList;
+	private OrderedItemsAdapter _orderList;
 	private static final String JSON_ITEM_KEY = "item";
 	private static final String JSON_STATE_KEY = "status";
 	
 	
 	public ProgressParser(String jsonString, OrderItem[] order) {
 		Log.i(LOGGER_TAG, "ProgressParser -- Constructor");
-		_orderList = new OrderedItems(order);
+		_orderList = new OrderedItemsAdapter(order);
 		parseStates(jsonString);
 	}
 
@@ -56,7 +56,7 @@ public class ProgressParser {
 	/**
 	 * @return the orderList
 	 */
-	public OrderedItems getOrderList() {
+	public OrderedItemsAdapter getOrderList() {
 		return _orderList;
 	}
 	

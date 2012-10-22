@@ -13,7 +13,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.LightingColorFilter;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -23,29 +22,45 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * The cart activity
+ * @author Kailesh Ramjee - University of Witwatersrand - School of Electrical & Information Engineering
+ *
+ */
 public class Cart extends Activity implements OnClickListener {
 	final String LOGGER_TAG = "WITWATERSRAND";
 	String _httpPostMessage;
 	OrderItem[] _myCart;
-	
 	ListView _cartLV;
 	public static TextView totalTV;
 	Button makePurchaseB;
 	Spinner _deliveryFloorS, _deliverySideS;
 	CheckBox _deliveryCB;
 	boolean closeItemsActivity = false;
-	
 
-	
-	static final String APPLIATION_DATA_FILENAME = "mySharedPreferences";
-
+	/**
+	 * Setting up the cart activty
+	 * @see android.app.Activity#onCreate(android.os.Bundle)
+	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Log.i(LOGGER_TAG, "Cart -- onCreate()");
-
 		setContentView(R.layout.activity_cart);
+		initializeVariables();
+		
+		setDelivery();
+		loadCart();
 
+		makePurchaseB = (Button) findViewById(R.id.bPurchase);
+		makePurchaseB.getBackground().setColorFilter(new LightingColorFilter(0xFFFFFFFF, 0xFF006400	));
+		makePurchaseB.setOnClickListener(this);
+	}
+	
+	/**
+	 * Initializing the view variables and binding the views to the ones defined in the XML layout
+	 */
+	private void initializeVariables() {
 		_cartLV = (ListView) findViewById(R.id.lvCart);
 		totalTV = (TextView) findViewById(R.id.tvCartTotal);
 		totalTV.setText("R " + String.format("%.2f", (float) 0));
@@ -53,18 +68,13 @@ public class Cart extends Activity implements OnClickListener {
 		_deliveryFloorS = (Spinner) findViewById(R.id.spFloor);
 		_deliverySideS = (Spinner) findViewById(R.id.spSide);
 		_deliveryCB.setOnClickListener(this);
-		_deliveryFloorS.getBackground().setColorFilter(new LightingColorFilter(0xFFFFFFFF, 0xFF006400	));
-		_deliverySideS.getBackground().setColorFilter(new LightingColorFilter(0xFFFFFFFF, 0xFF006400	));
-		setDelivery();
-		
-		loadCart();
-
-		makePurchaseB = (Button) findViewById(R.id.bPurchase);
-		makePurchaseB.getBackground().setColorFilter(new LightingColorFilter(0xFFFFFFFF, 0xFF006400	));
-
-		makePurchaseB.setOnClickListener(this);
+		_deliveryFloorS.getBackground().setColorFilter(new LightingColorFilter(0xFFFFFFFF, 0xFF006400));
+		_deliverySideS.getBackground().setColorFilter(new LightingColorFilter(0xFFFFFFFF, 0xFF006400));
 	}
-	
+
+	/**
+	 * Enabling/disabling the delivery location options 
+	 */
 	private void setDelivery() {
 		if (_deliveryCB.isChecked()) {
 
@@ -77,7 +87,9 @@ public class Cart extends Activity implements OnClickListener {
 		}
 	}
 	
-
+	/**
+	 * Implements button press logic
+	 */
 	public void onClick(View v) {
 		Log.i(LOGGER_TAG, "Cart -- onClick()");
 		switch (v.getId()) {
@@ -119,9 +131,11 @@ public class Cart extends Activity implements OnClickListener {
 			
 			break;
 		}
-		
 	}
 
+	/**
+	 * Load the cart from the database
+	 */
 	private void loadCart() {
 		Log.i(LOGGER_TAG, "Cart -- loadCart()");
 
@@ -139,12 +153,6 @@ public class Cart extends Activity implements OnClickListener {
 		_cartLV.setAdapter(new CartAdapter(this, R.layout.cart_list_item,
 				_myCart));
 	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_cart, menu);
-		return true;
-	}
 	
 	
 	/* (non-Javadoc)
@@ -160,7 +168,12 @@ public class Cart extends Activity implements OnClickListener {
 		super.finish();
 	}
 
-
+	
+	/**
+	 * A class which handles running the HTTP request on another thread
+	 * @author Kailesh Ramjee - University of Witwatersrand - School of Electrical & Information Engineering
+	 *
+	 */
 	private class UploadOrder extends AsyncTask<String, Void, String> {
 
 		@Override
@@ -176,9 +189,9 @@ public class Cart extends Activity implements OnClickListener {
 		}
 		
 		
-		/*
-		 * (non-Javadoc)
-		 * 
+		/**
+		 * Executed after the HTTP response has been received or failed. Displays
+		 * the cart items. 
 		 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
 		 */
 		@Override

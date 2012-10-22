@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.witwatersrand.androidapplication.startmenu;
 
 import com.witwatersrand.androidapplication.R;
@@ -15,13 +12,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
- * @author Kailesh
+ * An adapter to a ArrayAdapter for a ListView for the options. Encapsulates the display of an option icon and name
+ * @author Kailesh Ramjee - University of Witwatersrand - School of Electrical & Information Engineering
  *
  */
 public class StartMenuAdapter extends ArrayAdapter<StartMenuItem>  {
 
 	private final String LOGGER_TAG = "WITWATERSRAND";
-
 	private Context _context;
 	private StartMenuItem[] _myOptions;
 	private int _LAYOUT_RESOURCE_ID;
@@ -37,9 +34,8 @@ public class StartMenuAdapter extends ArrayAdapter<StartMenuItem>  {
 		
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/**
+	 * Represents an activity for each option list item
 	 * @see android.widget.ArrayAdapter#getView(int, android.view.View,
 	 * android.view.ViewGroup)
 	 */
@@ -64,6 +60,4 @@ public class StartMenuAdapter extends ArrayAdapter<StartMenuItem>  {
 		
 		return rowRootView;
 	}
-	
-	
 }

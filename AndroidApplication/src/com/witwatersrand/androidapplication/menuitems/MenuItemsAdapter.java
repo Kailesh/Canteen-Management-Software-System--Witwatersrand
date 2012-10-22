@@ -22,8 +22,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * @author Kailesh
- * 
+ * An adapter to a ArrayAdapter for a ListView for the menu items. Encapsulates the menu item information
+ * @author Kailesh Ramjee - University of Witwatersrand - School of Electrical & Information Engineering
+ *
  */
 public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 
@@ -42,9 +43,8 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 		this._LAYOUT_RESOURCE_ID = textViewResourceId;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/**
+	 * Represents an activity for each menu item
 	 * @see android.widget.ArrayAdapter#getView(int, android.view.View,
 	 * android.view.ViewGroup)
 	 */
@@ -202,9 +202,8 @@ public class MenuItemsAdapter extends ArrayAdapter<MenuItem> {
 		return rowRootView;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/**
+	 * Disables a menu item once it is not available
 	 * @see android.widget.BaseAdapter#isEnabled(int)
 	 */
 	@Override

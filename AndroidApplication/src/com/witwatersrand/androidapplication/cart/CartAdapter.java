@@ -18,6 +18,11 @@ import android.widget.TextView;
 import android.widget.Button;
 import android.widget.Toast;
 
+/**
+ * An adapter to a ArrayAdapter for a ListView for the cart items. Encapsulates the cart item information
+ * @author Kailesh Ramjee - University of Witwatersrand - School of Electrical & Information Engineering
+ *
+ */
 public class CartAdapter extends ArrayAdapter<OrderItem> {
 	private final String LOGGER_TAG = "WITWATERSRAND";
 	private final Context _context;
@@ -35,9 +40,8 @@ public class CartAdapter extends ArrayAdapter<OrderItem> {
 		this._LAYOUT_RESOURCE_ID = textViewResourceId;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/**
+	 * Represents an activity for each cart item
 	 * @see android.widget.ArrayAdapter#getView(int, android.view.View,
 	 * android.view.ViewGroup)
 	 */

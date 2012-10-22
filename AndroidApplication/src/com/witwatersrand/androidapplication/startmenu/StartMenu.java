@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.witwatersrand.androidapplication.startmenu;
 
 
@@ -14,15 +11,16 @@ import android.view.View;
 import android.widget.ListView;
 
 /**
- * @author Kailesh
- * 
+ * The start menu list activity
+ * @author Kailesh Ramjee - University of Witwatersrand - School of Electrical & Information Engineering
+ *
  */
 public class StartMenu extends ListActivity  {
 	private static final String LOGGER_TAG = "WITWATERSRAND";
 	StartMenuItem[] _myOptions;
-	/*
-	 * (non-Javadoc)
-	 * 
+	
+	/**
+	 * Setting up the ListActivity
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
 	 */
 	@Override
@@ -31,7 +29,6 @@ public class StartMenu extends ListActivity  {
 		Log.i(LOGGER_TAG, "StartMenu -- onCreate()");
 
 		_myOptions = new StartMenuItem[8];
-		
 		_myOptions[0] = new StartMenuItem("Menu", "food");
 		_myOptions[1] = new StartMenuItem("Video Feed", "video");
 		_myOptions[2] = new StartMenuItem("User Information", "user_grey");
@@ -44,9 +41,8 @@ public class StartMenu extends ListActivity  {
 		setListAdapter(new StartMenuAdapter(StartMenu.this, R.layout.start_menu_list_item, _myOptions));
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * 
+	/**
+	 * Starts a new activity based on which list item is clicked
 	 * @see android.app.ListActivity#onListItemClick(android.widget.ListView,
 	 * android.view.View, int, long)
 	 */
@@ -69,7 +65,4 @@ public class StartMenu extends ListActivity  {
 			}
 		}
 	}
-	
-	
-	
 }

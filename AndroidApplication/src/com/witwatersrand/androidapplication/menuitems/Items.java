@@ -8,39 +8,41 @@ import com.witwatersrand.androidapplication.CanteenManagerDatabase;
 import com.witwatersrand.androidapplication.MenuItem;
 import com.witwatersrand.androidapplication.R;
 import com.witwatersrand.androidapplication.httprequests.HttpGetRequester;
+import com.witwatersrand.androidapplication.httprequests.HttpRequester;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.LightingColorFilter;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-
+/**
+ * The menu items activity
+ * @author Kailesh Ramjee - University of Witwatersrand - School of Electrical & Information Engineering
+ *
+ */
 public class Items extends Activity implements OnClickListener{
-	final static private String LOGGER_TAG = "WITWATERSRAND"; // Debug Purposes
+	final static private String LOGGER_TAG = "WITWATERSRAND";
 	ListView _menuLV;
 	Button goToCartB;
 	public static TextView totalTV;
 	private int CART_ACTIVITY_CODE = 0;
 	
-
+	/**
+	 * Setting up the menu items activty
+	 * @see android.app.Activity#onCreate(android.os.Bundle)
+	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Log.i(LOGGER_TAG, "Items -- onCreate()");
 		setContentView(R.layout.activity_items);
-		_menuLV = (ListView) findViewById(R.id.lvMenuItems);
-		goToCartB = (Button) findViewById(R.id.bPurchase);
-		goToCartB.getBackground().setColorFilter(new LightingColorFilter(0xFFFFFFFF, 0x00006400));	
 		
-		goToCartB.setOnClickListener(this);
-		totalTV = (TextView) findViewById(R.id.tvMenuItemsTotal);
-		totalTV.setText("R " + String.format("%.2f", (float) 0));
+		initializeVariables();
 		
 		if(ApplicationPreferences.haveMenu(Items.this)) {
 			Log.i(LOGGER_TAG, "Items -- onCreate() -- The menu is updated and menu items will be displayed from the database");
@@ -62,8 +64,19 @@ public class Items extends Activity implements OnClickListener{
 	}
 	
 	
+	private void initializeVariables() {
+		Log.i(LOGGER_TAG, "Items -- initializeVariables()");
+		_menuLV = (ListView) findViewById(R.id.lvMenuItems);
+		goToCartB = (Button) findViewById(R.id.bPurchase);
+		goToCartB.getBackground().setColorFilter(new LightingColorFilter(0xFFFFFFFF, 0x00006400));	
+		goToCartB.setOnClickListener(this);
+		totalTV = (TextView) findViewById(R.id.tvMenuItemsTotal);
+		totalTV.setText("R " + String.format("%.2f", (float) 0));
+	}
 
-	
+	/**
+	 * Implements button press logic
+	 */
 	public void onClick(View arg0) {
 		switch(arg0.getId())
 		{
@@ -75,7 +88,8 @@ public class Items extends Activity implements OnClickListener{
 		}
 	}
 	
-	/* (non-Javadoc)
+	/**
+	 * Called when the called activity is destroyed
 	 * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
 	 */
 	@Override
@@ -91,13 +105,11 @@ public class Items extends Activity implements OnClickListener{
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_items, menu);
-		return true;
-	}
-
+	/**
+	 * A class which handles running the HTTP request on another thread
+	 * @author Kailesh Ramjee - University of Witwatersrand - School of Electrical & Information Engineering
+	 *
+	 */
 	private class DownloadMenuData extends AsyncTask<String, Void, String> {
 		@Override
 		protected String doInBackground(String... uris) {
@@ -109,11 +121,23 @@ public class Items extends Activity implements OnClickListener{
 			// String jsonMenuString = "{ \"updated\": \"false\",\"menu\": [{ \"item\": \"Hake\",\"station\": \"A la Minute Grill\",\"price\": \"16.53\", \"availability\": \"true\"},{\"item\": \"Beef Olives\",\"station\": \"Main Meal\",\"price\": \"28.50\",\"availability\": \"true\"},{\"item\": \"Chicken Lasagne & Veg\",\"station\": \"Frozen Meals\",\"price\": \"28.50\",\"availability\": \"true\"}]}";
 		}
 
-		protected void onPostExecute(String myJsonMessage) {
-			super.onPostExecute(myJsonMessage);
+		/**
+		 * Executed after the HTTP response has been received or failed. Displays 
+		 * the menu after it has been received.
+		 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
+		 */
+		protected void onPostExecute(String response) {
+			super.onPostExecute(response);
 			Log.i(LOGGER_TAG, "Items -- DownloadMenuData -- onPostExecute()");
-			Log.i(LOGGER_TAG, "Items -- DownloadMenuData -- onPostExecute() -- myJsonMessage = " + myJsonMessage);
-			MenuParser myMenuParser = new MenuParser(myJsonMessage);
+			Log.i(LOGGER_TAG, "Items -- DownloadMenuData -- onPostExecute() -- response = " + response);
+			
+			if (response.equals(HttpRequester.getExceptionThrownMessage())) {
+				return;
+			}
+			if (response.equals(HttpRequester.getResponseNotOkMessage())){
+				return;
+			}
+			MenuParser myMenuParser = new MenuParser(response);
 			MenuItem[] myMenu = myMenuParser.getMenu();
 			Log.i(LOGGER_TAG, "Items -- DownloadMenuData -- storing in database");
 			CanteenManagerDatabase myDatabase = new CanteenManagerDatabase(Items.this);

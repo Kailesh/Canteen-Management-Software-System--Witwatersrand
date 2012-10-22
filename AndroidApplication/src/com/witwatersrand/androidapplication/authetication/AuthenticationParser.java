@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.witwatersrand.androidapplication.authetication;
 
 import org.json.simple.JSONObject;
@@ -10,22 +7,21 @@ import org.json.simple.parser.ParseException;
 import android.util.Log;
 
 /**
- * @author Kailesh
+ * Parses a authentication data from an HTTP response 
+ * @author Kailesh Ramjee - University of Witwatersrand - School of Electrical & Information Engineering
  *
  */
 public class AuthenticationParser {
 	final String LOGGER_TAG = "WITWATERSRAND";
-	
 	final private static String JSON_ACCESS_KEY = "access";
 	final private static String JSON_REASON_KEY = "reason";
 	final private static String JSON_ACCOUNT_BALANCE = "balance";
-	
 	JSONObject _jsonObject;
-	
 	boolean _loginSuccess;
 	String _reason;
 	float _accountBalance;
 
+	
 	public AuthenticationParser(String jsonAuthenticationMessage) {
 		Log.i(LOGGER_TAG, "AuthenticationParser -- Constructor");
 		_loginSuccess = false;
@@ -36,7 +32,10 @@ public class AuthenticationParser {
 		Log.i(LOGGER_TAG, "AuthenticationParser contruction complete");
 	}
 
-
+	/**
+	 * Parse the authentication data including the status, the reason, and the users account balance
+	 * @param jsonAuthenticationMessage
+	 */
 	private void parseAuthenticationData(String jsonAuthenticationMessage) {
 		Log.i(LOGGER_TAG, "AuthenticationParser -- parseAuthenticationData() -- Parsing menu data");
 		JSONParser parser = new JSONParser();
@@ -57,15 +56,19 @@ public class AuthenticationParser {
 	}
 
 	/**
-	 * @return the _loginSuccess
+	 * Check whether the user's authentication is successful
+	 * @return the true if the user has successfully been authenticated
 	 */
 	public boolean isAutheticated() {
 		Log.i(LOGGER_TAG, "AuthenticationParser -- isAutheticated()");
 		return _loginSuccess;
 	}
 
+	
 	/**
-	 * @return the _reason
+	 * Get the reason (failure code) for authentication failure
+	 * @see defined error codes
+	 * @return the reason for authentication failure (failure code)
 	 */
 	public String getReason() {
 		Log.i(LOGGER_TAG, "AuthenticationParser -- getReason()");
@@ -73,10 +76,16 @@ public class AuthenticationParser {
 	}
 
 	/**
-	 * @return the _accountBalance
+	 * Get the user account balance
+	 * @return the user account balance
 	 */
 	public float getAccountBalance() {
 		Log.i(LOGGER_TAG, "AuthenticationParser -- getAccountBalance()");
 		return _accountBalance;
+	}
+	
+	public boolean isAuthenticationMessageValid(String message) {
+		// TODO implement this
+		return false;	
 	}
 }

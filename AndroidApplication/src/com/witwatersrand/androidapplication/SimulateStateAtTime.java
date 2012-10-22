@@ -3,31 +3,32 @@ package com.witwatersrand.androidapplication;
 import android.os.Bundle;
 import android.app.Activity;
 import android.graphics.LightingColorFilter;
-import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
+/**
+ * Simulates the task of the scheduler with a button press
+ * @author Kailesh Ramjee - University of Witwatersrand - School of Electrical & Information Engineering
+ *
+ */
 public class SimulateStateAtTime extends Activity implements OnClickListener{
 	
-	Button sevenAmB;
+	Button _sevenAmB;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_simulate_state_at_time);
-        sevenAmB = (Button) findViewById(R.id.bSevenAM);
-        sevenAmB.getBackground().setColorFilter(new LightingColorFilter(0xFFFFFFFF, 0xFF006400	));
-        sevenAmB.setOnClickListener(this);
+        _sevenAmB = (Button) findViewById(R.id.bSevenAM);
+        _sevenAmB.getBackground().setColorFilter(new LightingColorFilter(0xFFFFFFFF, 0xFF006400	));
+        _sevenAmB.setOnClickListener(this);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_simulate_state_at_time, menu);
-        return true;
-    }
-
+    /**
+     * Implements the functionality for a button press for resetting the application
+     */
 	public void onClick(View v) {
 		switch(v.getId()) {
 		case R.id.bSevenAM:

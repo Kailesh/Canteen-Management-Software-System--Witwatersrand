@@ -11,7 +11,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.LightingColorFilter;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -19,17 +18,25 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
-
+/**
+ * An activity that manages user authentication
+ * @author Kailesh Ramjee - University of Witwatersrand - School of Electrical & Information Engineering
+ *
+ */
 public class Authentication extends Activity implements OnClickListener {
+	
 	final private static String LOGGER_TAG = "WITWATERSRAND";
 	EditText usernameET, passwordET;
 	CheckBox rememberMeCB;
 	private String _httpPostMessage;
 	private String _username, _password;
 	private boolean _remember;
-	
 	private static final String UNKNOWN = "Unknown";
 	
+	/**
+	 * Setting up the activity
+	 * @see android.app.Activity#onCreate(android.os.Bundle)
+	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -39,7 +46,9 @@ public class Authentication extends Activity implements OnClickListener {
 		sendRequestIfRemembered();
 	}
 
-
+	/**
+	 * Initializes each view in this activity
+	 */
 	private void setUpViewVariables() {
 		Log.i(LOGGER_TAG, "Authentication -- setUpViewVariables()");
 		Button loginB = (Button) findViewById(R.id.bLogin);
@@ -50,12 +59,13 @@ public class Authentication extends Activity implements OnClickListener {
 		rememberMeCB = (CheckBox) findViewById(R.id.cbRememberMe);
 	}
 	
-	
+	/**
+	 * Automatically sends a request to the server if the Remember Me status is true
+	 */
 	private void sendRequestIfRemembered() {
 		if (ApplicationPreferences.isUserRemembered(getBaseContext())) {
 			_username = ApplicationPreferences.getUserName(getBaseContext());			
 			_password = ApplicationPreferences.getPassword(this);
-	
 			sendAuthenticationRequest();
 		} else {
 			_username = UNKNOWN;
@@ -64,13 +74,9 @@ public class Authentication extends Activity implements OnClickListener {
 		}
 	}
 	
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_authentication, menu);
-		return true;
-	}
-
+	/**
+	 * Implementation of business logic for a 'login' button press
+	 */
 	public void onClick(View v) {
 		Log.i(LOGGER_TAG, "Authentication -- onClick()");
 		switch (v.getId()) {
@@ -83,6 +89,9 @@ public class Authentication extends Activity implements OnClickListener {
 		}
 	}
 	
+	/**
+	 * Encodes a request message and sends the request
+	 */
 	private void sendAuthenticationRequest() {
 		Log.i(LOGGER_TAG, "Authentication -- sendAuthenticationRequest()");
 		AuthenticatorEncoder myEncoder;
@@ -96,9 +105,19 @@ public class Authentication extends Activity implements OnClickListener {
 		AuthenticateUser task = new AuthenticateUser();
 		task.execute("http://" + ApplicationPreferences.getServerIPAddress(getBaseContext()) + "/yii/index.php/mobile/authenticate");
 	}
-
+	
+	/**
+	 * A class which handles running the HTTP request on another thread
+	 * @author Kailesh Ramjee - University of Witwatersrand - School of Electrical & Information Engineering
+	 *
+	 */
 	private class AuthenticateUser extends AsyncTask<String, Void, String> {
 
+		
+		/**
+		 * Calls a HTTP requester and makes the request
+		 * @see android.os.AsyncTask#doInBackground(Params[])
+		 */
 		@Override
 		protected String doInBackground(String... uris) {
 			Log.i(LOGGER_TAG, "Authentication -- AuthenticateUser -- doInBackground()");
@@ -112,9 +131,10 @@ public class Authentication extends Activity implements OnClickListener {
 		}
 		
 
-		/*
-		 * (non-Javadoc)
-		 * 
+		/**
+		 * Executed after the HTTP response has been received or failed. Handles
+		 * the post login business logic and opens a new activity if login is 
+		 * successful
 		 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
 		 */
 		@Override

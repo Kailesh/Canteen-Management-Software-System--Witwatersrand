@@ -3,7 +3,8 @@ package com.witwatersrand.androidapplication;
 import android.util.Log;
 
 /**
- * @author Kailesh
+ * A class that describes a order item inheriting the properties of a canteen item
+ * @author Kailesh Ramjee - University of Witwatersrand - School of Electrical & Information Engineering
  *
  */
 public class OrderItem extends CanteenItem {
@@ -23,7 +24,8 @@ public class OrderItem extends CanteenItem {
 	}
 	
 	/**
-	 * @return the _purchase_quantity
+	 * Get the purchase quantity of an order item
+	 * @return the purchase quantity
 	 */
 	public int getPurchaseQuantity() {
 		Log.i(LOGGER_TAG, "OrderItem -- getPurchaseQuantity()");
@@ -31,7 +33,8 @@ public class OrderItem extends CanteenItem {
 	}
 
 	/**
-	 * @param _purchase_quantity the _purchase_quantity to set
+	 * Get the purchase quantity of an order item
+	 * @param quantity the purchase quantity to set
 	 */
 	public void setPurchaseQuantity(int quantity) {
 		Log.i(LOGGER_TAG, "OrderItem -- setPurchaseQuantity()");

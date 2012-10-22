@@ -23,20 +23,23 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
+/**
+ * A service which makes a long poller request to retrieve the completion of order signal
+ * @author Kailesh Ramjee - University of Witwatersrand - School of Electrical & Information Engineering
+ *
+ */
 public class LongPollerProgressRequester extends Service {
+	
 	private static final String LOGGER_TAG = "WITWATERSRAND";
 	private static final String JSON_DEVICE_ID_KEY = "deviceID";
 	private static final String JSON_ORDER_NUMBER_KEY = "orderNumber";
-	
 	static final String DEVICE_ID_UNKNOWN = "Device ID Unknown";
-	
 	private String ORDER_COMPLETION_SERVICE_TAG;
 	private int ORDER_NUMBER;
 
 	
-	/*
-	 * (non-Javadoc)
-	 * 
+	/**
+	 * Setting up the service
 	 * @see android.app.Service#onCreate()
 	 */
 	@Override
@@ -45,20 +48,14 @@ public class LongPollerProgressRequester extends Service {
 		super.onCreate();
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.app.Service#onBind()
-	 */
 	@Override
 	public IBinder onBind(Intent intent) {
 		Log.d(LOGGER_TAG, "LongPollerProgressRequester -- onBind()");
 		return null;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * 
+	/**
+	 * Called when the service is started. Executes the HTTP request
 	 * @see android.app.Service#onStartCommand(android.content.Intent, int, int)
 	 */
 	@Override
@@ -72,9 +69,7 @@ public class LongPollerProgressRequester extends Service {
 		return super.onStartCommand(intent, flags, startId);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * 
+	/**
 	 * @see android.app.Service#onDestroy()
 	 */
 	@Override
@@ -83,8 +78,17 @@ public class LongPollerProgressRequester extends Service {
 		super.onDestroy();
 	}
 	
+	/**
+	 * A class which handles running the HTTP request on another thread
+	 * @author Kailesh Ramjee - University of Witwatersrand - School of Electrical & Information Engineering
+	 *
+	 */
 	private class LongPollingRequest extends AsyncTask<String, Void, String> {
 
+		/**
+		 * Calls a HTTP requester and makes the request
+		 * @see android.os.AsyncTask#doInBackground(Params[])
+		 */
 		@Override
 		protected String doInBackground(String... urls) {
 			Log.d(LOGGER_TAG, "LongPollerProgressRequester -- LongPollingRequest -- doInBackground()");
