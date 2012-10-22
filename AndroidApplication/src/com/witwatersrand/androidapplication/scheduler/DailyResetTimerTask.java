@@ -6,7 +6,7 @@ import android.os.IBinder;
 import android.util.Log;
 
 /**
- * The scheduler for 
+ * The scheduler 
  * @author Kailesh Ramjee - University of Witwatersrand - School of Electrical & Information Engineering
  *
  */
