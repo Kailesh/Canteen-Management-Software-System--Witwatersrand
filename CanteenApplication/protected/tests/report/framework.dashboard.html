@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>framework</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="jquery.min.js" type="text/javascript"></script>
+    <script src="highcharts.js" type="text/javascript"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+          var classCoverageDistribution = new Highcharts.Chart({
+             chart: {
+                renderTo: 'classCoverageDistribution',
+                type: 'column'
+             },
+             title: {text: ''},
+             legend: {enabled: false},
+             credits: {enabled: false},
+             tooltip: {enabled: false},
+             xAxis: {
+                 labels: {style: {fontSize: '8px'}},
+                 categories: [
+                 '0%','0-10%','10-20%','20-30%','30-40%','40-50%','50-60%','60-70%','70-80%','80-90%','90-100%','100%'
+                 ]
+            },
+            yAxis: {
+                title: '',
+                labels: {style: {fontSize: '8px'}},
+            },
+            series: [{
+                data: [14,3,6,1,1,2,2,2,4,0,0,7]
+            }],
+          });
+
+        var classComplexity = new Highcharts.Chart({
+            chart: {
+              renderTo: 'classComplexity',
+              type: 'scatter'
+            },
+            title: {text: ''},
+            legend: {enabled: false},
+            credits: {enabled: false},
+            xAxis: {
+               labels: {enabled: false},
+            },
+            yAxis: {
+              title: '',
+              labels: {enabled: false},
+            },
+            tooltip: {
+                formatter: function() {
+                    return this.point.config[2];
+                }
+            },
+            series: [{
+              data: [[33.658536585366,91,"<a href=\"framework_YiiBase.php.html#56\">YiiBase<\/a>"],[0.69686411149826,118,"<a href=\"framework_base_CApplication.php.html#75\">CApplication<\/a>"],[75,2,"<a href=\"framework_base_CApplicationComponent.php.html#25\">CApplicationComponent<\/a>"],[7.4468085106383,101,"<a href=\"framework_base_CComponent.php.html#90\">CComponent<\/a>"],[100,1,"<a href=\"framework_base_CComponent.php.html#644\">CEvent<\/a>"],[100,0,"<a href=\"framework_base_CComponent.php.html#696\">CEnumerable<\/a>"],[29.850746268657,76,"<a href=\"framework_base_CModel.php.html#22\">CModel<\/a>"],[100,0,"<a href=\"framework_base_CModelEvent.php.html#22\">CModelEvent<\/a>"],[11.678832116788,69,"<a href=\"framework_base_CModule.php.html#21\">CModule<\/a>"],[0,19,"<a href=\"framework_collections_CAttributeCollection.php.html#32\">CAttributeCollection<\/a>"],[7.8651685393258,50,"<a href=\"framework_collections_CList.php.html#35\">CList<\/a>"],[63.636363636364,6,"<a href=\"framework_collections_CListIterator.php.html#21\">CListIterator<\/a>"],[0,48,"<a href=\"framework_collections_CMap.php.html#31\">CMap<\/a>"],[16.256157635468,222,"<a href=\"framework_db_CDbCommand.php.html#46\">CDbCommand<\/a>"],[42.446043165468,70,"<a href=\"framework_db_CDbConnection.php.html#86\">CDbConnection<\/a>"],[13.513513513514,21,"<a href=\"framework_db_CDbDataReader.php.html#33\">CDbDataReader<\/a>"],[14.928057553957,230,"<a href=\"framework_db_ar_CActiveRecord.php.html#25\">CActiveRecord<\/a>"],[0,32,"<a href=\"framework_db_ar_CActiveRecord.php.html#1881\">CBaseActiveRelation<\/a>"],[0,3,"<a href=\"framework_db_ar_CActiveRecord.php.html#2024\">CStatRelation<\/a>"],[0,15,"<a href=\"framework_db_ar_CActiveRecord.php.html#2062\">CActiveRelation<\/a>"],[100,0,"<a href=\"framework_db_ar_CActiveRecord.php.html#2149\">CBelongsToRelation<\/a>"],[100,0,"<a href=\"framework_db_ar_CActiveRecord.php.html#2161\">CHasOneRelation<\/a>"],[0,7,"<a href=\"framework_db_ar_CActiveRecord.php.html#2179\">CHasManyRelation<\/a>"],[100,0,"<a href=\"framework_db_ar_CActiveRecord.php.html#2232\">CManyManyRelation<\/a>"],[42.857142857143,16,"<a href=\"framework_db_ar_CActiveRecord.php.html#2245\">CActiveRecordMetaData<\/a>"],[74.285714285714,22,"<a href=\"framework_db_schema_CDbColumnSchema.php.html#19\">CDbColumnSchema<\/a>"],[10.374639769452,123,"<a href=\"framework_db_schema_CDbCommandBuilder.php.html#19\">CDbCommandBuilder<\/a>"],[75,2,"<a href=\"framework_db_schema_CDbExpression.php.html#29\">CDbExpression<\/a>"],[18.421052631579,73,"<a href=\"framework_db_schema_CDbSchema.php.html#19\">CDbSchema<\/a>"],[50,3,"<a href=\"framework_db_schema_CDbTableSchema.php.html#31\">CDbTableSchema<\/a>"],[69.230769230769,16,"<a href=\"framework_db_schema_mysql_CMysqlColumnSchema.php.html#19\">CMysqlColumnSchema<\/a>"],[54.205607476636,37,"<a href=\"framework_db_schema_mysql_CMysqlSchema.php.html#19\">CMysqlSchema<\/a>"],[100,0,"<a href=\"framework_db_schema_mysql_CMysqlTableSchema.php.html#19\">CMysqlTableSchema<\/a>"],[0,23,"<a href=\"framework_logging_CFileLogRoute.php.html#27\">CFileLogRoute<\/a>"],[0,8,"<a href=\"framework_logging_CLogRoute.php.html#32\">CLogRoute<\/a>"],[0,12,"<a href=\"framework_logging_CLogRouter.php.html#51\">CLogRouter<\/a>"],[0,41,"<a href=\"framework_logging_CLogger.php.html#22\">CLogger<\/a>"],[70.802919708029,50,"<a href=\"framework_test_CDbFixtureManager.php.html#39\">CDbFixtureManager<\/a>"],[0,12,"<a href=\"framework_test_CWebTestCase.php.html#24\">CWebTestCase<\/a>"],[0,155,"<a href=\"framework_web_CHttpRequest.php.html#29\">CHttpRequest<\/a>"],[0,19,"<a href=\"framework_web_CHttpRequest.php.html#888\">CCookieCollection<\/a>"],[0,68,"<a href=\"framework_web_CWebApplication.php.html#60\">CWebApplication<\/a>"]],
+              marker: {
+                  symbol: 'diamond'
+              }
+            }],
+        });
+    });
+    </script>
+  </head>
+
+  <body>
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr><td class="title">framework</td></tr>
+      <tr><td><div align="center"><p><a href="framework.html">Back to Code Coverage report</a></p></div></td></tr>
+      <tr><td class="ruler"><img src="glass.png" width="3" height="3" alt=""></td></tr>
+    </table>
+
+    <br />
+
+    <center>
+      <table width="90%" cellpadding="2" cellspacing="1" border="0">
+        <tr>
+          <td valign="top">
+            <h2>Class Coverage Distribution</h2>
+            <div id="classCoverageDistribution"></div>
+          </td>
+
+          <td valign="top">
+            <h2>Class Complexity</h2>
+            <div id="classComplexity"></div>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">
+            <h2>Top Project Risks</h2>
+            <ul>
+              <li><a href="framework_db_ar_CActiveRecord.php.html#25">CActiveRecord</a> (32799)</li>
+              <li><a href="framework_db_CDbCommand.php.html#46">CDbCommand</a> (29166)</li>
+              <li><a href="framework_web_CHttpRequest.php.html#29">CHttpRequest</a> (24180)</li>
+              <li><a href="framework_base_CApplication.php.html#75">CApplication</a> (13752)</li>
+              <li><a href="framework_db_schema_CDbCommandBuilder.php.html#19">CDbCommandBuilder</a> (11014)</li>
+              <li><a href="framework_base_CComponent.php.html#90">CComponent</a> (8188)</li>
+              <li><a href="framework_web_CWebApplication.php.html#60">CWebApplication</a> (4692)</li>
+              <li><a href="framework_base_CModule.php.html#21">CModule</a> (3349)</li>
+              <li><a href="framework_db_schema_CDbSchema.php.html#19">CDbSchema</a> (2966)</li>
+              <li><a href="framework_YiiBase.php.html#56">YiiBase</a> (2508)</li>
+
+            </ul>
+          </td>
+
+          <td valign="top">
+            <h2>Least Tested Methods</h2>
+            <ul>
+              <li><a href="framework_db_ar_CActiveRecord.php.html#1720">CActiveRecord::updateCounters</a> (0%)</li>
+              <li><a href="framework_db_ar_CActiveRecord.php.html#1737">CActiveRecord::deleteByPk</a> (0%)</li>
+              <li><a href="framework_db_ar_CActiveRecord.php.html#1753">CActiveRecord::deleteAll</a> (0%)</li>
+              <li><a href="framework_db_ar_CActiveRecord.php.html#1701">CActiveRecord::updateAll</a> (0%)</li>
+              <li><a href="framework_db_ar_CActiveRecord.php.html#1682">CActiveRecord::updateByPk</a> (0%)</li>
+              <li><a href="framework_db_ar_CActiveRecord.php.html#1646">CActiveRecord::with</a> (0%)</li>
+              <li><a href="framework_db_ar_CActiveRecord.php.html#1666">CActiveRecord::together</a> (0%)</li>
+              <li><a href="framework_db_ar_CActiveRecord.php.html#1772">CActiveRecord::deleteAllByAttributes</a> (0%)</li>
+              <li><a href="framework_db_ar_CActiveRecord.php.html#1791">CActiveRecord::populateRecord</a> (0%)</li>
+              <li><a href="framework_db_ar_CActiveRecord.php.html#1955">CBaseActiveRelation::mergeWith</a> (0%)</li>
+
+            </ul>
+          </td>
+        </tr>
+      </table>
+    </center>
+
+    <br />
+
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr><td class="ruler"><img src="glass.png" width="3" height="3" alt=""></td></tr>
+      <tr><td class="versionInfo">Generated by <a href="http://github.com/sebastianbergmann/php-code-coverage" target="_top">PHP_CodeCoverage 1.1.3</a> using <a href="http://www.php.net/" target="_top">PHP 5.3.10-1ubuntu3.3</a> and PHPUnit 3.6.12 at Mon Oct 22 15:37:02 SAST 2012.</td></tr>
+    </table>
+
+    <br/>
+  </body>
+</html>

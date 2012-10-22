@@ -1,0 +1,853 @@
+*   commit a4b750878144903ab2ccc73af9fd1de81cda5e19
+|\  Merge: 610f50a d57e52f
+| | Author: Patrick Chen <patrickc3832@gmail.com>
+| | Date:   Mon Oct 15 09:08:31 2012 +0200
+| | 
+| |     Merge branch 'master' of https://github.com/Kailesh/Canteen-Management-Software-System--Witwatersrand.git
+| |   
+| * commit d57e52f8f29ec33b82c2bd4b66fda44f54e5886b
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Sun Oct 14 20:51:22 2012 +0200
+| | 
+| |     Organized classes into packages
+| |   
+| * commit 4d8a44272383afcdf8de0b8dde7469beb180af7b
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Sun Oct 14 19:43:26 2012 +0200
+| | 
+| |     Using a better looking theme
+| |   
+| * commit 14c510d3d8b4ec60ce5843ea5201f3d55ec76a0a
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Sun Oct 14 19:19:04 2012 +0200
+| | 
+| |     Send user name when placing the order
+| |   
+| * commit e4efc0415b01331efd7af35bc3626e37f2714c58
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Sun Oct 14 19:13:17 2012 +0200
+| | 
+| |     Setup fake MAC address for emulator
+| |   
+| * commit c5cb358f8c0a995cba7dbcca8f5d6d87655370eb
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Sun Oct 14 18:46:59 2012 +0200
+| | 
+| |     The Mac address returned is converted to upper case
+| |   
+| * commit 4cfead71ab62d518e53caa0d5381656e0a9fefbf
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Sun Oct 14 06:42:22 2012 +0200
+| | 
+| |     Changed the layout for the meu items list and user cannot exceed their
+| |     account balance when making purchases
+| |   
+| * commit 333106c0f643b049aecb3fc5a17c851222fd116f
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Sun Oct 14 04:39:39 2012 +0200
+| | 
+| |     Corrected the logging text in ApplicationPreferences
+| |   
+| * commit 80dff429e3a60b7cb1c094df0fb859e5809063d8
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Sun Oct 14 04:37:55 2012 +0200
+| | 
+| |     TThe IP address of the server can be entered in the user information
+| |     section which will be used for all request
+| |   
+| * commit 6a907f29330bf4ce09dc50171e82980a25df0529
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Sun Oct 14 04:26:55 2012 +0200
+| | 
+| |     Added a preference that would store the server IP address
+| |   
+| * commit 69b6026f0c9f6a5bf73edd2dc6365aacfaad00d2
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Sun Oct 14 04:26:28 2012 +0200
+| | 
+| |     Implemented a notification to inform a user when their order is complete
+| |   
+| * commit 8ca1e5ab6a816a8be3fbbb1820ee8efdeb259628
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Sun Oct 14 03:31:51 2012 +0200
+| | 
+| |     Implemented the refresh button in the progress of an order
+| |   
+| * commit e28b2612b22f85d380c4db6b15ed530427fc5a2d
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Sun Oct 14 02:57:21 2012 +0200
+| | 
+| |     Implemented code to close the Items activity and Cart activity when a
+| |     purchase is made
+| |   
+| * commit eef39ed5daf62bda10c7fba533038ba4b335c868
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Sun Oct 14 02:05:38 2012 +0200
+| | 
+| |     A unique service will be created each time an order is placed and code
+| |     is implemented for keeping track of closing services when an order
+| |     completion confirmation has been received
+| |   
+| * commit 99673636a4e22b593a0a9f6d77775c04e738abb6
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Sun Oct 14 01:11:15 2012 +0200
+| | 
+| |     Closing this activity  when user makes purchase
+| |   
+| * commit 26f6c735646d79cb9ff45c6338e2b178e35e9da9
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Sun Oct 14 00:48:32 2012 +0200
+| | 
+| |     No longer repetitively sending request for the long poller but rather
+| |     sending a poller request that holds until the order has been done or
+| |     delivered. sending the order in the request
+| |   
+| * commit 3f40f8a4b43d39edd7cb0c55e6e06981c502351d
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Fri Oct 12 14:37:27 2012 +0200
+| | 
+| |     Added a list to each spinner in the cart
+| |   
+| * commit bd7849cc5398d4538cac485252a078880f1596d7
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Fri Oct 12 14:21:46 2012 +0200
+| | 
+| |     Added location selection spinners to the cart, disable the spinners
+| |     when the user un-checks the delivery checkbox, have shorter toast
+| |     messages when a user selects each item in the menu to add to cart, do
+| |     not allow user to enter orders below 0 in the cart
+| |   
+| * commit a035e43f7ac6960df1c08d1d4411fba52c3ad342
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Fri Oct 12 12:13:37 2012 +0200
+| | 
+| |     Fixed the bug when the cart total is not displayed
+| |   
+| * commit 35e4d645f7d43dbbe57569ba17c33cf508ba4bf3
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Fri Oct 12 02:22:59 2012 +0200
+| | 
+| |     Added a column to the order table called item_status, a function called
+| |     updateItemProgress(), and getOrderedItemList() functions to the database
+| |     manager class
+| |   
+| * commit 8ef211b54724a5a80519fa86879f88649b0c1e18
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Fri Oct 12 01:45:52 2012 +0200
+| | 
+| |     LongPollerProgressRequester is a service which will make use of long
+| |     polling to retrieve any updates from the server in terms of the
+| |     purchased item's progress, SingleProgressParser parses the items
+| |     progress change
+| |   
+| * commit f5890f566899f420cda36e70d6a441fd41e6ed20
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Fri Oct 12 01:43:52 2012 +0200
+| | 
+| |     Implemented a DeviceIDGenerator.java that contains a function returns
+| |     the MAC address of the Android device
+| |   
+| * commit b366f75f9a593ec9134e279a1d82fdc4343a0210
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Fri Oct 12 00:14:00 2012 +0200
+| | 
+| |     Performed further integration tests, set the 'status required' to true
+| |     when an order is placed in Cart.java
+| |   
+| * commit a42f64224042deca67b4991e555a8a8f9b6da88c
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Thu Oct 11 09:33:07 2012 +0200
+| | 
+| |     Commented the fake requests/responses
+| |   
+| * commit ab1bdc3861d9b7ba3879dcca7e0ad1e81fcbf918
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Wed Oct 10 15:11:05 2012 +0200
+| | 
+| |     Request the server for the progress for a particular order, created a
+| |     ItemsProgressAdapter to view the each items progress, fixed a bug in
+| |     CurrentOrders where an additional order is shown
+| |   
+| * commit 8bf7d22c234804f2abbf6999121e6589f1ea2170
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Wed Oct 10 15:08:49 2012 +0200
+| | 
+| |     Removed activity_progress.xml: not required. Reduced the button size in
+| |     the progress_list_item.xml
+| |   
+| * commit dec7e9100b2277d93c566d8399062d6635f03621
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Wed Oct 10 04:15:59 2012 +0200
+| | 
+| |     Making request for progress and parsing data
+| |   
+| * commit b34881a2df723576fd199dd8d4434e8c56de1d90
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Wed Oct 10 04:15:35 2012 +0200
+| | 
+| |     Defined layout for progress view
+| |   
+| * commit 29482a3d22b14f78ea7879c5558e66f3593f9e44
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Wed Oct 10 02:20:56 2012 +0200
+| | 
+| |     Successfully pass data between activities using intents
+| |   
+| * commit aac43f72487eb0e35def04654acf106bd5c45382
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Wed Oct 10 01:56:56 2012 +0200
+| | 
+| |     Created a list that displays select-able list of orders
+| |   
+| * commit 79c2ae6a0ba84b8854aeee04f54296bb67315205
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Wed Oct 10 01:55:27 2012 +0200
+| | 
+| |     Removed the Progress and CurrentOrder activities and will be replacing
+| |     with a single activity called CurrentOrders
+| |   
+| * commit e6c4d6bc6e9fff15db36d316191e259b36ad165a
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Wed Oct 10 00:59:46 2012 +0200
+| | 
+| |     Fixed bug in retrieving menu items from the database
+| |   
+| * commit b206b54f9867bf7bf4e98904311051df2d67a89b
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Wed Oct 10 00:33:30 2012 +0200
+| | 
+| |     If menu s in database then the application will not request the server
+| |     repeatedly
+| |   
+| * commit f539423f053de15e3d14e88a0a267d20c0594bd1
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Wed Oct 10 00:02:08 2012 +0200
+| | 
+| |     Updated the Simulation of time
+| |   
+| * commit b9d0c06b32eb18bea9b91e95d50410c84e936421
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Tue Oct 9 23:54:38 2012 +0200
+| | 
+| |     Checking whether the menu at the server is available before sending
+| |     request for menu
+| |   
+| * commit 45a3b57010dea9cbe2fd5dae5d84b9a82155bb42
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Tue Oct 9 22:50:11 2012 +0200
+| | 
+| |     Created a singleton class that manages the shared preferences across all
+| |     activities
+| |   
+| * commit 29ec23c6d58e35148e84db6213d85b136b112af8
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Tue Oct 9 19:04:21 2012 +0200
+| | 
+| |     Implemented the remove button in the cart
+| |   
+| * commit 18ed917ea117d6b7ce59e935b3dff71a4acc8dcf
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Tue Oct 9 17:52:35 2012 +0200
+| | 
+| |     Implemented the Add button, update the cost, the item quantity, the
+| |     database quantity for that item
+| |   
+| * commit 27758aea356705c02b74ee379f02165670ebbf8c
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Tue Oct 9 17:15:53 2012 +0200
+| | 
+| |     Implementation for Cart
+| |     
+| *   commit 7b3c1335c987121b80be517479208b965b911298
+| |\  Merge: f055aeb 9b4b109
+| | | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | | Date:   Tue Oct 9 16:20:50 2012 +0200
+| | | 
+| | |     Merge branch 'master' of https://github.com/Kailesh/Canteen-Management-Software-System--Witwatersrand.git
+| | |    
+| * | commit f055aebd772c2cefb352a029649aee84678cffa2
+| | | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | | Date:   Tue Oct 9 15:09:44 2012 +0200
+| | | 
+| | |     Display order items in the cart
+| | |    
+| * | commit c31547e386d026a819273b9e9ec1c67cc7e727b7
+| | | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | | Date:   Tue Oct 9 13:12:39 2012 +0200
+| | | 
+| | |     Added a list item view for cart
+| | |    
+| * | commit ea0138135797aa15301e8d336d9cd3fb039261c3
+| | | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | | Date:   Tue Oct 9 12:57:43 2012 +0200
+| | | 
+| | |     View the correct cost when adding items to cart in the menu items list
+| | |    
+| * | commit f2db3f46c7cd1fc8f9cf101a38934b99f9b906c3
+| | | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | | Date:   Tue Oct 9 02:17:05 2012 +0200
+| | | 
+| | |     Can calculate total of the current basket
+| | |    
+| * | commit ea80ce75c53a992c0f7ae328d650425ec035060d
+| | | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | | Date:   Tue Oct 9 00:50:10 2012 +0200
+| | | 
+| | |     Can successfully add to card by adding the items to a table without
+| | |     duplicates unless another order
+| | |    
+| * | commit b12a871fbe4d227b362a3498bc808e27432edc4e
+| | | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | | Date:   Mon Oct 8 23:49:55 2012 +0200
+| | | 
+| | |     Fixed retrieving the quantity of the product from the picker; store the
+| | |     order number in the order database via the shared preferences
+| | |    
+| * | commit 032c5096ad62f63e9a04cea18759fd4167a45507
+| | | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | | Date:   Mon Oct 8 22:19:26 2012 +0200
+| | | 
+| | |     Display the account balance in the menu items sections
+| | |    
+| * | commit 00ad1803a336a82b859440926a762068f4f2ca79
+| | | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | | Date:   Mon Oct 8 21:42:28 2012 +0200
+| | | 
+| | |     Solved double to float conversion
+| | |    
+* | | commit 610f50a8606f023eba6e324391173f4890c7385c
+| |/  Author: Patrick Chen <patrickc3832@gmail.com>
+|/|   Date:   Mon Oct 15 09:08:13 2012 +0200
+| |   
+| |       1) Bug fixes
+| |       2) Added Long Poller functionality and query progress functionality
+| |   
+* | commit 9b4b10977fdfe525f041ddb760d0e7f81848118d
+|/  Author: Patrick Chen <patrickc3832@gmail.com>
+|   Date:   Tue Oct 9 15:01:39 2012 +0200
+|   
+|       1) Updated latest version of Mobile Controller
+|       
+|       2) Re-upload video feed, query progress, menu update and authentication,
+|       for some reason the last upload was not complete, as well as the layout
+|       on main.php
+|       
+|       3) Added menu update that is seperate from the menu request and response
+|       
+|       4) Added php script that will query MS SharePoint once a day and
+|       retrieve the latest menu from the database
+|    
+*   commit 68381cced6bf748e2ea6576030e9e876d8c563af
+|\  Merge: 667742d ccf6d85
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Mon Oct 8 19:53:34 2012 +0200
+| | 
+| |     Merge branch 'master' of https://github.com/Kailesh/Canteen-Management-Software-System--Witwatersrand.git
+| |     
+| *   commit ccf6d85d3ba73cf600f3f295a1c2d36311970e76
+| |\  Merge: 5067671 96d7723
+| | | Author: Patrick Chen <patrickc3832@gmail.com>
+| | | Date:   Mon Oct 8 16:38:38 2012 +0200
+| | | 
+| | |     Merge branch 'master' of https://github.com/Kailesh/Canteen-Management-Software-System--Witwatersrand.git
+| | |    
+| * | commit 5067671dd19bc8a48ba7a6dbd153c5a116272f80
+| | | Author: Patrick Chen <patrickc3832@gmail.com>
+| | | Date:   Mon Oct 8 16:38:06 2012 +0200
+| | | 
+| | |     Massive drag and drop of existing files
+| | |     
+| | |     1)Implemented more web service functionality to respond to the android
+| | |     phone requests:
+| | |     	i- added authentication
+| | |     	ii- implemented video fedd
+| | |     	iii- query progress manually
+| | |     2) added the live_feed image
+| | |     3) added logo to the site
+| | |    
+* | | commit 667742d39717babaa0df238fbda13f8c5c46f3d6
+| | | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | | Date:   Mon Oct 8 19:52:26 2012 +0200
+| | | 
+| | |     Store shared preferences such as user name password (a hashed version
+| | |     is to be stored), 'remember me' boolean to automate the login process,
+| | |     the users current account balance
+| | |    
+* | | commit 9a39d27a8c68333aee60b4cbf7cda26d01d4d8c9
+| | | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | | Date:   Mon Oct 8 19:49:45 2012 +0200
+| | | 
+| | |     The application can now exit when the exit button is clicked in the star
+| | |     menu options
+| | |    
+* | | commit b5cecd53e73c62a6541b3c2c971f5cc6274245f9
+| | | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | | Date:   Mon Oct 8 19:49:06 2012 +0200
+| | | 
+| | |     Defined the layout of the progress bar
+| | |    
+* | | commit fb2c4898c597fa7367265f571bb35595aff57b60
+| | | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | | Date:   Mon Oct 8 19:48:38 2012 +0200
+| | | 
+| | |     Implemented the video feed which will receive the image from the canteen
+| | |     application server
+| | |    
+* | | commit 6c85a25c5dd26151988124a6bef8d088e9666122
+| | | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | | Date:   Mon Oct 8 13:09:30 2012 +0200
+| | | 
+| | |     Implemented a MD5 encryptor with a salt; encrypting the password
+| | |    
+* | | commit 1aeb0efdcaa127632b4fcb5fc33d99044c8dcca6
+| | | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | | Date:   Mon Oct 8 11:01:30 2012 +0200
+| | | 
+| | |     Defined an authentication encoder and parser, retrieving the MAC address
+| | |     of the device
+| | |    
+* | | commit 6ecbb77f2a7c060838491569a6b8a4bee857ed3b
+| |/  Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+|/|   Date:   Sun Oct 7 20:16:10 2012 +0200
+| |   
+| |       Added a new Android activity called Authentication; designed the layout;
+| |       Added a class that decodes the JSON message as the response to the HTTP
+| |       request
+| |   
+* | commit 96d7723c043b3cdb55c4b6c6dddadaaa1474275a
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Fri Oct 5 12:41:43 2012 +0200
+| | 
+| |     Implemented an About Us screen
+| |   
+* | commit 215920071c8c7f789303e1bc123047f43a74824b
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Thu Oct 4 21:32:10 2012 +0200
+| | 
+| |     The user can now choose which section of the floor their delivery should
+| |     be made
+| |   
+* | commit 46e60550bdb17ec44a831e244442d8eb58780690
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Thu Oct 4 21:12:09 2012 +0200
+| | 
+| |     Changed the offices to Floor numbers for delivery location
+| |   
+* | commit 8ccf69ddbec98be5c5b88fea5148dfacaca76c0d
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Thu Oct 4 17:55:32 2012 +0200
+| | 
+| |     Adjusted the CanteenManagerDatabase class functionality, there will now
+| |     be a single column table that holds information regarding which the
+| |     order a particular purchase belongs to. Corrected certain errors caused
+| |     when introducing the CanteenItem and OrderItem classes
+| |   
+* | commit 98388b5990898e77cfe08b28670d7f0484d74bf2
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Thu Oct 4 15:35:12 2012 +0200
+| | 
+| |     Fixed errors caused by the change in MenuItem object in Cart.java and
+| |     OrderEncoder.java
+| |   
+* | commit 8a082915e596122888535c23956db3f40bb60095
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Thu Oct 4 15:21:11 2012 +0200
+| | 
+| |     Created a base class CanteenItem and MenuItem and OrderItem are
+| |     extensions of this class
+| |   
+* | commit 80818094eea3d963a1f16c119220cae264fa37e3
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Thu Oct 4 14:35:19 2012 +0200
+| | 
+| |     Removed the create/delete order table and functionality from the
+| |     CanteenManagerDatabase; Will use a single table with an additional
+| |     column for the order number
+| |   
+* | commit 43f8a9eb27b085c6efe44be83407aaac92b5686b
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Thu Oct 4 01:19:47 2012 +0200
+| | 
+| |     Cleaned AndroidApplicationTests project
+| |   
+* | commit 4e3ec9eee9827404490062acbf81d805386b693a
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Thu Oct 4 01:18:00 2012 +0200
+| | 
+| |     Added .gitignore file for the testing project
+| |   
+* | commit 425bd70541fe1ed7c6e7eb133fd0ac79d1e735b0
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Thu Oct 4 01:15:32 2012 +0200
+| | 
+| |     Created an array.xml which stores the different delivery locations;
+| |     user_preferences.xml file displays user information
+| |   
+* | commit 435af2d8548f97879cd41c0a4ce5b46238d099db
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Wed Oct 3 23:03:39 2012 +0200
+| | 
+| |     Added SimulateStateAtTime activity to simulate when the application is
+| |     reset every morning, and new requests can be made to retrieve the menu
+| |     of a new day from the server
+| |   
+* | commit 3ba8a1c58e3f763eaa0c3f0ed6dc76e0ff71ae60
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Wed Oct 3 23:01:57 2012 +0200
+| | 
+| |     Added user_preferences.xml to store the application/user preferences
+| |   
+* | commit fedd627bc835deca8a6d883f070a22a1e541ce47
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Wed Oct 3 13:05:38 2012 +0200
+| | 
+| |     Created a .gitignore file in the AndroidApplication project to ignore
+| |     certain files in the project.
+| |   
+* | commit 8576ed44de8390ee9e21dd2fb84b317ea532fafc
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Wed Oct 3 12:53:09 2012 +0200
+| | 
+| |     The Go-To button from the activity_items.xml view will send the user to
+| |     the cart view upon clicking
+| |   
+* | commit c037c0028620071f1a3c4dace4d1e6642cc3109b
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Wed Oct 3 00:56:44 2012 +0200
+| | 
+| |     Altered the activity_items.xml view to show a go to cart button; created
+| |     a new xml file representing each item in the list
+| |   
+* | commit 1591c6f3092ca3117867bdf786be93348e35bbbe
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Wed Oct 3 00:02:24 2012 +0200
+| | 
+| |     Storage of strings in string.xml
+| |   
+* | commit 3c30abd077d9831499d9c9a64191ad5fede4a1d9
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Tue Oct 2 23:54:34 2012 +0200
+| | 
+| |     Change loggerTag to LOGGER_TAG to emphasize constant in all java files;
+| |     Removed Main.java, Menu.java, main.xml, StartPoint.java,
+| |     activity_starting_point.xml -- Not being used
+| |   
+* | commit 74bf7b52d2a8edd2523b63003f55d401e8f08ab5
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Tue Oct 2 23:43:42 2012 +0200
+| | 
+| |     action name changed back to android.intent.action.MAIN for Splash in
+| |     Manifest
+| |   
+* | commit 7c21a521d26ecebe83f03a14e540c9d80b6b14ae
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Tue Oct 2 23:36:43 2012 +0200
+| | 
+| |     Change the name of the Activity class 'Menu.java' to 'StartMenu.java';
+| |     change the name of the string array in from myItems to menuOptions;
+| |     made respective changes to AndroidManefest and Splash
+| |   
+* | commit 7542347deb6c7a600befdc18d71dc6c6ea4401ca
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Tue Oct 2 23:23:37 2012 +0200
+| | 
+| |     Removed KEY_ROW_ID as a column (redundancy)
+| |   
+* | commit c0017bbb208d0acbd1dd1631705c05f47f08177f
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Tue Oct 2 23:20:43 2012 +0200
+| | 
+| |     Completed the implementation of the CanteenManagerDatabase including
+| |     logging of the class
+| |   
+* | commit 06efe79274ced884513c09b78a76743630fba7f1
+|/  Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+|   Date:   Tue Oct 2 20:01:10 2012 +0200
+|   
+|       Designed and implemented a SQLite database
+|    
+*   commit 5bdd08d9c9a73030479b6d20a86f2b815e23195d
+|\  Merge: 92f7897 fa45d55
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Tue Oct 2 10:52:37 2012 +0200
+| | 
+| |     Merge branch 'master' of https://github.com/Kailesh/Canteen-Management-Software-System--Witwatersrand.git
+| |   
+| * commit fa45d55300d383b6e2a9795a966ce4d6893ee08d
+| | Author: Patrick Chen <patrickc3832@gmail.com>
+| | Date:   Mon Oct 1 21:51:19 2012 +0200
+| | 
+| |     The mobile controller was altered to include functionality for placing
+| |     orders from the mobile to the web server
+| |     
+| |     The DisplayOrder model and view was changed so that it adaptes to the
+| |     new default status which is placed instead of an empty string
+| |     
+| |     The Placed order model was created to decode JSON message and write
+| |     relevant data into the orders table in the canteen system database
+| |   
+* | commit 92f78972494fa8e0880cdbaffc8fa237cbc5a3c7
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Tue Oct 2 10:51:15 2012 +0200
+| | 
+| |     Changed the application icon as well as the splash screen image, created
+| |     different resolutions for the application icon
+| |   
+* | commit 972501ecad4b14f6974bad6a59620446219cc623
+|/  Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+|   Date:   Mon Oct 1 13:43:42 2012 +0200
+|   
+|       Correctly formatted the price displayed on the TextView with the correct
+|       number of decimal places and appending 'R' before the price. Sending the
+|       device ID with the order
+|  
+* commit 406878cfaf2d29a9afdcc36b3f5e01c1fb7c6b1f
+| Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| Date:   Mon Oct 1 01:13:57 2012 +0200
+| 
+|     Defined a layout for the cart view, implemented the HTTP POST request
+|     with the encoded JSON orderlist
+|  
+* commit 082c3f7cee2e4642499f416a89b41b8607d62244
+| Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| Date:   Mon Oct 1 00:13:41 2012 +0200
+| 
+|     Implementation for OrderEncoder
+|  
+* commit dd45fd0dd80ca44deb716f91da405d25ba642f5c
+| Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| Date:   Sun Sep 30 22:23:29 2012 +0200
+| 
+|     Created Cart activity
+|  
+* commit 20f010e5a55e7d593039544de2895126f5df5d6f
+| Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| Date:   Sun Sep 30 21:32:32 2012 +0200
+| 
+|     Moved the OnClickListener from MenuItem to the MenuItemAdapter in order
+|     to update the quantity number from the NumberPicker correctly
+|  
+* commit 9377faeb5eb11af715f6053f27e16bf32ad0f8d2
+| Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| Date:   Sun Sep 30 20:24:08 2012 +0200
+| 
+|     Completed debugging Items and MenuParser. Placed the HTTP request in a
+|     function. The MenuItem[] array in MenuParser is initialised with the
+|     MenuItem constructor in the while loop
+|  
+* commit 82026b699b9a851d951cddae54b9bd12cd5efe45
+| Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| Date:   Sun Sep 30 02:55:24 2012 +0200
+| 
+|     Replaced parsing code with the MenuParser and pass the MenuItem[] to a
+|     ListAdapter
+|  
+* commit ab4a14f083ab8a567746430918e111ee701567f2
+| Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| Date:   Sun Sep 30 02:47:04 2012 +0200
+| 
+|     Implemented the MenuParser
+|  
+* commit 3b0ea866c8b90f39ff19ba189cc546ce953c525e
+| Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| Date:   Sun Sep 30 01:24:25 2012 +0200
+| 
+|     Solved the waring created by 'unchecked conversion warning' when
+|     defining the iterator called menuIterator in Items.java
+|  
+* commit d4630eaa44d46c4584a01df54d1d06b6be0edffa
+| Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| Date:   Sun Sep 30 00:49:35 2012 +0200
+| 
+|     Defined a menu item to view in a list in MenuItem and defined an Adapter
+|     called MenuItemsAdapter which encapsulates the menu items in the
+|     view in a list (ListView)
+|    
+*   commit f59ecd9a3cc5cdeac34cd1ce26d85dd7bd99d5d5
+|\  Merge: 6cc5d8a 0219dc5
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Fri Sep 28 21:45:45 2012 +0200
+| | 
+| |     Merge branch 'master' of https://github.com/Kailesh/Canteen-Management-Software-System--Witwatersrand.git
+| |   
+| * commit 0219dc5459ec84d82d544d60277d2e15bff01e5f
+| | Author: Patrick Chen <patrickc3832@gmail.com>
+| | Date:   Thu Sep 27 23:25:27 2012 +0200
+| | 
+| |     1. Removed the outstanding unecessary file comment.php
+| |     2. Included an Orders model that represents the 'orders' database table
+| |     3. Updated Mobile Controller to Steve's recommendation
+| |     4. Create a proto-type place order model to handle orders placed from
+| |     	the android phone
+| |     5. Updated the site controller, display order model and form, to process
+| |     	incoming orders (so status can be changed)
+| |     6. Web application should be almost done as a whole
+| |   
+* | commit 6cc5d8ad733c5d6c42e4d180d7fa710f586cb9c4
+|/  Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+|   Date:   Fri Sep 28 21:41:34 2012 +0200
+|   
+|       Added the MenuItem class, deleted the Canteen activity, successfully run
+|       the HTTP request for the menu on a separate thread using AsyncTask
+|  
+* commit cf825e760ce3c603b180fb103db4740925868211
+| Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| Date:   Thu Sep 27 10:16:11 2012 +0200
+| 
+|     Implementation for correctly displaying menu items
+|  
+* commit 5416fd3a797999d5061341c05aa7e70d6642a45b
+| Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| Date:   Wed Sep 26 11:17:47 2012 +0200
+| 
+|     Changes the activity called 'Canteen' to 'TodaysItems'
+|    
+*   commit ae71a1299616403e45cb39c1de846fcf2736a485
+|\  Merge: 71f5fc8 0651f4a
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Wed Sep 26 11:08:19 2012 +0200
+| | 
+| |     Merge branch 'master' of https://github.com/Kailesh/Canteen-Management-Software-System--Witwatersrand.git
+| |   
+| * commit 0651f4a6ac232886f7d20210ca293531dcfb7921
+| | Author: Patrick Chen <patrickc3832@gmail.com>
+| | Date:   Tue Sep 25 21:19:51 2012 +0200
+| | 
+| |     3. Same batch of update, but now it is inclusive of the siteController
+| |   
+| * commit eb175c73125e42cb5e6886e89555438b8af59eb0
+| | Author: Patrick Chen <patrickc3832@gmail.com>
+| | Date:   Tue Sep 25 21:18:32 2012 +0200
+| | 
+| |     1. Remove unecessary files from the demo application.
+| |     2. Added files, completed static pages and in progress form of incoming
+| |     orders, completed order is complete and setup the login table
+| |   
+* | commit 71f5fc80816c35445d31b1f044b0d4f3c694fa29
+|/  Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+|   Date:   Wed Sep 26 11:06:10 2012 +0200
+|   
+|       Correctly receive the menu from the web server and displaying using
+|       LogCat
+|  
+* commit 199e5c704e9b933acf690d436f9fbc9eb3c25c9d
+| Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| Date:   Tue Sep 25 00:30:49 2012 +0200
+| 
+|     Added a list menu activity
+|  
+* commit 179968d1dd2849238356f0eae39ed8dbd1efca65
+| Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| Date:   Mon Sep 24 20:42:02 2012 +0200
+| 
+|     Created a splash screen (Learning how activities work)
+|  
+* commit 2e4f0a0141f6357dca7516cd4ad39de113a98f50
+| Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| Date:   Fri Sep 21 15:22:47 2012 +0200
+| 
+|     Created new activity called StartingPoint
+|  
+* commit 40276cbe6b4cc1143e90edc7e34f7b20a7afa4e8
+| Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| Date:   Fri Sep 21 14:06:39 2012 +0200
+| 
+|     Send and receive JSON message though RESTful API
+|  
+* commit 46774805566acfa84a4563525d5409362622ca2a
+| Author: Patrick Chen <patrickc3832@gmail.com>
+| Date:   Fri Sep 21 11:18:42 2012 +0200
+| 
+|     Update mobileTest.php that is used to test an HTTP request from the
+|     Android phone and a HTTP response from the web server
+|  
+* commit 90bd51c89394101e769f84b96cc2f1025288c51d
+| Author: Patrick Chen <patrickc3832@gmail.com>
+| Date:   Fri Sep 21 11:16:59 2012 +0200
+| 
+|     Update main.php with the correct database that we would be using, the
+|     database contains menu table, user auth table, orders table.
+|     
+|     site controller was update to include 2 views namely createJson and json
+|     test
+|    
+*   commit d986546e8c5b5ba9807b49a044cf79267afd049c
+|\  Merge: 718c589 c84db9c
+| | Author: Patrick Chen <patrickc3832@gmail.com>
+| | Date:   Tue Sep 18 09:11:00 2012 +0200
+| | 
+| |     Merge branch 'master' of https://github.com/Kailesh/Canteen-Management-Software-System--Witwatersrand.git
+| |   
+| * commit c84db9c6d065c4072936e58bfc07f942bf73ff85
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Mon Sep 17 16:34:17 2012 +0200
+| | 
+| |     Implemented logging for the Android application
+| |   
+| * commit 0dc19a0f6d3c39cc61e16c3f0bf4e262e829ff84
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Mon Sep 17 15:48:05 2012 +0200
+| | 
+| |     Wrote dummy test to test whether the testing environment works
+| |   
+| * commit 9d398c35feaab3ab2ae4cfa6d34b4c5811bcad04
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Mon Sep 17 14:54:05 2012 +0200
+| | 
+| |     Added testing Android project
+| |   
+| * commit f481268921329f6d6de5bfdc4087185c4e89ef16
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Mon Sep 17 14:11:51 2012 +0200
+| | 
+| |     The build target is changed to 2.3.3 from 4.0.3
+| |   
+| * commit 65f585f3b2b74d01bd10f4332c5ba279b069052a
+| | Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| | Date:   Mon Sep 17 11:40:27 2012 +0200
+| | 
+| |     HTTP Request to the webserver
+| |   
+* | commit 718c589550d4ff399eaeb1a4c72b1e4ce121b197
+|/  Author: Patrick Chen <patrickc3832@gmail.com>
+|   Date:   Tue Sep 18 09:07:56 2012 +0200
+|   
+|       Copying from local version of project to the GitHub version.
+|       
+|       This update includes a very basic end to end communication:
+|       1) Web server can both handle basic web requests from an Android device
+|       and from a Web page.
+|       2) Built in testing of a web application was performed:
+|       - Unit test all passed
+|       - Functional test failed and will have to looked into...
+|       - Reports could be generated in HTML format
+|  
+* commit e1ad15f846bcaf633cdb89db7af046702d7a0594
+| Author: Patrick Chen <patrickc3832@gmail.com>
+| Date:   Thu Sep 13 11:25:16 2012 +0200
+| 
+|     lots of lol... the 4th commit try
+|  
+* commit 84f630f235f9cfe19a3df214c6a5d34fa648c6d0
+| Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| Date:   Thu Sep 13 11:23:31 2012 +0200
+| 
+|     Commit test no 3
+|  
+* commit 973a6cabbc0b4352e4f0436a098293795726ceed
+| Author: Patrick Chen <patrickc3832@gmail.com>
+| Date:   Thu Sep 13 11:06:02 2012 +0200
+| 
+|     a test commit from the canteen web server
+|  
+* commit 08f20829f446172d04a55469e0bc219ed36d1e13
+| Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+| Date:   Thu Sep 13 11:01:05 2012 +0200
+| 
+|     A test commit - 01
+|  
+* commit e3ee303303d8e004222d257a1e2d4494b20c7ab6
+  Author: Kailesh Ramjee <kaileshramjee@gmail.com>
+  Date:   Wed Sep 12 12:40:47 2012 +0200
+  
+      First commit: Created Andorid and Canteen projects
